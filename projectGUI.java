@@ -1,7 +1,9 @@
 package package1;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -22,6 +24,10 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	
 	private int WIDTH, HEIGHT;
 	
+	private JList<Project> projectList;
+	
+	private ListModel<Project> projectArray;
+	//working on it
 	
 	public ProjectGUI(){
 		WIDTH = 500;
@@ -49,6 +55,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		deleteItem.addActionListener(this);
 		editItem = new JMenuItem("Edit Project");
 		editItem.addActionListener(this);
+		projectList = new JList<Project>();
 		
 		fileMenu.add(newItem);
 		fileMenu.add(editItem);
@@ -60,11 +67,21 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		theMenuBar.add(fileMenu);
 		theMenuBar.add(helpMenu);
 		
+		buttonPanel.add(week1Button);
+		buttonPanel.add(week2Button);
+		buttonPanel.add(week4Button);
+		buttonPanel.add(allButton);
+		
+		projectPanel.add(projectList);
+		
+		add(buttonPanel);
+		add(projectPanel);
 		setJMenuBar(theMenuBar);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 		setSize(WIDTH,HEIGHT);
 		setLocationRelativeTo(null);
+		setLayout(new FlowLayout());
 	}
 	
 	
