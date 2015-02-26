@@ -3,11 +3,13 @@ package package1;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ProjectGUI extends JDialog implements ActionListener {
 	
@@ -22,7 +24,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	private JMenu fileMenu, helpMenu;
 	
 	private JMenuItem exitItem, aboutItem, newItem, deleteItem, 
-	editItem, saveItem, loadItem;
+	editItem, saveItem, loadItem, evaluate;
 	
 	private int WIDTH, HEIGHT;
 	
@@ -63,6 +65,8 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		saveItem.addActionListener(this);
 		loadItem = new JMenuItem("Load");
 		loadItem.addActionListener(this);
+		evaluate = new JMenuItem("Evaluate");
+		evaluate.addActionListener(this);
 		projectArray = new MyArrayList<Project>();
 		projectList = new JList<Project>(projectArray);
 		projectList.addListSelectionListener(listener);
@@ -73,6 +77,8 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		fileMenu.addSeparator();
 		fileMenu.add(saveItem);
 		fileMenu.add(loadItem);
+		fileMenu.addSeparator();
+		fileMenu.add(evaluate);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		helpMenu.add(aboutItem);
@@ -147,9 +153,38 @@ public class ProjectGUI extends JDialog implements ActionListener {
 			}
 		}
 		if(e.getSource() == saveItem){
+			JFileChooser choose = new JFileChooser();
+			FileNameExtensionFilter filter = new 
+					FileNameExtensionFilter("Serialized Files", "ser");
+			choose.setFileFilter(filter);
+			choose.setSelectedFile(new File("file.ser"));
+			int value = choose.showSaveDialog(this);
+			if(value == JFileChooser.APPROVE_OPTION){
+				projectArray.save(choose.getSelectedFile());
+			}
 			
 		}
 		if(e.getSource() == loadItem){
+			JFileChooser choose = new JFileChooser();
+			FileNameExtensionFilter filter = new 
+					FileNameExtensionFilter("Serialized Files", "ser");
+			choose.setFileFilter(filter);
+			int value = choose.showOpenDialog(this);
+			if(value == JFileChooser.APPROVE_OPTION){
+				projectArray.load(choose.getSelectedFile());
+			}
+		}
+		if(e.getSource() == evaluate){
+			Project proj = (Project) projectArray.getElementAt
+					(projectList.getSelectedIndex());
+			String subString = "SubProjects:\n";
+			
+			for (int i = 0; i < proj.getSubtasks().size(); i++){
+				subString += proj.getSubtasks().elementAt(i);
+			}
+			JOptionPane.showMessageDialog(null, subString);
+		}
+		if(e.getSource() == week1Button){
 			
 		}
 	}

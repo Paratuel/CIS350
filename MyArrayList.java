@@ -46,9 +46,9 @@ public class MyArrayList<E> extends AbstractListModel {
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
 		ObjectOutputStream oos = new ObjectOutputStream(bos);
 		oos.writeObject(myArray);
-		fos.close();
-		bos.close();
 		oos.close();
+		bos.close();
+		fos.close();
 	}
 		catch(Exception e){
 			e.printStackTrace();
@@ -60,9 +60,9 @@ public class MyArrayList<E> extends AbstractListModel {
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			ObjectInputStream ois = new ObjectInputStream(bis);
 			myArray = (ArrayList<Project>) ois.readObject();
-			fis.close();
-			bis.close();
 			ois.close();
+			bis.close();
+			fis.close();
 			fireContentsChanged(this, 0, myArray.size());
 		}
 		catch(Exception e){

@@ -1,5 +1,6 @@
 package package1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
@@ -7,9 +8,12 @@ import java.util.Vector;
 /**
  * Created by Paratuel on 2/9/2015.
  */
-public class Project {
+public class Project implements Serializable {
+	
 
-    private String name;
+
+	private static final long serialVersionUID = 1L;
+	private String name;
     private Date dueDate;
     private String category;
     private String notes;
