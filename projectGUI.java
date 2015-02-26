@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 
 public class ProjectGUI extends JDialog implements ActionListener {
 	
@@ -27,7 +28,9 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	
 	private JList<Project> projectList;
 	
-	private Vector<Project> projectArray;
+	private MyArrayList<Project> projectArray;
+	
+	private ListSelectionListener listener;
 	//working on it
 	
 	public ProjectGUI(){
@@ -60,8 +63,9 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		saveItem.addActionListener(this);
 		loadItem = new JMenuItem("Load");
 		loadItem.addActionListener(this);
-		projectArray = new Vector<Project>();
+		projectArray = new MyArrayList<Project>();
 		projectList = new JList<Project>(projectArray);
+		projectList.addListSelectionListener(listener);
 		
 		fileMenu.add(newItem);
 		fileMenu.add(editItem);
@@ -105,17 +109,48 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		}
 		if(e.getSource() == newItem){
 			Project p = new Project();
-			new CreateGUI(this, p);
+			CreateGUI x = new CreateGUI(this, p);
+			if(x.isOkPressed()){
+				p = x.whatProject();
+				projectArray.add(p);
+				
+			}
 		}
 		if(e.getSource() == deleteItem){
-			projectList.remove(projectList.getSelectedIndex());
+			if(projectArray.getSize() == 0){
+				JOptionPane.showMessageDialog(null, "Error: Nothing to"
+						+ " delete.");
+			}
+			else{
+			projectArray.delete(
+					projectList.getSelectedIndex());;
 			
-			
+			}
 		}
 		if(e.getSource() == editItem){
-			Project p = projectArray.elementAt(
-					projectList.getSelectedIndex());
-			new CreateGUI(this, p);
+			if(projectArray.getSize() == 0){
+				JOptionPane.showMessageDialog(null, "Error: Nothing to"
+						+ " edit.");
+			}
+			else {
+				Project p = (Project) projectArray.getElementAt(
+				projectList.getSelectedIndex());
+			CreateGUI x = new CreateGUI(this, p);
+				if(x.isOkPressed()){
+					p = x.whatProject();
+					projectArray.delete(
+							projectList.getSelectedIndex());
+					projectArray.add(p);
+					
+					
+				}
+			}
+		}
+		if(e.getSource() == saveItem){
+			
+		}
+		if(e.getSource() == loadItem){
+			
 		}
 	}
 }

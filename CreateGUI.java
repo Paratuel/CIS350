@@ -29,9 +29,14 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 	private int WIDTH, HEIGHT;
 	
+	private boolean isOk;
+	
+	private Project aProject;
 	
 	public CreateGUI(ProjectGUI parent, Project proj){
 		super(parent, true);
+		isOk = false;
+		aProject = proj;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		WIDTH = 400;
 		HEIGHT = 400;
@@ -79,14 +84,30 @@ public class CreateGUI extends JDialog implements ActionListener {
 		}
 		if(e.getSource() == okButton){
 			try{
-				
-				
+				String newName = nameField.getText();
+				String newDateString = dateField.getText();
+				String newCat = catField.getText();
+				String newNote = noteField.getText();
+				Date newDate = format.parse(newDateString);
+				aProject.setName(newName);
+				aProject.setDueDate(newDate);
+				aProject.setNotes(newNote);
+				aProject.setCategory(newCat);
+				isOk = true;
+				dispose();
 			}catch(Exception x){
 				x.printStackTrace();
 			}
 		}
 		
 		
+	}
+	
+	public boolean isOkPressed(){
+		return isOk;
+	}
+	public Project whatProject(){
+		return aProject;
 	}
 
 }
