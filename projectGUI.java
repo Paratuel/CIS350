@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.*;
 
@@ -20,13 +21,13 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	private JMenu fileMenu, helpMenu;
 	
 	private JMenuItem exitItem, aboutItem, newItem, deleteItem, 
-	editItem;
+	editItem, saveItem, loadItem;
 	
 	private int WIDTH, HEIGHT;
 	
 	private JList<Project> projectList;
 	
-	private ListModel<Project> projectArray;
+	private Vector<Project> projectArray;
 	//working on it
 	
 	public ProjectGUI(){
@@ -55,11 +56,19 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		deleteItem.addActionListener(this);
 		editItem = new JMenuItem("Edit Project");
 		editItem.addActionListener(this);
-		projectList = new JList<Project>();
+		saveItem = new JMenuItem("Save");
+		saveItem.addActionListener(this);
+		loadItem = new JMenuItem("Load");
+		loadItem.addActionListener(this);
+		projectArray = new Vector<Project>();
+		projectList = new JList<Project>(projectArray);
 		
 		fileMenu.add(newItem);
 		fileMenu.add(editItem);
 		fileMenu.add(deleteItem);
+		fileMenu.addSeparator();
+		fileMenu.add(saveItem);
+		fileMenu.add(loadItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		helpMenu.add(aboutItem);
@@ -82,6 +91,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		setSize(WIDTH,HEIGHT);
 		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
+		setTitle("Beginning with the End");
 	}
 	
 	
@@ -92,6 +102,20 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		
 		if(e.getSource() == aboutItem){
 			JOptionPane.showMessageDialog(null, "Hello!");
+		}
+		if(e.getSource() == newItem){
+			Project p = new Project();
+			new CreateGUI(this, p);
+		}
+		if(e.getSource() == deleteItem){
+			projectList.remove(projectList.getSelectedIndex());
+			
+			
+		}
+		if(e.getSource() == editItem){
+			Project p = projectArray.elementAt(
+					projectList.getSelectedIndex());
+			new CreateGUI(this, p);
 		}
 	}
 }
