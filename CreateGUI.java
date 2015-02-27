@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 
 public class CreateGUI extends JDialog implements ActionListener {
 
-	
 	private static final long serialVersionUID = 1L;
 	
 	private GridLayout layout;
@@ -25,8 +24,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 	
 	private JLabel nameLabel, dateLabel, catLabel, noteLabel, subLabel;
 	
-	private JTextField nameField, dateField, catField, noteField, 
-	subField;
+	private JTextField nameField, dateField, catField, noteField, subField;
 	
 	private DateFormat format;
 
@@ -36,7 +34,11 @@ public class CreateGUI extends JDialog implements ActionListener {
 	
 	private Project aProject;
 	
-	
+	/**
+	 * Sets up the panel for adding a project
+	 * @param ProjectGUI is the parent GUI
+	 * @param Project proj is passing in the array from ProjectGUI
+	 */
 	public CreateGUI(ProjectGUI parent, Project proj){
 		super(parent, true);
 		isOk = false;
@@ -55,6 +57,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		catLabel = new JLabel("Category:");
 		noteLabel = new JLabel("Notes:");
 		subLabel = new JLabel("Number of sub projects:");
+		
 		nameField = new JTextField(20);
 		nameField.setText(proj.getName());
 		dateField = new JTextField(10);
@@ -65,7 +68,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 		noteField.setText(proj.getNotes());
 		subField = new JTextField(3);
 		subField.setText("0");
-
 		
 		add(nameLabel);
 		add(nameField);
@@ -85,10 +87,13 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		setTitle("New Project");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setVisible(true);
-		
+		setVisible(true);	
 	}
 	
+	/**
+	 * Assigns actions to buttons and JMenuItems
+	 * 
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancelButton){
 			dispose();
@@ -117,14 +122,21 @@ public class CreateGUI extends JDialog implements ActionListener {
 			}catch(Exception x){
 				x.printStackTrace();
 			}
-		}
-		
-		
+		}	
 	}
 	
+	/**
+	 * Checks status
+	 * @return isOk if true
+	 */
 	public boolean isOkPressed(){
 		return isOk;
 	}
+	
+	/**
+	 * Checks which project
+	 * @return aProject is the Project
+	 */
 	public Project whatProject(){
 		return aProject;
 	}
