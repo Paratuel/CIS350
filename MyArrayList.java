@@ -13,33 +13,56 @@ import javax.swing.AbstractListModel;
 
 public class MyArrayList<E> extends AbstractListModel {
 
-	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Project> myArray;
 	
+	/**
+	 * Initializing the Project object myArray
+	 */
 	public MyArrayList(){
 		myArray = new ArrayList<Project>();
 	}
 	
+	/**
+     * Returns the myArray size
+     * @return myArray.size() of the project
+	 */
 	public int getSize() {
 		return myArray.size();
 	}
 
+	/**
+	 * Returns an element from myArray
+	 * @param index is the spot in the array needed.
+	 * @return myArray.get(index) is the element needed 
+	 */
 	@Override
 	public Object getElementAt(int index) {
 		return myArray.get(index);
 	}
 	
+	/**
+	 * Adding an element to myArray with p being passed into it
+	 * @param p is the Project object being passed into it. 
+	 */
 	public void add(Project p){
 		myArray.add(p);
 		fireIntervalAdded(this, 0, myArray.size());
 	}
+	/**
+	 * Deleting a certain element in the myArray
+	 * @param index is the position being passed in
+	 * @return obj is the object being removed.
+	 */
 	public Object delete(int index){
 		Object obj = myArray.remove(index);
 		fireContentsChanged(this, 0, myArray.size());
-		return obj;
-		
+		return obj;	
 	}
+	/**
+	 * Saving the file of the program
+	 * @param file being passed into it.
+	 */
 	public void save(File file){
 		try{
 		FileOutputStream fos = new FileOutputStream(file);
@@ -54,6 +77,10 @@ public class MyArrayList<E> extends AbstractListModel {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Loading the file of the program
+	 * @param file being passed into it.
+	 */
 	public void load(File file){
 		try{
 			FileInputStream fis = new FileInputStream(file);
