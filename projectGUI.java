@@ -35,6 +35,9 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	private ListSelectionListener listener;
 	//working on it
 	
+	/**
+	 * Sets up the panel for the parent GUI
+	 */
 	public ProjectGUI(){
 		WIDTH = 500;
 		HEIGHT = 500;
@@ -101,15 +104,17 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		setSize(WIDTH,HEIGHT);
 		setLocationRelativeTo(null);
 		setLayout(new FlowLayout());
-		setTitle("Beginning with the End");
+		setTitle("Project Manager");
 	}
 	
-	
+	/**
+	 * Assigns actions to buttons and JMenuItems
+	 * 
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == exitItem){
 			System.exit(0);
 		}
-		
 		if(e.getSource() == aboutItem){
 			JOptionPane.showMessageDialog(null, "Hello!");
 		}
@@ -118,8 +123,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 			CreateGUI x = new CreateGUI(this, p);
 			if(x.isOkPressed()){
 				p = x.whatProject();
-				projectArray.add(p);
-				
+				projectArray.add(p);	
 			}
 		}
 		if(e.getSource() == deleteItem){
@@ -130,7 +134,6 @@ public class ProjectGUI extends JDialog implements ActionListener {
 			else{
 			projectArray.delete(
 					projectList.getSelectedIndex());;
-			
 			}
 		}
 		if(e.getSource() == editItem){
@@ -147,8 +150,6 @@ public class ProjectGUI extends JDialog implements ActionListener {
 					projectArray.delete(
 							projectList.getSelectedIndex());
 					projectArray.add(p);
-					
-					
 				}
 			}
 		}
@@ -161,8 +162,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 			int value = choose.showSaveDialog(this);
 			if(value == JFileChooser.APPROVE_OPTION){
 				projectArray.save(choose.getSelectedFile());
-			}
-			
+			}	
 		}
 		if(e.getSource() == loadItem){
 			JFileChooser choose = new JFileChooser();
