@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class ProjectGUI extends JDialog implements ActionListener {
+public class projectGUI extends JDialog implements ActionListener {
 
   private static final long serialVersionUID = 1L;
   
@@ -40,9 +40,9 @@ public class ProjectGUI extends JDialog implements ActionListener {
   private int WIDTH; 
   private int HEIGHT;
 
-  private JList<Project> projectList;
+  private JList<project> projectList;
 
-  private MyArrayList<Project> projectArray;
+  private MyArrayList<project> projectArray;
 
   private ListSelectionListener listener;
   //working on it
@@ -50,7 +50,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
   /*
   * Sets up the panel for the parent GUI
   */
-  public ProjectGUI() {
+  public projectGUI() {
     WIDTH = 500;
     HEIGHT = 500;
     week1Button = new JButton("1 Week");
@@ -59,7 +59,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
     week2Button.addActionListener(this);
     week4Button = new JButton("4 Week");
     week4Button.addActionListener(this);
-    allButton = new JButton("All Projects");
+    allButton = new JButton("All projects");
     allButton.addActionListener(this);
     buttonPanel = new JPanel();
     projectPanel = new JPanel();
@@ -70,11 +70,11 @@ public class ProjectGUI extends JDialog implements ActionListener {
     exitItem.addActionListener(this);
     aboutItem = new JMenuItem("About");
     aboutItem.addActionListener(this);
-    newItem = new JMenuItem("New Project");
+    newItem = new JMenuItem("New project");
     newItem.addActionListener(this);
-    deleteItem = new JMenuItem("Delete Project");
+    deleteItem = new JMenuItem("Delete project");
     deleteItem.addActionListener(this);
-    editItem = new JMenuItem("Edit Project");
+    editItem = new JMenuItem("Edit project");
     editItem.addActionListener(this);
     saveItem = new JMenuItem("Save");
     saveItem.addActionListener(this);
@@ -82,8 +82,8 @@ public class ProjectGUI extends JDialog implements ActionListener {
     loadItem.addActionListener(this);
     evaluate = new JMenuItem("Evaluate");
     evaluate.addActionListener(this);
-    projectArray = new MyArrayList<Project>();
-    projectList = new JList<Project>(projectArray);
+    projectArray = new MyArrayList<project>();
+    projectList = new JList<project>(projectArray);
     projectList.addListSelectionListener(listener);
 
     fileMenu.add(newItem);
@@ -131,7 +131,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
       JOptionPane.showMessageDialog(null, "Hello!");
     }
     if (e.getSource() == newItem) {
-      Project p = new Project();
+      project p = new project();
       CreateGUI x = new CreateGUI(this, p);
       if (x.isOkPressed()) {
         p = x.whatProject();
@@ -152,7 +152,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
         JOptionPane.showMessageDialog(null, "Error: Nothing to"
             + " edit.");
       } else {
-        Project p = (Project) projectArray.getElementAt(
+        project p = (project) projectArray.getElementAt(
             projectList.getSelectedIndex());
         CreateGUI x = new CreateGUI(this, p);
         if (x.isOkPressed()) {
@@ -185,9 +185,9 @@ public class ProjectGUI extends JDialog implements ActionListener {
       }
     }
     if (e.getSource() == evaluate) {
-      Project proj = (Project) projectArray.getElementAt(
+      project proj = (project) projectArray.getElementAt(
           projectList.getSelectedIndex());
-      String subString = "SubProjects:\n";
+      String subString = "Subprojects:\n";
       for (int i = 0; i < proj.getSubtasks().size(); i++) {
         subString += proj.getSubtasks().elementAt(i) + "\n";
       }

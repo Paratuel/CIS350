@@ -14,14 +14,14 @@ import javax.swing.AbstractListModel;
 public class MyArrayList<E> extends AbstractListModel {
 
   private static final long serialVersionUID = 1L;
-  private ArrayList<Project> myArray;
+  private ArrayList<project> myArray;
 
   
   /*
   * Initializing the Project object myArray
   */
   public MyArrayList() {
-    myArray = new ArrayList<Project>();
+    myArray = new ArrayList<project>();
   }
 
   /*
@@ -46,7 +46,7 @@ public class MyArrayList<E> extends AbstractListModel {
   * Adding an element to myArray with p being passed into it 
   * @param p is the Project object being passed into it. 
   */
-  public void add(Project p) {
+  public void add(project p) {
     myArray.add(p);
     fireIntervalAdded(this, 0, myArray.size());
   }
@@ -89,7 +89,7 @@ public class MyArrayList<E> extends AbstractListModel {
       FileInputStream fis = new FileInputStream(file);
       BufferedInputStream bis = new BufferedInputStream(fis);
       ObjectInputStream ois = new ObjectInputStream(bis);
-      myArray = (ArrayList<Project>) ois.readObject();
+      myArray = (ArrayList<project>) ois.readObject();
       ois.close();
       bis.close();
       fis.close();

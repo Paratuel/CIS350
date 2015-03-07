@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,19 +44,19 @@ public class CreateGUI extends JDialog implements ActionListener {
   private boolean isOk;
   private boolean isSubOk;
 
-  private Project aProject;
+  private project aProject;
   
-  /*
+  /**
   * Sets up the panel for adding a project
   * @param ProjectGUI is the parent GUI
   * @param Project proj is passing in the array from ProjectGUI
   */
-  public CreateGUI(ProjectGUI parent, Project proj){
+  public CreateGUI(projectGUI parent, project proj){
     super(parent, true);
     isOk = false;
     isSubOk = true;
-    aProject = proj;
     format = DateFormat.getDateInstance(DateFormat.SHORT);
+    aProject = proj;
     WIDTH = 400;
     HEIGHT = 400;
     layout = new GridLayout(7,2);
@@ -71,7 +72,7 @@ public class CreateGUI extends JDialog implements ActionListener {
     nameField = new JTextField(20);
     nameField.setText(proj.getName());
     dateField = new JTextField(10);
-    dateField.setText(format.format(proj.getDueDate()));
+    dateField.setText("10/10/2012");
     catField = new JTextField(20);
     catField.setText(proj.getCategory());
     noteField = new JTextField(70);
@@ -114,8 +115,10 @@ public class CreateGUI extends JDialog implements ActionListener {
         String newCat = catField.getText();
         String newNote = noteField.getText();
         Date newDate = format.parse(newDateString);
+        GregorianCalendar newDate2 = new GregorianCalendar();
+        newDate2.setTime(newDate);
         aProject.setName(newName);
-        aProject.setDueDate(newDate);
+        aProject.setDueDate(newDate2);
         aProject.setNotes(newNote);
         aProject.setCategory(newCat);
         isOk = true;
@@ -146,7 +149,7 @@ public class CreateGUI extends JDialog implements ActionListener {
   * Checks which project
   * @return aProject is the Project
   */
-  public Project whatProject() {
+  public project whatProject() {
     return aProject;
   }
 }

@@ -2,7 +2,9 @@ package package1;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 /*
@@ -10,26 +12,26 @@ import java.util.Vector;
  * of projects needed to be done with the added benefit of subgroups.
  * Created by Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  */
-public class Project implements Serializable {
+public class project implements Serializable {
 
   private static final long serialVersionUID = 1L;
   private String name;
-  private Date dueDate;
+  private GregorianCalendar dueDate;
   private String category;
   private String notes;
-  private Vector<Project> subTasks;
+  private Vector<project> subTasks;
 
-  ArrayList<Project> Projects = new ArrayList<Project>();
+  ArrayList<project> Projects = new ArrayList<project>();
 
   /*
   * Initializing needed variables.
   */
-  Project() {
+  project() {
     name = "Untitled";
-    dueDate = new Date(1,1,2015);
+    dueDate = new GregorianCalendar(2015,1,1);
     category = "Untitled";
     notes = "";
-    subTasks = new Vector<Project>();
+    subTasks = new Vector<project>();
   }
 
   /*
@@ -39,20 +41,21 @@ public class Project implements Serializable {
   * @param c is the category for the project
   * @param nt notes for the project
   */
-  Project(String n, Date dd, String c, String nt) {
+  project(String n, GregorianCalendar dd, String c, String nt) {
     name = n;
     dueDate = dd;
     category = c;
     notes = nt;
-    subTasks = new Vector<Project>();
+    subTasks = new Vector<project>();
   }
 
   /*
   * Setting up the string that will print
   */  
   public String toString() {
-    return name + " " + dueDate.toString() + " " + category + " " 
-      + notes;
+    return name + " " + dueDate.get(Calendar.MONTH) + "/" + 
+    dueDate.get(Calendar.DAY_OF_MONTH) + "/" + 
+    dueDate.get(Calendar.YEAR) + " " + category + " " + notes;
   }
 
   /*
@@ -75,7 +78,7 @@ public class Project implements Serializable {
   * Returns the due date of the project
   * @return dueDate of the project
   */
-  protected Date getDueDate() {
+  protected GregorianCalendar getDueDate() {
     return dueDate;
   }
   
@@ -83,7 +86,7 @@ public class Project implements Serializable {
   * Sets the dueDate of the Project object with the dueDate passing into it.
   * @param dueDate is the due date of the project
   */
-  protected void setDueDate(Date dueDate) {
+  protected void setDueDate(GregorianCalendar dueDate) {
     this.dueDate = dueDate;
   }
 
@@ -123,7 +126,7 @@ public class Project implements Serializable {
   * Adds subgroups into the subTasks vector with the subgroup being passed into it.
   * @param p is the subgroup of the project
   */
-  protected void addItems(Project p) {
+  protected void addItems(project p) {
     subTasks.addElement(p);
   }
 
@@ -131,7 +134,7 @@ public class Project implements Serializable {
   * Returns the Subtasks of the project
   * @return subTasks are the subgroups of the project
   */
-  protected Vector<Project> getSubtasks() {
+  protected Vector<project> getSubtasks() {
     return subTasks;
   }
 }
