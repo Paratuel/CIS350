@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class ProjectGUI extends JDialog implements ActionListener {
+public class projectGUI extends JDialog implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	private ListSelectionListener listener;
 	//working on it
 	
-	public ProjectGUI(){
+	public projectGUI(){
 		setupFrame();
 	}
 	
@@ -47,18 +47,15 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	 * Sets up the panel for the parent GUI
 	 */
 	public void setupFrame(){
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setTitle("Project Management");
+		//frame = new JFrame();
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Project Management");
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-
-		JMenu fileMenu = new JMenu("File");
-		menuBar.add(fileMenu);
-		fileMenu.addActionListener(this);
 		
+		fileMenu = new JMenu("File");
 		helpMenu = new JMenu("Help");
+		helpMenu.addActionListener(this);
 		exitItem = new JMenuItem("Exit!");
 		exitItem.addActionListener(this);
 		aboutItem = new JMenuItem("About");
@@ -75,10 +72,11 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		fileMenu.add(evaluate);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
+		fileMenu.addActionListener(this);
 		helpMenu.add(aboutItem);
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
-		
+
 		projectPanel = new JPanel();
 		
 		projectArray = new MyArrayList<project>();
@@ -88,31 +86,35 @@ public class ProjectGUI extends JDialog implements ActionListener {
 		projectPanel.add(projectList);
 		
 		JPanel panel;
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane(projectList);
 		
-		frame.add(scrollPane, BorderLayout.CENTER);
+		
 		
 		panel = setupNorthPanel();
-		frame.add(panel, BorderLayout.NORTH);
-		
+		add(panel);
+		add(scrollPane);
 		panel = setupSouthPanel();
-		frame.add(panel, BorderLayout.SOUTH);
+		add(panel);
 		
 		//add(buttonPanel);
-		add(projectPanel);
+		//add(projectPanel);
 		//add(southPanel);
 		setJMenuBar(menuBar);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 		//setSize(WIDTH,HEIGHT);
+		setSize(300, 400);
+		//pack();
 		setLocationRelativeTo(null);
-		setLayout(new FlowLayout());
+		//setLayout(new FlowLayout()); Not a good choice for this 
+		//project
+		setLayout(new GridLayout(3,1));
 		//setTitle("Project Manager");
 		
-		frame.pack();
-		frame.setSize(1000, 500);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		//pack();
+		
+		//setLocationRelativeTo(null);
+		//setVisible(true); twice?
 	}
 	
 	/**
@@ -120,8 +122,7 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	 * @return southPanel
 	 */
 	public JPanel setupSouthPanel(){
-		southPanel = new JPanel(new GridLayout(1, 4));
-		add(southPanel, BorderLayout.SOUTH);
+		southPanel = new JPanel(new FlowLayout());
 		
 		newItem = new JButton("New Project");
 		newItem.addActionListener(this);
@@ -143,8 +144,8 @@ public class ProjectGUI extends JDialog implements ActionListener {
 	 * @return buttonPanel
 	 */
 	public JPanel setupNorthPanel(){
-		buttonPanel = new JPanel(new GridLayout(1, 4));
-		add(buttonPanel, BorderLayout.NORTH);
+		buttonPanel = new JPanel(new FlowLayout());
+		//add(buttonPanel, BorderLayout.NORTH);
 		
 		week1Button = new JButton("1 Week");
 		week1Button.addActionListener(this);
