@@ -16,15 +16,15 @@ import javax.swing.table.AbstractTableModel;
 public class ProjectModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Project> myArray;
-	private Project project;
+	private ArrayList<project> myArray;
+	private project project;
 	private String[] columnNames = {"Project Name", "Due Date", "Reminders", "Notes"};
 
-	/*
+	/**
 	 * Initializing the Project object myArray
 	 */
 	public ProjectModel() {
-		myArray = new ArrayList<Project>();
+		myArray = new ArrayList<project>();
 	}
 
 	/**
@@ -47,14 +47,20 @@ public class ProjectModel extends AbstractTableModel {
 		switch(col){
 		case 0:
 			val = myArray.get(row).getName();
+			return val;
 		case 1:
 			val = Utilities.gToString(myArray.get(row).getDueDate());
+			return val;
 		case 2:
 			val = myArray.get(row).getReminder();
+			return val;
 		case 3:
 			val = myArray.get(row).getNotes();	
+			return val;
+		default:
+			return val;
 		}
-		return val;
+		
 	}
 	
 	/**
@@ -62,7 +68,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * @param index is the position in myArray that is needed
 	 * @return the myArray at the index
 	 */
-	public Project get(int index){
+	public project get(int index){
 		return myArray.get(index);
 	}
 	
@@ -71,11 +77,11 @@ public class ProjectModel extends AbstractTableModel {
 	 * @param a is the Project it is asking for
 	 * @return the index of myArray at a
 	 */
-	public int indexOf(Project a){
+	public int indexOf(project a){
 		return myArray.indexOf(a);
 	}
 	
-	/*
+	/**
 	 * Returns the myArray size
 	 * @return myArray.size() of the project
 	 * */
@@ -83,7 +89,7 @@ public class ProjectModel extends AbstractTableModel {
 		return myArray.size();
 	}
 
-	/*
+	/**
 	 * Returns an element from myArray
 	 * @param index is the spot in the array needed.
 	 * @return myArray.get(index) is the element needed 
@@ -92,22 +98,22 @@ public class ProjectModel extends AbstractTableModel {
 		return myArray.get(index);
 	}
 
-	/*
+	/**
 	 * Adding an element to myArray with p being passed into it 
 	 * @param p is the Project object being passed into it. 
 	 */
-	public void add(Project p) {
+	public void add(project p) {
 		myArray.add(p);
-		fireTableRowsInserted(myArray.size() - 1, myArray.size() - 1);
+		fireTableRowsInserted(0, myArray.size());
 	}
 
-	/*
+	/**
 	 * Deleting a certain element in the myArray
 	 * @param index is the position being passed in
 	 */
 	public void delete(int index) {
 		Object obj = myArray.remove(index);
-		fireTableRowsDeleted(index, index);
+		fireTableRowsDeleted(0, myArray.size());
 		return;
 	}
 	
@@ -115,7 +121,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * retrieves the index for a particular Project.
 	 * @param a is the project.
 	 */
-	public void remove(Project a){
+	public void remove(project a){
 		delete(indexOf(a));
 	}
 	
@@ -131,11 +137,11 @@ public class ProjectModel extends AbstractTableModel {
 	public void sortByDate(){
 		if (myArray.size() > 1){
 			Collections.sort(myArray, new ProjectDateComparator());
-			this.fireTableRowsUpdated(0, myArray.size() -1);
+			this.fireTableRowsUpdated(0, myArray.size());
 		}
 	}
 
-	/*
+	/**
 	 * Saving the file of the program
 	 * @param file being passed into it.
 	 */
@@ -153,7 +159,7 @@ public class ProjectModel extends AbstractTableModel {
 		}
 	}
 
-	/*
+	/**
 	 * Loading the file of the program
 	 * @param file being passed into it.
 	 */
@@ -162,7 +168,7 @@ public class ProjectModel extends AbstractTableModel {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			ObjectInputStream ois = new ObjectInputStream(bis);
-			myArray = (ArrayList<Project>) ois.readObject();
+			myArray = (ArrayList<project>) ois.readObject();
 			ois.close();
 			bis.close();
 			fis.close();

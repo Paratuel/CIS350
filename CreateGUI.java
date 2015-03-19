@@ -43,20 +43,19 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private int HEIGHT;
 
 	private boolean isOk;
-	private boolean cancel;
+	//private boolean cancel;
 	private boolean isSubOk;
-	private ProjectGUI parent;
+	private projectGUI parent;
 
-	private Project aProject;
+	private project aProject;
 
 	/**
 	 * Sets up the panel for adding a project
 	 * @param ProjectGUI is the parent GUI
 	 * @param Project proj is passing in the array from ProjectGUI
 	 */
-	public CreateGUI(ProjectGUI parent){
+	public CreateGUI(projectGUI parent){
 		super(parent, true);
-		this.parent = parent;
 		setupDialog();
 		setTitle("Project Management");
 	}
@@ -76,6 +75,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		isOk = false;
 		isSubOk = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
+		aProject = new project();
 		
 		WIDTH = 400;
 		HEIGHT = 400;
@@ -112,7 +112,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		setTitle("New Project");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true); 
 	}
 
@@ -142,7 +141,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 				while (num > 0) {
 					SubCreateGUI subCreate = new SubCreateGUI(this);
 					if (subCreate.isOkPressed()) {
-						//aProject.addItems(subCreate.whatProject());
+						aProject.addItems(subCreate.whatProject());
 					}
 					num--;
 				}
@@ -159,9 +158,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public boolean isOkPressed() {
 		return isOk;
 	}
-	public boolean isCancel(){
-		return cancel;
-	}
 	
 	public String getName(){
 		return nameField.getText();
@@ -177,7 +173,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 	 * Checks which project
 	 * @return aProject is the Project
 	 */
-	public Project whatProject() {
+	public project whatProject() {
 		return aProject;
 	}
 	

@@ -15,9 +15,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
-import CIS350.ProjectModel;
+import package1.ProjectModel;
 
-public class ProjectGUI extends JFrame implements ActionListener {
+public class projectGUI extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	private CreateGUI newProject;
 	private SubCreateGUI subGroup;
 	
-	public ProjectGUI(){
+	public projectGUI(){
 		setupFrame();
 		model = new ProjectModel();
 		table.setModel(model);
@@ -192,17 +192,12 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello!");
 		}
 		if(e.getSource() == newItem){
-			newProject.clear();
-			newProject.setVisible(true);
+			newProject = new CreateGUI(this);
 		
 			if(newProject.isOkPressed()){
-				Project p = new Project(newProject.getName(), newProject.getDueDate(), 
+				project p = new project(newProject.getName(), newProject.getDueDate(), 
 						newProject.getNotes());
 				model.add(p);	
-			}
-			if(newProject.isCancel()){
-				newProject.setVisible(false);
-				return;
 			}
 		}
 		if(e.getSource() == deleteItem){
@@ -218,21 +213,20 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		}
 		if(e.getSource() == editItem){
 			int index = table.getSelectedRow();
-//			if(projectArray.getSize() == 0){
-//				JOptionPane.showMessageDialog(null, "Error: Nothing to"
-//						+ " edit.");
-//			}
-//			else {
-//				Project p = (Project) projectArray.getElementAt(
-//				projectList.getSelectedIndex());
-				//CreateGUI x = new CreateGUI(this, p);
-				//if(x.isOkPressed()){
-					//p = x.whatProject();
-					//projectArray.delete(
-					//		projectList.getSelectedIndex());
-					//projectArray.add(p);
-				//}
-			//}
+			if(model.getSize() == 0){
+				JOptionPane.showMessageDialog(null, "Error: Nothing to"
+						+ " edit.");
+			}
+			else {
+				project p = (project) model.get(table.getSelectedRow());
+				CreateGUI x = new CreateGUI(this);
+				if(x.isOkPressed()){
+					p = x.whatProject();
+					model.delete(
+							table.getSelectedRow());
+					model.add(p);
+				}
+			}
 		}
 		if(e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
@@ -242,7 +236,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			choose.setSelectedFile(new File("file.ser"));
 			int value = choose.showSaveDialog(this);
 			if(value == JFileChooser.APPROVE_OPTION){
-				//projectArray.save(choose.getSelectedFile());
+				model.save(choose.getSelectedFile());
 			}	
 		}
 		if(e.getSource() == loadItem){
@@ -252,17 +246,16 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			choose.setFileFilter(filter);
 			int value = choose.showOpenDialog(this);
 			if(value == JFileChooser.APPROVE_OPTION){
-				//projectArray.load(choose.getSelectedFile());
+				model.load(choose.getSelectedFile());
 			}
 		}
 		if(e.getSource() == evaluate){
-			//Project proj = (Project) projectArray.getElementAt
-			//		(projectList.getSelectedIndex());
+			project proj = (project) model.get(table.getSelectedRow());
 			String subString = "SubProjects:\n";
 			
-			//for (int i = 0; i < proj.getSubtasks().size(); i++){
-			//	subString += proj.getSubtasks().elementAt(i);
-			//}
+			for (int i = 0; i < proj.getSubtasks().size(); i++){
+				subString += proj.getSubtasks().elementAt(i);
+			}
 			JOptionPane.showMessageDialog(null, subString);
 		}
 		if(e.getSource() == week1Button){

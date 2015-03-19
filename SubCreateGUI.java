@@ -39,9 +39,9 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 
 	private boolean isOk;
 
-	private Project aProject;
+	private project aProject;
 
-	/*
+	/**
 	 * Creating the panel for adding a subGroup
 	 * @param create is passed into it from the CreateGUI
 	 */
@@ -50,7 +50,7 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 		WIDTH = 400;
 		HEIGHT = 400;
 		isOk = false;
-		aProject = new Project();
+		aProject = new project();
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		layout = new GridLayout(7,2);
 		okButton = new JButton("OK");
@@ -89,7 +89,7 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	/*
+	/**
 	 * Assigns actions to buttons and JMenuItems
 	 */
 	@Override
@@ -118,7 +118,7 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 		}
 	}
 
-	/*
+	/**
 	 * Checking the status
 	 * @return isOk if true
 	 */
@@ -126,11 +126,11 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 		return isOk;
 	}
 
-	/*
+	/**
 	 * Checks which project
 	 * @return aProject is the project
 	 */
-	public Project whatProject() {
+	public project whatProject() {
 		return aProject;
 	}
 	

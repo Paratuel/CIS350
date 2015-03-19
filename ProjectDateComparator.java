@@ -1,8 +1,8 @@
-package CIS350;
+package package1;
 
 import java.util.Comparator;
 
-public class ProjectDateComparator implements Comparator<Project>{
+public class ProjectDateComparator implements Comparator<project>{
 	
 	/**
 	 * compares the dates
@@ -11,7 +11,7 @@ public class ProjectDateComparator implements Comparator<Project>{
 	 * @return the results
 	 */
 	@Override
-	public int compare(Project p1, Project p2){
+	public int compare(project p1, project p2){
 		return p1.getDueDate().compareTo(p2.getDueDate());
 	}
 }

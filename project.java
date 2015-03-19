@@ -12,25 +12,25 @@ import java.util.Vector;
  * of projects needed to be done with the added benefit of subgroups.
  * Created by Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  */
-public class Project implements Serializable {
+public class project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private GregorianCalendar dueDate;
 	private int reminder;
 	private String notes;
-	private Vector<Project> subTasks;
+	private Vector<project> subTasks;
 
-	ArrayList<Project> Projects = new ArrayList<Project>();
+	ArrayList<project> Projects = new ArrayList<project>();
 	
 	/**
 	 * Initializing needed variables.
 	 */
-	public Project() {
+	public project() {
 		name = "Untitled";
 		dueDate = new GregorianCalendar(2015,1,1);
 		notes = "";
-		subTasks = new Vector<Project>();
+		subTasks = new Vector<project>();
 	}
 
 	/**
@@ -40,12 +40,12 @@ public class Project implements Serializable {
 	 * @param c is the category for the project
 	 * @param nt notes for the project
 	 */
-	public Project(String n, GregorianCalendar dd, String nt) {
+	public project(String n, GregorianCalendar dd, String nt) {
 		this.name = n;
 		this.dueDate = dd;
 		//this.reminder = rr;
 		this.notes = nt;
-		subTasks = new Vector<Project>();
+		subTasks = new Vector<project>();
 	}
 	
 	
@@ -127,7 +127,7 @@ public class Project implements Serializable {
 	 * Adds subgroups into the subTasks vector with the subgroup being passed into it.
 	 * @param p is the subgroup of the project
 	 */
-	protected void addItems(Project p) {
+	protected void addItems(project p) {
 		subTasks.addElement(p);
 	}
 
@@ -135,7 +135,7 @@ public class Project implements Serializable {
 	 * Returns the Subtasks of the project
 	 * @return subTasks are the subgroups of the project
 	 */
-	protected Vector<Project> getSubtasks() {
+	protected Vector<project> getSubtasks() {
 		return subTasks;
 	}
 }
