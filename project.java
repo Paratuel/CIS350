@@ -1,13 +1,14 @@
 package package1;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-/*
+/**
  * Project Management is a program that helps with the organization 
  * of projects needed to be done with the added benefit of subgroups.
  * Created by Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
@@ -34,7 +35,7 @@ public class project implements Serializable {
     subTasks = new Vector<project>();
   }
 
-  /*
+  /**
   * Initializing needed variables that are passed into the construct
   * @param n is the name of the project
   * @param dd is the due date of the project
@@ -49,16 +50,15 @@ public class project implements Serializable {
     subTasks = new Vector<project>();
   }
 
-  /*
+  /**
   * Setting up the string that will print
   */  
   public String toString() {
-    return name + " " + dueDate.get(Calendar.MONTH) + "/" + 
-    dueDate.get(Calendar.DAY_OF_MONTH) + "/" + 
-    dueDate.get(Calendar.YEAR) + " " + category + " " + notes;
+	  SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
+    return name + " " + format.format(dueDate.getTime()) + " " + category + " " + notes;
   }
 
-  /*
+  /**
   * Returns the name of the project
   * @return name of the project
   */
@@ -66,7 +66,7 @@ public class project implements Serializable {
     return name;
   }
 
-  /*
+  /**
   * Sets the name of the Project object with the name being passed into it.
   * @param name is the project name.
   */
@@ -82,7 +82,7 @@ public class project implements Serializable {
     return dueDate;
   }
   
-  /*
+  /**
   * Sets the dueDate of the Project object with the dueDate passing into it.
   * @param dueDate is the due date of the project
   */
@@ -90,7 +90,7 @@ public class project implements Serializable {
     this.dueDate = dueDate;
   }
 
-  /*
+  /**
   * Returns the category of the project
   * @return category is the category of the project
   */
@@ -98,7 +98,7 @@ public class project implements Serializable {
     return category;
   }
 
-  /*
+  /**
   * Sets up the category of the Project object with the category passing into it.
   * @param category is the category of the project
   */
@@ -106,7 +106,7 @@ public class project implements Serializable {
     this.category = category;
   }
 
-  /*
+  /**
   * Returns the notes of of the project
   * @return notes is the notes taken for the project
   */
@@ -114,7 +114,7 @@ public class project implements Serializable {
     return notes;
   }
 
-  /*
+  /**
   * Sets up the notes of the Project object with the notes passing into it.
   * @param notes is the notes of the project
   */
@@ -122,7 +122,7 @@ public class project implements Serializable {
     this.notes = notes;
   }
 
-  /*
+  /**
   * Adds subgroups into the subTasks vector with the subgroup being passed into it.
   * @param p is the subgroup of the project
   */
@@ -130,7 +130,7 @@ public class project implements Serializable {
     subTasks.addElement(p);
   }
 
-  /*
+  /**
   * Returns the Subtasks of the project
   * @return subTasks are the subgroups of the project
   */

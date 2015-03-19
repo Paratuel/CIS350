@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import javax.swing.AbstractListModel;
 
@@ -15,16 +17,18 @@ public class MyArrayList<E> extends AbstractListModel {
 
   private static final long serialVersionUID = 1L;
   private ArrayList<project> myArray;
+  //private ArrayList<project> secondArray;
 
   
-  /*
+  /**
   * Initializing the Project object myArray
   */
   public MyArrayList() {
     myArray = new ArrayList<project>();
+    //secondArray = new ArrayList<project>();
   }
 
-  /*
+  /**
   * Returns the myArray size
   * @return myArray.size() of the project
   * */
@@ -32,7 +36,7 @@ public class MyArrayList<E> extends AbstractListModel {
     return myArray.size();
   }
 
-  /*
+  /**
   * Returns an element from myArray
   * @param index is the spot in the array needed.
   * @return myArray.get(index) is the element needed 
@@ -42,7 +46,7 @@ public class MyArrayList<E> extends AbstractListModel {
     return myArray.get(index);
   }
   
-  /*
+  /**
   * Adding an element to myArray with p being passed into it 
   * @param p is the Project object being passed into it. 
   */
@@ -51,7 +55,7 @@ public class MyArrayList<E> extends AbstractListModel {
     fireIntervalAdded(this, 0, myArray.size());
   }
   
-  /*
+  /**
   * Deleting a certain element in the myArray
   * @param index is the position being passed in
   * @return obj is the object being removed.
@@ -62,7 +66,7 @@ public class MyArrayList<E> extends AbstractListModel {
     return obj;
   }
   
-  /*
+  /**
   * Saving the file of the program
   * @param file being passed into it.
   */
@@ -80,7 +84,7 @@ public class MyArrayList<E> extends AbstractListModel {
     }
   }
   
-  /*
+  /**
   * Loading the file of the program
   * @param file being passed into it.
   */
@@ -97,5 +101,40 @@ public class MyArrayList<E> extends AbstractListModel {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  public void evaluateByDate(GregorianCalendar givenDate){
+	  //SimpleDateFormat format = new SimpleDateFormat("MM/dd/YYYY");
+	  ArrayList<project> secondArray = new ArrayList<project>();
+	  for(int k = 0; k < myArray.size(); k++)
+		  secondArray.add(myArray.get(k));
+	  myArray.clear();
+	   for (int i = 0; i < secondArray.size(); i++){
+		   if(secondArray.get(i).getSubtasks().size() == 0){
+			   if(secondArray.get(i).getDueDate().after
+					   (new GregorianCalendar()) && secondArray.get(i).
+					   getDueDate().before(givenDate)){
+				   myArray.add(secondArray.get(i));
+			   }
+		   }
+		   else{
+			   for(int j = 0; j < secondArray.get(i).getSubtasks().size(); j++){
+				   if(secondArray.get(i).getSubtasks().get(j).
+						   getDueDate().after(new GregorianCalendar())
+						   && secondArray.get(i).getSubtasks().get(j).
+						   getDueDate().before(givenDate)){
+					   myArray.add(secondArray.get(i).getSubtasks().get(j));
+				   }
+			   }
+		   }
+	   }
+	   fireContentsChanged(this, 0, myArray.size());
+	   for(int l = 0; l < secondArray.size(); l++)
+			  myArray.add(secondArray.get(l));
+  }
+  public void reset(){
+	  fireContentsChanged(this, 0, myArray.size());
+  }
+  public void showReminder(){
+	  
   }
 }

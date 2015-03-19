@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.*;
@@ -87,8 +89,6 @@ public class projectGUI extends JDialog implements ActionListener {
 		
 		JPanel panel;
 		scrollPane = new JScrollPane(projectList);
-		
-		
 		
 		panel = setupNorthPanel();
 		add(panel);
@@ -245,7 +245,23 @@ public class projectGUI extends JDialog implements ActionListener {
 			JOptionPane.showMessageDialog(null, subString);
 		}
 		if(e.getSource() == week1Button){
+			GregorianCalendar oneWeek = new GregorianCalendar();
+			oneWeek.add(Calendar.DAY_OF_MONTH, 7);
+			projectArray.evaluateByDate(oneWeek);
 			
+		}
+		if(e.getSource() == week2Button){
+			GregorianCalendar twoWeeks = new GregorianCalendar();
+			twoWeeks.add(Calendar.DAY_OF_MONTH, 14);
+			projectArray.evaluateByDate(twoWeeks);
+		}
+		if(e.getSource() == week4Button){
+			GregorianCalendar fourWeeks = new GregorianCalendar();
+			fourWeeks.add(Calendar.DAY_OF_MONTH, 28);
+			projectArray.evaluateByDate(fourWeeks);
+		}
+		if(e.getSource() == allButton){
+			projectArray.reset();
 		}
 		
 		
