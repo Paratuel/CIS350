@@ -1,21 +1,23 @@
 package package1;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 
-public class projectGUI extends JDialog implements ActionListener {
+import CIS350.ProjectModel;
+
+public class ProjectGUI extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -34,31 +36,37 @@ public class projectGUI extends JDialog implements ActionListener {
 	
 	private int WIDTH, HEIGHT;
 	
-	private JList<project> projectList;
+	//private JList<Project> projectList;
 	
-	private MyArrayList<project> projectArray;
+	//private MyArrayList<Project> projectArray;
 	
 	private ListSelectionListener listener;
-	//working on it
 	
-	public projectGUI(){
+	private ProjectModel model;
+	private CreateGUI newProject;
+	private SubCreateGUI subGroup;
+	
+	public ProjectGUI(){
 		setupFrame();
+		model = new ProjectModel();
+		table.setModel(model);
 	}
 	
 	/**
 	 * Sets up the panel for the parent GUI
 	 */
 	public void setupFrame(){
-		//frame = new JFrame();
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("Project Management");
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.setTitle("Project Management");
 		
 		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 		
 		fileMenu = new JMenu("File");
 		helpMenu = new JMenu("Help");
 		helpMenu.addActionListener(this);
-		exitItem = new JMenuItem("Exit!");
+		exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(this);
 		aboutItem = new JMenuItem("About");
 		aboutItem.addActionListener(this);
@@ -79,42 +87,46 @@ public class projectGUI extends JDialog implements ActionListener {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 
-		projectPanel = new JPanel();
+		//projectPanel = new JPanel();
 		
-		projectArray = new MyArrayList<project>();
-		projectList = new JList<project>(projectArray);
-		projectList.addListSelectionListener(listener);
+		//projectArray = new MyArrayList<Project>();
+		//projectList = new JList<Project>(projectArray);
+		//projectList.addListSelectionListener(listener);
 		
-		projectPanel.add(projectList);
+		//projectPanel.add(projectList);
+//		projectPanel.setSize(new Dimension(800, 400));
+//		add(projectPanel);
 		
 		JPanel panel;
-		scrollPane = new JScrollPane(projectList);
+		scrollPane = new JScrollPane();
+		table = new JTable();
+		
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		table.setToolTipText("");
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.addMouseListener(new java.awt.event.MouseAdapter(){
+			public void mouseClicked(java.awt.event.MouseEvent evt){
+				//tableMouseClicked();
+			}
+		});
+		
+		scrollPane.setViewportView(table);
+		
+		frame.add(scrollPane, BorderLayout.CENTER);
 		
 		panel = setupNorthPanel();
-		add(panel);
-		add(scrollPane);
+		frame.add(panel, BorderLayout.NORTH);
+		
 		panel = setupSouthPanel();
-		add(panel);
+		frame.add(panel, BorderLayout.SOUTH);
 		
-		//add(buttonPanel);
-		//add(projectPanel);
-		//add(southPanel);
-		setJMenuBar(menuBar);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setVisible(true);
-		//setSize(WIDTH,HEIGHT);
-		setSize(300, 400);
-		//pack();
-		setLocationRelativeTo(null);
-		//setLayout(new FlowLayout()); Not a good choice for this 
-		//project
-		setLayout(new GridLayout(3,1));
-		//setTitle("Project Manager");
-		
-		//pack();
-		
-		//setLocationRelativeTo(null);
-		//setVisible(true); twice?
+		frame.setJMenuBar(menuBar);
+		frame.pack();
+		frame.setVisible(true);
+		frame.setSize(1000, 500);
+		frame.setLocationRelativeTo(null);
 	}
 	
 	/**
@@ -136,6 +148,7 @@ public class projectGUI extends JDialog implements ActionListener {
 		southPanel.add(newItem);
 		southPanel.add(deleteItem);
 		southPanel.add(editItem);
+		
 		return southPanel;
 	}
 	
@@ -179,39 +192,47 @@ public class projectGUI extends JDialog implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Hello!");
 		}
 		if(e.getSource() == newItem){
-			project p = new project();
-			CreateGUI x = new CreateGUI(this, p);
-			if(x.isOkPressed()){
-				p = x.whatProject();
-				projectArray.add(p);	
+			newProject.clear();
+			newProject.setVisible(true);
+		
+			if(newProject.isOkPressed()){
+				Project p = new Project(newProject.getName(), newProject.getDueDate(), 
+						newProject.getNotes());
+				model.add(p);	
+			}
+			if(newProject.isCancel()){
+				newProject.setVisible(false);
+				return;
 			}
 		}
 		if(e.getSource() == deleteItem){
-			if(projectArray.getSize() == 0){
-				JOptionPane.showMessageDialog(null, "Error: Nothing to"
-						+ " delete.");
-			}
-			else{
-			projectArray.delete(
-					projectList.getSelectedIndex());;
+			int index = table.getSelectedRow();
+			if(index != -1){
+				if (JOptionPane.showConfirmDialog(null, "You Are About To Delete This Project"
+						, null, JOptionPane.OK_CANCEL_OPTION) != 0){
+					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+				}else{
+					model.remove(model.get(index));
+				}
 			}
 		}
 		if(e.getSource() == editItem){
-			if(projectArray.getSize() == 0){
-				JOptionPane.showMessageDialog(null, "Error: Nothing to"
-						+ " edit.");
-			}
-			else {
-				project p = (project) projectArray.getElementAt(
-				projectList.getSelectedIndex());
-			CreateGUI x = new CreateGUI(this, p);
-				if(x.isOkPressed()){
-					p = x.whatProject();
-					projectArray.delete(
-							projectList.getSelectedIndex());
-					projectArray.add(p);
-				}
-			}
+			int index = table.getSelectedRow();
+//			if(projectArray.getSize() == 0){
+//				JOptionPane.showMessageDialog(null, "Error: Nothing to"
+//						+ " edit.");
+//			}
+//			else {
+//				Project p = (Project) projectArray.getElementAt(
+//				projectList.getSelectedIndex());
+				//CreateGUI x = new CreateGUI(this, p);
+				//if(x.isOkPressed()){
+					//p = x.whatProject();
+					//projectArray.delete(
+					//		projectList.getSelectedIndex());
+					//projectArray.add(p);
+				//}
+			//}
 		}
 		if(e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
@@ -221,7 +242,7 @@ public class projectGUI extends JDialog implements ActionListener {
 			choose.setSelectedFile(new File("file.ser"));
 			int value = choose.showSaveDialog(this);
 			if(value == JFileChooser.APPROVE_OPTION){
-				projectArray.save(choose.getSelectedFile());
+				//projectArray.save(choose.getSelectedFile());
 			}	
 		}
 		if(e.getSource() == loadItem){
@@ -231,37 +252,21 @@ public class projectGUI extends JDialog implements ActionListener {
 			choose.setFileFilter(filter);
 			int value = choose.showOpenDialog(this);
 			if(value == JFileChooser.APPROVE_OPTION){
-				projectArray.load(choose.getSelectedFile());
+				//projectArray.load(choose.getSelectedFile());
 			}
 		}
 		if(e.getSource() == evaluate){
-			project proj = (project) projectArray.getElementAt
-					(projectList.getSelectedIndex());
+			//Project proj = (Project) projectArray.getElementAt
+			//		(projectList.getSelectedIndex());
 			String subString = "SubProjects:\n";
 			
-			for (int i = 0; i < proj.getSubtasks().size(); i++){
-				subString += proj.getSubtasks().elementAt(i);
-			}
+			//for (int i = 0; i < proj.getSubtasks().size(); i++){
+			//	subString += proj.getSubtasks().elementAt(i);
+			//}
 			JOptionPane.showMessageDialog(null, subString);
 		}
 		if(e.getSource() == week1Button){
-			GregorianCalendar oneWeek = new GregorianCalendar();
-			oneWeek.add(Calendar.DAY_OF_MONTH, 7);
-			projectArray.evaluateByDate(oneWeek);
 			
-		}
-		if(e.getSource() == week2Button){
-			GregorianCalendar twoWeeks = new GregorianCalendar();
-			twoWeeks.add(Calendar.DAY_OF_MONTH, 14);
-			projectArray.evaluateByDate(twoWeeks);
-		}
-		if(e.getSource() == week4Button){
-			GregorianCalendar fourWeeks = new GregorianCalendar();
-			fourWeeks.add(Calendar.DAY_OF_MONTH, 28);
-			projectArray.evaluateByDate(fourWeeks);
-		}
-		if(e.getSource() == allButton){
-			projectArray.reset();
 		}
 		
 		
