@@ -50,9 +50,9 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private Project aProject;
 
 	/**
-	 * Sets up the panel for adding a project
+	 * Sets up the panel for adding a Project
 	 * @param ProjectGUI is the parent GUI
-	 * @param Project proj is passing in the array from ProjectGUI
+	 * @param Project Proj is passing in the array from ProjectGUI
 	 */
 	public CreateGUI(ProjectGUI parent){
 		super(parent, true);
@@ -88,7 +88,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
 		//catLabel = new JLabel("Category:");
 		noteLabel = new JLabel("Notes:");
-		subLabel = new JLabel("Number of sub projects:");
+		subLabel = new JLabel("Number of sub Projects:");
 		
 		
 		//catField = new JTextField(20);
@@ -115,7 +115,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setVisible(true); 
 	}
 
-	/**
+	/*
 	 * Assigns actions to buttons and JMenuItems
 	 */
 	public void actionPerformed(ActionEvent e) {
@@ -151,7 +151,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		}
 	}
 
-	/**
+	/*
 	 * Checks status
 	 * @return isOk if true
 	 */
@@ -170,17 +170,17 @@ public class CreateGUI extends JDialog implements ActionListener {
 //	}
 
 	/**
-	 * Checks which project
+	 * Checks which Project
 	 * @return aProject is the Project
 	 */
 	public Project whatProject() {
 		return aProject;
 	}
 	
-	//public void clear(){
-		//nameField.setText(null);
-		//dateField.setText(null);
-		//noteField.setText(null);
-		//subField.setText(null);
-	//}
+//	public void clear(){
+//		nameField.setText(null);
+//		dateField.setText(null);
+//		noteField.setText(null);
+//		subField.setText(null);
+//	}
 }
