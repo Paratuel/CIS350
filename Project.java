@@ -43,7 +43,7 @@ public class Project implements Serializable {
 	 * @param c is the category for the Project
 	 * @param nt notes for the Project
 	 */
-	public Project(String n, GregorianCalendar dd, String nt, int rr, ArrayList<Project> sub) {
+	public Project(String n, GregorianCalendar dd, int rr, String nt, ArrayList<Project> sub) {
 		this.name = n;
 		this.dueDate = dd;
 		this.reminder = rr;
