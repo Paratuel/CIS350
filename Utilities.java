@@ -14,6 +14,21 @@ import javax.swing.JOptionPane;
  *
  */
 public class Utilities {
+	
+	public static int CurrentDateComp(GregorianCalendar i){
+		String m = "";
+		String d = "";
+		String y = "";
+		GregorianCalendar calendar = new java.util.GregorianCalendar();
+		m = String.valueOf(calendar.get(GregorianCalendar.MONTH));
+		d = String.valueOf(calendar.get(GregorianCalendar.DAY_OF_MONTH));
+		y = String.valueOf(calendar.get(GregorianCalendar.YEAR));
+		String total = m + "/" + d + "/" + y;
+		GregorianCalendar currentDate = strToGregCalendar(total);
+		int days = daysLapsed(i, currentDate);
+		
+		return days;
+	}
 	/**
 	 * Makes a GregorianCalendar date into a string
 	 * @param i is the date being changed.
