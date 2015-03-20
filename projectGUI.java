@@ -17,7 +17,7 @@ import javax.swing.table.TableModel;
 
 import package1.ProjectModel;
 
-public class projectGUI extends JFrame implements ActionListener {
+public class ProjectGUI extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class projectGUI extends JFrame implements ActionListener {
 	private CreateGUI newProject;
 	private SubCreateGUI subGroup;
 	
-	public projectGUI(){
+	public ProjectGUI(){
 		setupFrame();
 		model = new ProjectModel();
 		table.setModel(model);
@@ -195,8 +195,7 @@ public class projectGUI extends JFrame implements ActionListener {
 			newProject = new CreateGUI(this);
 		
 			if(newProject.isOkPressed()){
-				project p = new project(newProject.getName(), newProject.getDueDate(), 
-						newProject.getNotes());
+				Project p = newProject.whatProject();
 				model.add(p);	
 			}
 		}
@@ -218,7 +217,7 @@ public class projectGUI extends JFrame implements ActionListener {
 						+ " edit.");
 			}
 			else {
-				project p = (project) model.get(table.getSelectedRow());
+				Project p = (Project) model.get(table.getSelectedRow());
 				CreateGUI x = new CreateGUI(this);
 				if(x.isOkPressed()){
 					p = x.whatProject();
@@ -250,13 +249,14 @@ public class projectGUI extends JFrame implements ActionListener {
 			}
 		}
 		if(e.getSource() == evaluate){
-			project proj = (project) model.get(table.getSelectedRow());
+			Project proj = (Project) model.get(table.getSelectedRow());
 			String subString = "SubProjects:\n";
-			
+			if(proj.getSubtasks().size() != 0){
 			for (int i = 0; i < proj.getSubtasks().size(); i++){
-				subString += proj.getSubtasks().elementAt(i);
+				subString += proj.getSubtasks().get(i).toString();
 			}
 			JOptionPane.showMessageDialog(null, subString);
+		}
 		}
 		if(e.getSource() == week1Button){
 			

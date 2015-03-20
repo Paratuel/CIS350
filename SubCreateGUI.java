@@ -39,7 +39,7 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 
 	private boolean isOk;
 
-	private project aProject;
+	private Project aProject;
 
 	/**
 	 * Creating the panel for adding a subGroup
@@ -50,7 +50,7 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 		WIDTH = 400;
 		HEIGHT = 400;
 		isOk = false;
-		aProject = new project();
+		aProject = new Project();
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		layout = new GridLayout(7,2);
 		okButton = new JButton("OK");
@@ -130,13 +130,23 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 	 * Checks which project
 	 * @return aProject is the project
 	 */
-	public project whatProject() {
+	public Project whatProject() {
 		return aProject;
 	}
 	
-	public void clear(){
-		nameField.setText(null);
-		dateField.setText(null);
-		noteField.setText(null);
-	}
+//	public String getName(){
+//		return nameField.getText();
+//	}
+//	public GregorianCalendar getDueDate(){
+//		return Utilities.strToGregCalendar(dateField.getText());
+//	}
+//	public String getNotes(){
+//		return noteField.getText();
+//	}
+	
+	//public void clear(){
+		//nameField.setText(null);
+		//dateField.setText(null);
+		//noteField.setText(null);
+	//}
 }

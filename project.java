@@ -12,25 +12,25 @@ import java.util.Vector;
  * of projects needed to be done with the added benefit of subgroups.
  * Created by Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  */
-public class project implements Serializable {
+public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private GregorianCalendar dueDate;
 	private int reminder;
 	private String notes;
-	private Vector<project> subTasks;
+	private ArrayList<Project> subTasks;
 
-	ArrayList<project> Projects = new ArrayList<project>();
+	//ArrayList<Project> Projects = new ArrayList<Project>();
 	
 	/**
 	 * Initializing needed variables.
 	 */
-	public project() {
+	public Project() {
 		name = "Untitled";
 		dueDate = new GregorianCalendar(2015,1,1);
 		notes = "";
-		subTasks = new Vector<project>();
+		subTasks = new ArrayList<Project>();
 	}
 
 	/**
@@ -40,15 +40,21 @@ public class project implements Serializable {
 	 * @param c is the category for the project
 	 * @param nt notes for the project
 	 */
-	public project(String n, GregorianCalendar dd, String nt) {
+	public Project(String n, GregorianCalendar dd, String nt, ArrayList<Project> sub) {
 		this.name = n;
 		this.dueDate = dd;
 		//this.reminder = rr;
 		this.notes = nt;
-		subTasks = new Vector<project>();
+		subTasks = sub;
 	}
 	
-	
+	public Project(String n, GregorianCalendar dd, String nt) {
+		this.name = n;
+		this.dueDate = dd;
+		//this.reminder = rr;
+		this.notes = nt;
+		subTasks = new ArrayList<Project>();
+	}
 
 	/**
 	 * Setting up the string that will print
@@ -127,15 +133,15 @@ public class project implements Serializable {
 	 * Adds subgroups into the subTasks vector with the subgroup being passed into it.
 	 * @param p is the subgroup of the project
 	 */
-	protected void addItems(project p) {
-		subTasks.addElement(p);
+	protected void addItems(Project p) {
+		subTasks.add(p);
 	}
 
 	/**
 	 * Returns the Subtasks of the project
 	 * @return subTasks are the subgroups of the project
 	 */
-	protected Vector<project> getSubtasks() {
+	protected ArrayList<Project> getSubtasks() {
 		return subTasks;
 	}
 }

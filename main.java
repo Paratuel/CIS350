@@ -6,7 +6,7 @@ package package1;
 public class main {
 
   public static void main(String[] args) {
-    new projectGUI();
+    new ProjectGUI();
     
   }
 }

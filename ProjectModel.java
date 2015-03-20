@@ -7,24 +7,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.AbstractListModel;
 import javax.swing.table.AbstractTableModel;
 
-public class ProjectModel extends AbstractTableModel {
+public class ProjectModel extends AbstractTableModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private ArrayList<project> myArray;
-	private project project;
+	private ArrayList<Project> myArray;
+	private Project project;
 	private String[] columnNames = {"Project Name", "Due Date", "Reminders", "Notes"};
 
 	/**
 	 * Initializing the Project object myArray
 	 */
 	public ProjectModel() {
-		myArray = new ArrayList<project>();
+		myArray = new ArrayList<Project>();
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * @param index is the position in myArray that is needed
 	 * @return the myArray at the index
 	 */
-	public project get(int index){
+	public Project get(int index){
 		return myArray.get(index);
 	}
 	
@@ -77,7 +78,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * @param a is the Project it is asking for
 	 * @return the index of myArray at a
 	 */
-	public int indexOf(project a){
+	public int indexOf(Project a){
 		return myArray.indexOf(a);
 	}
 	
@@ -102,7 +103,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * Adding an element to myArray with p being passed into it 
 	 * @param p is the Project object being passed into it. 
 	 */
-	public void add(project p) {
+	public void add(Project p) {
 		myArray.add(p);
 		fireTableRowsInserted(0, myArray.size());
 	}
@@ -121,7 +122,7 @@ public class ProjectModel extends AbstractTableModel {
 	 * retrieves the index for a particular Project.
 	 * @param a is the project.
 	 */
-	public void remove(project a){
+	public void remove(Project a){
 		delete(indexOf(a));
 	}
 	
@@ -168,7 +169,7 @@ public class ProjectModel extends AbstractTableModel {
 			FileInputStream fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			ObjectInputStream ois = new ObjectInputStream(bis);
-			myArray = (ArrayList<project>) ois.readObject();
+			myArray = (ArrayList<Project>) ois.readObject();
 			ois.close();
 			bis.close();
 			fis.close();

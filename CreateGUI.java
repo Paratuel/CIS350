@@ -45,16 +45,16 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private boolean isOk;
 	//private boolean cancel;
 	private boolean isSubOk;
-	private projectGUI parent;
+	private ProjectGUI parent;
 
-	private project aProject;
+	private Project aProject;
 
 	/**
 	 * Sets up the panel for adding a project
 	 * @param ProjectGUI is the parent GUI
 	 * @param Project proj is passing in the array from ProjectGUI
 	 */
-	public CreateGUI(projectGUI parent){
+	public CreateGUI(ProjectGUI parent){
 		super(parent, true);
 		setupDialog();
 		setTitle("Project Management");
@@ -75,7 +75,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		isOk = false;
 		isSubOk = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
-		aProject = new project();
+		aProject = new Project();
 		
 		WIDTH = 400;
 		HEIGHT = 400;
@@ -115,7 +115,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setVisible(true); 
 	}
 
-	/*
+	/**
 	 * Assigns actions to buttons and JMenuItems
 	 */
 	public void actionPerformed(ActionEvent e) {
@@ -151,7 +151,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		}
 	}
 
-	/*
+	/**
 	 * Checks status
 	 * @return isOk if true
 	 */
@@ -159,28 +159,28 @@ public class CreateGUI extends JDialog implements ActionListener {
 		return isOk;
 	}
 	
-	public String getName(){
-		return nameField.getText();
-	}
-	public GregorianCalendar getDueDate(){
-		return Utilities.strToGregCalendar(dateField.getText());
-	}
-	public String getNotes(){
-		return noteField.getText();
-	}
+//	public String getName(){
+//		return nameField.getText();
+//	}
+//	public GregorianCalendar getDueDate(){
+//		return Utilities.strToGregCalendar(dateField.getText());
+//	}
+//	public String getNotes(){
+//		return noteField.getText();
+//	}
 
-	/*
+	/**
 	 * Checks which project
 	 * @return aProject is the Project
 	 */
-	public project whatProject() {
+	public Project whatProject() {
 		return aProject;
 	}
 	
-	public void clear(){
-		nameField.setText(null);
-		dateField.setText(null);
-		noteField.setText(null);
-		subField.setText(null);
-	}
+	//public void clear(){
+		//nameField.setText(null);
+		//dateField.setText(null);
+		//noteField.setText(null);
+		//subField.setText(null);
+	//}
 }

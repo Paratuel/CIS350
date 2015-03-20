@@ -2,7 +2,7 @@ package package1;
 
 import java.util.Comparator;
 
-public class ProjectDateComparator implements Comparator<project>{
+public class ProjectDateComparator implements Comparator<Project>{
 	
 	/**
 	 * compares the dates
@@ -11,7 +11,7 @@ public class ProjectDateComparator implements Comparator<project>{
 	 * @return the results
 	 */
 	@Override
-	public int compare(project p1, project p2){
+	public int compare(Project p1, Project p2){
 		return p1.getDueDate().compareTo(p2.getDueDate());
 	}
 }
