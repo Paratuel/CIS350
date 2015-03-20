@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.font.TextAttribute;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,31 +9,31 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.AbstractListModel;
 import javax.swing.table.AbstractTableModel;
 
 public class ProjectModel extends AbstractTableModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Project> myArray;
-	private Project project;
-	private String[] columnNames = {"Project Name", "Due Date", "Reminders", "Notes"};
+	private Project Project;
+	private String[] columnNames = {"Project Name", "Due Date", "Reminder", "Notes"};
 
 	/**
-	 * Initializing the Project object myArray
+	 * Initializing the Project object myArray.
 	 */
 	public ProjectModel() {
 		myArray = new ArrayList<Project>();
 	}
 
 	/**
-	 * returns the columnNames length
+	 * returns the columnNames length.
 	 * @return columnNames length
 	 */
-	public int getColumnCount(){
+	public int getColumnCount() {
 		return columnNames.length;
 	}
 	
@@ -43,9 +44,9 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	 * @param col is the column that the information goes on
 	 * @return val.
 	 */
-	public Object getValueAt(int row, int col){
+	public Object getValueAt(int row, int col) {
 		Object val = null;
-		switch(col){
+		switch(col) {
 		case 0:
 			val = myArray.get(row).getName();
 			return val;
@@ -65,26 +66,26 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	}
 	
 	/**
-	 * retrieves the index of myArray
+	 * retrieves the index of myArray.
 	 * @param index is the position in myArray that is needed
 	 * @return the myArray at the index
 	 */
-	public Project get(int index){
+	public Project get(int index) {
 		return myArray.get(index);
 	}
 	
 	/**
-	 * Finds the index of a particular Project
+	 * Finds the index of a particular Project.
 	 * @param a is the Project it is asking for
 	 * @return the index of myArray at a
 	 */
-	public int indexOf(Project a){
+	public int indexOf(Project a) {
 		return myArray.indexOf(a);
 	}
 	
 	/**
 	 * Returns the myArray size
-	 * @return myArray.size() of the project
+	 * @return myArray.size() of the Project
 	 * */
 	public int getSize() {
 		return myArray.size();
@@ -120,7 +121,7 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	
 	/**
 	 * retrieves the index for a particular Project.
-	 * @param a is the project.
+	 * @param a is the Project.
 	 */
 	public void remove(Project a){
 		delete(indexOf(a));
