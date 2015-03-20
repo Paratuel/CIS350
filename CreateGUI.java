@@ -140,8 +140,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 				newDate2.setTime(newDate);
 				aProject.setName(newName);
 				aProject.setDueDate(newDate2);
-				aProject.setNotes(newNote);
 				aProject.setReminder(newReminder);
+				aProject.setNotes(newNote);
 				isOk = true;
 				dispose();
 				int num = Integer.parseInt(subField.getText());
