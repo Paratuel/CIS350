@@ -9,7 +9,7 @@ import java.util.Vector;
 
 /**
  * Project Management is a program that helps with the organization 
- * of projects needed to be done with the added benefit of subgroups.
+ * of Projects needed to be done with the added benefit of subgroups.
  * Created by Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  */
 public class Project implements Serializable {
@@ -20,6 +20,7 @@ public class Project implements Serializable {
 	private int reminder;
 	private String notes;
 	private ArrayList<Project> subTasks;
+	private boolean done;
 
 	//ArrayList<Project> Projects = new ArrayList<Project>();
 	
@@ -30,15 +31,16 @@ public class Project implements Serializable {
 		name = "Untitled";
 		dueDate = new GregorianCalendar(2015,1,1);
 		notes = "";
+		done = false;
 		subTasks = new ArrayList<Project>();
 	}
 
 	/**
-	 * Initializing needed variables that are passed into the construct
-	 * @param n is the name of the project
-	 * @param dd is the due date of the project
-	 * @param c is the category for the project
-	 * @param nt notes for the project
+	 * Initializing needed variables that are passed into the construct.
+	 * @param n is the name of the Project
+	 * @param dd is the due date of the Project
+	 * @param c is the category for the Project
+	 * @param nt notes for the Project
 	 */
 	public Project(String n, GregorianCalendar dd, String nt, ArrayList<Project> sub) {
 		this.name = n;
@@ -46,6 +48,7 @@ public class Project implements Serializable {
 		//this.reminder = rr;
 		this.notes = nt;
 		subTasks = sub;
+		done = false;
 	}
 	
 	public Project(String n, GregorianCalendar dd, String nt) {
@@ -53,21 +56,25 @@ public class Project implements Serializable {
 		this.dueDate = dd;
 		//this.reminder = rr;
 		this.notes = nt;
+		done = false;
 		subTasks = new ArrayList<Project>();
 	}
+	
+	
 
 	/**
-	 * Setting up the string that will print
+	 * Setting up the string that will print.
+	 * @return 
 	 */  
 	public String toString() {
-		return name + " " + dueDate.get(Calendar.MONTH) + "/" + 
+		return "Subtask: " + name + "\nDue Date: " + dueDate.get(Calendar.MONTH) + "/" + 
 				dueDate.get(Calendar.DAY_OF_MONTH) + "/" + 
-				dueDate.get(Calendar.YEAR) + " " + notes;
+				dueDate.get(Calendar.YEAR) + "\nNotes: " + notes;
 	}
 
 	/**
-	 * Returns the name of the project
-	 * @return name of the project
+	 * Returns the name of the Project
+	 * @return name of the Project
 	 */
 	protected String getName() {
 		return name;
@@ -75,15 +82,15 @@ public class Project implements Serializable {
 
 	/**
 	 * Sets the name of the Project object with the name being passed into it.
-	 * @param name is the project name.
+	 * @param name is the Project name.
 	 */
 	protected void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Returns the due date of the project
-	 * @return dueDate of the project
+	 * Returns the due date of the Project
+	 * @return dueDate of the Project
 	 */
 	protected GregorianCalendar getDueDate() {
 		return dueDate;
@@ -91,15 +98,15 @@ public class Project implements Serializable {
 
 	/**
 	 * Sets the dueDate of the Project object with the dueDate passing into it.
-	 * @param dueDate is the due date of the project
+	 * @param dueDate is the due date of the Project
 	 */
 	protected void setDueDate(GregorianCalendar dueDate) {
 		this.dueDate = dueDate;
 	}
 	
 	/**
-	 * Returns the reminder for the project
-	 * @return reminder of the project
+	 * Returns the reminder for the Project
+	 * @return reminder of the Project
 	 */
 	protected int getReminder(){
 		return reminder;
@@ -114,8 +121,8 @@ public class Project implements Serializable {
 	}
 
 	/**
-	 * Returns the notes of of the project
-	 * @return notes is the notes taken for the project
+	 * Returns the notes of of the Project
+	 * @return notes is the notes taken for the Project
 	 */
 	protected String getNotes() {
 		return notes;
@@ -123,23 +130,37 @@ public class Project implements Serializable {
 
 	/**
 	 * Sets up the notes of the Project object with the notes passing into it.
-	 * @param notes is the notes of the project
+	 * @param notes is the notes of the Project
 	 */
 	protected void setNotes(String notes) {
 		this.notes = notes;
 	}
+	
+	protected boolean getDone() {
+		return done;
+	}
+	
+	protected boolean swapDone() {
+		if (done) {
+			done = false;
+			return done; 
+			} else {
+			done = true;
+			return done; 
+			}
+	}
 
 	/**
 	 * Adds subgroups into the subTasks vector with the subgroup being passed into it.
-	 * @param p is the subgroup of the project
+	 * @param p is the subgroup of the Project
 	 */
 	protected void addItems(Project p) {
 		subTasks.add(p);
 	}
 
 	/**
-	 * Returns the Subtasks of the project
-	 * @return subTasks are the subgroups of the project
+	 * Returns the Subtasks of the Project
+	 * @return subTasks are the subgroups of the Project
 	 */
 	protected ArrayList<Project> getSubtasks() {
 		return subTasks;
