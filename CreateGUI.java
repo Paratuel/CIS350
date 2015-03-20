@@ -133,7 +133,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 			try {
 				String newName = nameField.getText();
 				String newDateString = dateField.getText();
-				//String newCat = catField.getText();
+				int newReminder = getReminder();
 				String newNote = noteField.getText();
 				Date newDate = format.parse(newDateString);
 				GregorianCalendar newDate2 = new GregorianCalendar();
@@ -141,7 +141,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 				aProject.setName(newName);
 				aProject.setDueDate(newDate2);
 				aProject.setNotes(newNote);
-				//aProject.setCategory(newCat);
+				aProject.setReminder(newReminder);
 				isOk = true;
 				dispose();
 				int num = Integer.parseInt(subField.getText());
