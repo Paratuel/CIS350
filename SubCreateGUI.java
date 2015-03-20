@@ -127,26 +127,16 @@ public class SubCreateGUI extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * Checks which project
-	 * @return aProject is the project
+	 * Checks which Project
+	 * @return aProject is the Project
 	 */
 	public Project whatProject() {
 		return aProject;
 	}
 	
-//	public String getName(){
-//		return nameField.getText();
+//	public void clear(){
+//		nameField.setText(null);
+//		dateField.setText(null);
+//		noteField.setText(null);
 //	}
-//	public GregorianCalendar getDueDate(){
-//		return Utilities.strToGregCalendar(dateField.getText());
-//	}
-//	public String getNotes(){
-//		return noteField.getText();
-//	}
-	
-	//public void clear(){
-		//nameField.setText(null);
-		//dateField.setText(null);
-		//noteField.setText(null);
-	//}
 }
