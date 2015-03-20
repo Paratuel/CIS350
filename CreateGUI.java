@@ -73,7 +73,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		nameField.setText("Math Homework");
 		dateField.setText("10/10/2012");
 		noteField.setText("Take action NOW!");
-		reminderField.setText("2");
+		reminderField.setText("0");
 		subField.setText("0");
 		
 		isOk = false;
@@ -137,11 +137,13 @@ public class CreateGUI extends JDialog implements ActionListener {
 				String newNote = noteField.getText();
 				Date newDate = format.parse(newDateString);
 				GregorianCalendar newDate2 = new GregorianCalendar();
+				int reminder = Integer.parseInt(reminderField.getText());
 				newDate2.setTime(newDate);
 				aProject.setName(newName);
 				aProject.setDueDate(newDate2);
-				aProject.setReminder(newReminder);
 				aProject.setNotes(newNote);
+				aProject.setReminder(reminder);
+				aProject.setReminder(newReminder);
 				isOk = true;
 				dispose();
 				int num = Integer.parseInt(subField.getText());
