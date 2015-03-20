@@ -26,9 +26,9 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	private JTable table;
 	
 	private JButton week1Button, week2Button, week4Button, allButton, 
-	newItem, deleteItem, editItem;
+	newItem, deleteItem, editItem, doneItem;
 	
-	private JPanel buttonPanel, projectPanel, southPanel;
+	private JPanel buttonPanel, ProjectPanel, southPanel;
 	
 	private JMenu fileMenu, helpMenu;
 	
@@ -36,9 +36,9 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	
 	private int WIDTH, HEIGHT;
 	
-	//private JList<Project> projectList;
+	//private JList<Project> ProjectList;
 	
-	//private MyArrayList<Project> projectArray;
+	//private MyArrayList<Project> ProjectArray;
 	
 	private ListSelectionListener listener;
 	
@@ -87,15 +87,15 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 
-		//projectPanel = new JPanel();
+		//ProjectPanel = new JPanel();
 		
-		//projectArray = new MyArrayList<Project>();
-		//projectList = new JList<Project>(projectArray);
-		//projectList.addListSelectionListener(listener);
+		//ProjectArray = new MyArrayList<Project>();
+		//ProjectList = new JList<Project>(ProjectArray);
+		//ProjectList.addListSelectionListener(listener);
 		
-		//projectPanel.add(projectList);
-//		projectPanel.setSize(new Dimension(800, 400));
-//		add(projectPanel);
+		//ProjectPanel.add(ProjectList);
+//		ProjectPanel.setSize(new Dimension(800, 400));
+//		add(ProjectPanel);
 		
 		JPanel panel;
 		scrollPane = new JScrollPane();
@@ -145,9 +145,13 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		editItem = new JButton("Edit Project");
 		editItem.addActionListener(this);
 		
+		doneItem = new JButton("Completed");
+		doneItem.addActionListener(this);
+		
 		southPanel.add(newItem);
 		southPanel.add(deleteItem);
 		southPanel.add(editItem);
+		southPanel.add(doneItem);
 		
 		return southPanel;
 	}
@@ -202,16 +206,15 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		if(e.getSource() == deleteItem){
 			int index = table.getSelectedRow();
 			if(index != -1){
-				if (JOptionPane.showConfirmDialog(null, "You Are About To Delete This Project"
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you would like to delete this project?"
 						, null, JOptionPane.OK_CANCEL_OPTION) != 0){
 					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-				}else{
+				} else {
 					model.remove(model.get(index));
 				}
 			}
 		}
 		if(e.getSource() == editItem){
-			int index = table.getSelectedRow();
 			if(model.getSize() == 0){
 				JOptionPane.showMessageDialog(null, "Error: Nothing to"
 						+ " edit.");
@@ -227,7 +230,15 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				}
 			}
 		}
-		if(e.getSource() == saveItem){
+		if (e.getSource() == doneItem) {
+			if (model.getSize() == 0) {
+				JOptionPane.showMessageDialog(null, "No project selected.");
+			} else {
+				Project p = (Project) model.get(table.getSelectedRow());
+				p.swapDone();
+			}
+		}
+		if (e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
 			FileNameExtensionFilter filter = new 
 					FileNameExtensionFilter("Serialized Files", "ser");
@@ -238,25 +249,24 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				model.save(choose.getSelectedFile());
 			}	
 		}
-		if(e.getSource() == loadItem){
+		if(e.getSource() == loadItem) {
 			JFileChooser choose = new JFileChooser();
 			FileNameExtensionFilter filter = new 
 					FileNameExtensionFilter("Serialized Files", "ser");
 			choose.setFileFilter(filter);
 			int value = choose.showOpenDialog(this);
-			if(value == JFileChooser.APPROVE_OPTION){
+			if(value == JFileChooser.APPROVE_OPTION) {
 				model.load(choose.getSelectedFile());
 			}
 		}
-		if(e.getSource() == evaluate){
+		if(e.getSource() == evaluate) {
 			Project proj = (Project) model.get(table.getSelectedRow());
 			String subString = "SubProjects:\n";
-			if(proj.getSubtasks().size() != 0){
-			for (int i = 0; i < proj.getSubtasks().size(); i++){
-				subString += proj.getSubtasks().get(i).toString();
+			
+			for (int i = 0; i < proj.getSubtasks().size(); i++) {
+				subString += proj.getSubtasks().get(i).toString() + "\n----------------------------\n";
 			}
 			JOptionPane.showMessageDialog(null, subString);
-		}
 		}
 		if(e.getSource() == week1Button){
 			
