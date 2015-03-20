@@ -30,6 +30,7 @@ public class Project implements Serializable {
 	public Project() {
 		name = "Untitled";
 		dueDate = new GregorianCalendar(2015,1,1);
+		reminder = 0;
 		notes = "";
 		done = false;
 		subTasks = new ArrayList<Project>();
@@ -42,19 +43,19 @@ public class Project implements Serializable {
 	 * @param c is the category for the Project
 	 * @param nt notes for the Project
 	 */
-	public Project(String n, GregorianCalendar dd, String nt, ArrayList<Project> sub) {
+	public Project(String n, GregorianCalendar dd, String nt, int rr, ArrayList<Project> sub) {
 		this.name = n;
 		this.dueDate = dd;
-		//this.reminder = rr;
+		this.reminder = rr;
 		this.notes = nt;
 		subTasks = sub;
 		done = false;
 	}
 	
-	public Project(String n, GregorianCalendar dd, String nt) {
+	public Project(String n, GregorianCalendar dd, int rr, String nt) {
 		this.name = n;
 		this.dueDate = dd;
-		//this.reminder = rr;
+		this.reminder = rr;
 		this.notes = nt;
 		done = false;
 		subTasks = new ArrayList<Project>();
