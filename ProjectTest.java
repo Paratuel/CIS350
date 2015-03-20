@@ -39,8 +39,29 @@ public class ProjectTest {
 	  
 	  String test = p1.toString() + "\n" + p2.toString();
 	  Assert.assertEquals("Test1 1/1/2015 Fire\nTest2 1/1/2015 ", test);
-  }
+  } 
+  @Test
   public void insertTest3(){
-	  
+	  GregorianCalendar Test1 = new GregorianCalendar();
+	  Test1.set(Calendar.MONTH, 1);
+	  Test1.set(Calendar.DAY_OF_MONTH, 1);
+	  Test1.set(Calendar.YEAR, 2014);
+	  GregorianCalendar Test2 = new GregorianCalendar();
+	  Test2.set(Calendar.MONTH, 3);
+	  Test2.set(Calendar.DAY_OF_MONTH, 9);
+	  Test2.set(Calendar.YEAR, 2014);
+	  Assert.assertEquals(1, Test2.compareTo(Test1));
+  }
+  @Test
+  public void insertTest4(){
+	  Project p = new Project("Hello", new GregorianCalendar(2015,1,1), "Notes");
+	  Assert.assertEquals("Hello", p.getName());
+	  Assert.assertEquals("02/01/2015", Utilities.gToString(p.getDueDate()));
+	  Assert.assertEquals("Notes", p.getNotes());
+	  Project q = new Project("Hello2", new GregorianCalendar(2015,0,1), "Note", new ArrayList<Project>());
+	  Assert.assertEquals("Hello2", q.getName());
+	  Assert.assertEquals("01/01/2015", Utilities.gToString(q.getDueDate()));
+	  Assert.assertEquals("Note", q.getNotes());
+	  Assert.assertEquals(new ArrayList<Project>(), q.getSubtasks());
   }
 }
