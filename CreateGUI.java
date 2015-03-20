@@ -29,6 +29,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private JLabel dateLabel;
 	//private JLabel catLabel; 
 	private JLabel noteLabel;
+	private JLabel remLabel;
 	private JLabel subLabel;
 
 	private JTextField nameField;
@@ -36,6 +37,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 	//private JTextField catField;
 	private JTextField noteField;
 	private JTextField subField;
+	private JTextField reminderField;
 
 	private DateFormat format;
 
@@ -65,11 +67,13 @@ public class CreateGUI extends JDialog implements ActionListener {
 		nameField = new JTextField(20);
 		dateField = new JTextField(10);
 		noteField = new JTextField(70);
+		reminderField = new JTextField(20);
 		subField = new JTextField(3);
 		
 		nameField.setText("Math Homework");
 		dateField.setText("10/10/2012");
 		noteField.setText("Take action NOW!");
+		reminderField.setText("2");
 		subField.setText("0");
 		
 		isOk = false;
@@ -88,7 +92,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
 		//catLabel = new JLabel("Category:");
 		noteLabel = new JLabel("Notes:");
-		subLabel = new JLabel("Number of sub Projects:");
+		remLabel = new JLabel("Reminder (Days Needed):");
+		subLabel = new JLabel("Sub Groups (Number Needed):");
 		
 		
 		//catField = new JTextField(20);
@@ -101,6 +106,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 		add(dateField);
 		//add(catLabel);
 		//add(catField);
+		add(remLabel);
+		add(reminderField);
 		add(noteLabel);
 		add(noteField);
 		add(subLabel);
@@ -159,15 +166,18 @@ public class CreateGUI extends JDialog implements ActionListener {
 		return isOk;
 	}
 	
-//	public String getName(){
-//		return nameField.getText();
-//	}
-//	public GregorianCalendar getDueDate(){
-//		return Utilities.strToGregCalendar(dateField.getText());
-//	}
-//	public String getNotes(){
-//		return noteField.getText();
-//	}
+	public String getName(){
+		return nameField.getText();
+	}
+	public GregorianCalendar getDueDate(){
+		return Utilities.strToGregCalendar(dateField.getText());
+	}
+	public String getNotes(){
+		return noteField.getText();
+	}
+	public int getReminder(){
+		return Integer.parseInt(reminderField.getText());
+	}
 
 	/**
 	 * Checks which Project
@@ -177,10 +187,11 @@ public class CreateGUI extends JDialog implements ActionListener {
 		return aProject;
 	}
 	
-//	public void clear(){
-//		nameField.setText(null);
-//		dateField.setText(null);
-//		noteField.setText(null);
-//		subField.setText(null);
-//	}
+	public void clear(){
+		nameField.setText(null);
+		dateField.setText(null);
+		noteField.setText(null);
+		reminderField.setText(null);
+		subField.setText(null);
+	}
 }
