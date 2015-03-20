@@ -1,21 +1,27 @@
 package package1;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.TableModel;
-
-import package1.ProjectModel;
 
 public class ProjectGUI extends JFrame implements ActionListener {
 	
@@ -26,13 +32,13 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	private JTable table;
 	
 	private JButton week1Button, week2Button, week4Button, allButton, 
-	newItem, deleteItem, editItem, doneItem;
+	newItem, deleteItem, editItem, subItem, doneItem;
 	
 	private JPanel buttonPanel, ProjectPanel, southPanel;
 	
 	private JMenu fileMenu, helpMenu;
 	
-	private JMenuItem exitItem, aboutItem, saveItem, loadItem, evaluate;
+	private JMenuItem exitItem, aboutItem, saveItem, loadItem;
 	
 	private int WIDTH, HEIGHT;
 	
@@ -74,12 +80,9 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		saveItem.addActionListener(this);
 		loadItem = new JMenuItem("Load");
 		loadItem.addActionListener(this);
-		evaluate = new JMenuItem("Evaluate");
-		evaluate.addActionListener(this);
 		fileMenu.add(saveItem);
 		fileMenu.add(loadItem);
 		fileMenu.addSeparator();
-		fileMenu.add(evaluate);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		fileMenu.addActionListener(this);
@@ -145,12 +148,16 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		editItem = new JButton("Edit Project");
 		editItem.addActionListener(this);
 		
+		subItem = new JButton("Sub-Projects");
+		subItem.addActionListener(this);
+		
 		doneItem = new JButton("Completed");
 		doneItem.addActionListener(this);
 		
 		southPanel.add(newItem);
 		southPanel.add(deleteItem);
 		southPanel.add(editItem);
+		southPanel.add(subItem);
 		southPanel.add(doneItem);
 		
 		return southPanel;
@@ -235,8 +242,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null, "No project selected.");
 			} else {
 				Project p = (Project) model.get(table.getSelectedRow());
-				p.swapDone();
-			}
+				p.swapDone();				
+							}
 		}
 		if (e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
@@ -259,7 +266,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				model.load(choose.getSelectedFile());
 			}
 		}
-		if(e.getSource() == evaluate) {
+		if(e.getSource() == subItem) {
 			Project proj = (Project) model.get(table.getSelectedRow());
 			String subString = "SubProjects:\n";
 			
