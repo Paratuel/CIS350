@@ -206,7 +206,9 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			newProject = new CreateGUI(this);
 		
 			if(newProject.isOkPressed()){
-				Project p = newProject.whatProject();
+				Project p = new Project(newProject.getName(), newProject.getNumSub(), newProject.getDueDate(), 
+						 newProject.getNotes(), newProject.getReminder(), false);
+				//Project p = newProject.whatProject();
 				model.add(p);	
 			}
 		}
