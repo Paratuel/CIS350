@@ -239,11 +239,29 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == doneItem) {
 			if (model.getSize() == 0) {
-				JOptionPane.showMessageDialog(null, "No project selected.");
+				JOptionPane.showMessageDialog(null, "No Projects.");
 			} else {
-				Project p = (Project) model.get(table.getSelectedRow());
-				p.swapDone();				
-							}
+				
+				int index = table.getSelectedRow();
+				if(index != -1){
+					if (model.get(index).getDone() == false){
+						if (JOptionPane.showConfirmDialog(null, "Have You Completed the Project?"
+								, null, JOptionPane.OK_CANCEL_OPTION) != 0){
+							setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+							model.get(index).setDone(true);
+							for(int i = 0; i < 4; i++){
+								((Component) model.getValueAt(index, i)).setBackground(Color.GRAY);							}
+							//Project p = (Project) model.get(table.getSelectedRow());
+							//p.swapDone();
+						}
+					}else{
+							model.get(index).setDone(false);
+					}
+					
+				}else{
+					JOptionPane.showMessageDialog(null, "Pick a Project.");
+				}
+			}
 		}
 		if (e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
