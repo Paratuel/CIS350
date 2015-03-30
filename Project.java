@@ -52,6 +52,15 @@ public class Project implements Serializable {
 		this.subTasks = sub;
 	}
 	
+	/**
+	 * Initializing the variables that are passed into the construct.
+	 * @param n is the project name
+	 * @param s is the sub name
+	 * @param dd is the due date
+	 * @param nt is the note
+	 * @param rr is the reminder
+	 * @param b is the project state
+	 */
 	public Project(String n, String s, GregorianCalendar dd, String nt, 
 			int rr, boolean b) {
 		this.name = n;
@@ -86,9 +95,18 @@ public class Project implements Serializable {
 		return name;
 	}
 
+	/**
+	 * Returns the subName of the subGroup
+	 * @return subName of the subGroup
+	 */
 	protected String getSubName(){
 		return subName;
 	}
+	
+	/**
+	 * sets the name of the subGroup with the name being passed into it.
+	 * @param n is the name for the subName
+	 */
 	protected void setSubName(String n){
 		this.subName = n;
 	}
@@ -157,12 +175,20 @@ public class Project implements Serializable {
 		this.done = a;
 	}
 	
+	/**
+	 * Checking if this is a subGroup or not
+	 * @return sub = true if it is a subGroup
+	 */
 	protected boolean getSub(){
 		return sub;
 	}
 	
-	protected boolean setSub(boolean a){
-		return sub;
+	/**
+	 * Setting whether this is a subGroup or not
+	 * @param a is the boolean for sub
+	 */
+	protected void setSub(boolean a){
+		this.sub = a;
 	}
 
 	/**
