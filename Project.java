@@ -15,12 +15,12 @@ import java.util.Vector;
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private GregorianCalendar dueDate;
+	private String name, subName;
+	private GregorianCalendar dueDate, subDueDate;
 	private int reminder;
-	private String notes;
+	private String notes, subNotes;
 	private ArrayList<Project> subTasks;
-	private boolean done;
+	private boolean done, sub;
 
 	//ArrayList<Project> Projects = new ArrayList<Project>();
 	
@@ -30,7 +30,6 @@ public class Project implements Serializable {
 	public Project() {
 		name = "Untitled";
 		dueDate = new GregorianCalendar(2015,1,1);
-		reminder = 0;
 		notes = "";
 		done = false;
 		subTasks = new ArrayList<Project>();
@@ -43,25 +42,31 @@ public class Project implements Serializable {
 	 * @param c is the category for the Project
 	 * @param nt notes for the Project
 	 */
-	public Project(String n, GregorianCalendar dd, int rr, String nt, ArrayList<Project> sub) {
+	public Project(String n, String s, GregorianCalendar dd, String nt, 
+			int rr, boolean b, ArrayList<Project> sub) {
 		this.name = n;
+		this.subName = s;
 		this.dueDate = dd;
 		this.reminder = rr;
 		this.notes = nt;
-		subTasks = sub;
-		done = false;
+		this.subTasks = sub;
 	}
 	
-	public Project(String n, GregorianCalendar dd, int rr, String nt) {
+	public Project(String n, String s, GregorianCalendar dd, String nt, 
+			int rr, boolean b) {
 		this.name = n;
+		this.subName = s;
 		this.dueDate = dd;
 		this.reminder = rr;
 		this.notes = nt;
-		done = false;
-		subTasks = new ArrayList<Project>();
+		this.done = b;
+		if (subName == null){
+			sub = false;
+		}else{
+			sub = true;
+		}
+		//subTasks = new ArrayList<Project>();
 	}
-	
-	
 
 	/**
 	 * Setting up the string that will print.
@@ -81,6 +86,13 @@ public class Project implements Serializable {
 		return name;
 	}
 
+	protected String getSubName(){
+		return subName;
+	}
+	protected void setSubName(String n){
+		this.subName = n;
+	}
+	
 	/**
 	 * Sets the name of the Project object with the name being passed into it.
 	 * @param name is the Project name.
@@ -141,14 +153,16 @@ public class Project implements Serializable {
 		return done;
 	}
 	
-	protected boolean swapDone() {
-		if (done) {
-			done = false;
-			return done; 
-			} else {
-			done = true;
-			return done; 
-			}
+	protected void setDone(boolean a){
+		this.done = a;
+	}
+	
+	protected boolean getSub(){
+		return sub;
+	}
+	
+	protected boolean setSub(boolean a){
+		return sub;
 	}
 
 	/**
@@ -166,4 +180,16 @@ public class Project implements Serializable {
 	protected ArrayList<Project> getSubtasks() {
 		return subTasks;
 	}
+
+//	protected boolean swapDone() {
+//		if (done) {
+//			done = false;
+//			return done; 
+//			} else {
+//			done = true;
+//			return done; 
+//			}
+//	}
+
+	
 }
