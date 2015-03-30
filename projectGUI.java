@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -148,7 +149,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		editItem = new JButton("Edit Project");
 		editItem.addActionListener(this);
 		
-		subItem = new JButton("Sub-Projects");
+		subItem = new JButton("Split Project");
 		subItem.addActionListener(this);
 		
 		doneItem = new JButton("Completed");
@@ -206,10 +207,12 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			newProject = new CreateGUI(this);
 		
 			if(newProject.isOkPressed()){
-				Project p = new Project(newProject.getName(), newProject.getNumSub(), newProject.getDueDate(), 
+				String t = null;
+				Project p = new Project(newProject.getName(), t, newProject.getDueDate(), 
 						 newProject.getNotes(), newProject.getReminder(), false);
 				//Project p = newProject.whatProject();
 				model.add(p);	
+				model.sortByDate();
 			}
 		}
 		if(e.getSource() == deleteItem){
@@ -229,13 +232,21 @@ public class ProjectGUI extends JFrame implements ActionListener {
 						+ " edit.");
 			}
 			else {
-				Project p = (Project) model.get(table.getSelectedRow());
-				CreateGUI x = new CreateGUI(this);
-				if(x.isOkPressed()){
-					p = x.whatProject();
-					model.delete(
-							table.getSelectedRow());
-					model.add(p);
+				int index = table.getSelectedRow();
+				if(index != -1){
+					newProject = new CreateGUI(this, model.get(index).getName(), model.get(index).getSubName(),
+						model.get(index).getDueDate(), model.get(index).getReminder(), model.get(index).getNotes());
+					//model.remove(model.get(index));
+					
+					if(newProject.isOkPressed()){
+						Project s = new Project(newProject.getName(), newProject.getSub(), newProject.getDueDate(), 
+							newProject.getNotes(), newProject.getReminder(), false);
+						model.remove(model.get(index));
+						model.add(s);
+						model.sortByName();
+					}
+				}else{
+					JOptionPane.showMessageDialog(this, "Please pick a project.");
 				}
 			}
 		}
@@ -243,7 +254,6 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			if (model.getSize() == 0) {
 				JOptionPane.showMessageDialog(null, "No Projects.");
 			} else {
-				
 				int index = table.getSelectedRow();
 				if(index != -1){
 					if (model.get(index).getDone() == false){
@@ -251,10 +261,6 @@ public class ProjectGUI extends JFrame implements ActionListener {
 								, null, JOptionPane.OK_CANCEL_OPTION) != 0){
 							setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 							model.get(index).setDone(true);
-							for(int i = 0; i < 4; i++){
-								((Component) model.getValueAt(index, i)).setBackground(Color.GRAY);							}
-							//Project p = (Project) model.get(table.getSelectedRow());
-							//p.swapDone();
 						}
 					}else{
 							model.get(index).setDone(false);
@@ -287,19 +293,36 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			}
 		}
 		if(e.getSource() == subItem) {
-			Project proj = (Project) model.get(table.getSelectedRow());
-			String subString = "SubProjects:\n";
+			int index = table.getSelectedRow();
+			if (index != -1){
+				String name = model.get(index).getName();
+				newProject = new CreateGUI(this, name);
+			//subGroup = new SubCreateGUI(this);
 			
-			for (int i = 0; i < proj.getSubtasks().size(); i++) {
-				subString += proj.getSubtasks().get(i).toString() + "\n----------------------------\n";
+				if(newProject.isOkPressed()){
+					Project p = new Project(newProject.getName(), newProject.getSub(), newProject.getDueDate(), 
+							newProject.getNotes(), newProject.getReminder(), false);
+					//Project p = newProject.whatProject();
+					model.add(p);
+					model.sortByName();
+					
+				}
+			}else{
+				JOptionPane.showMessageDialog(this, "Please pick a project.");
 			}
-			JOptionPane.showMessageDialog(null, subString);
+			
+//			String subString = "SubProjects:\n";
+//
+//			for (int i = 0; i < proj.getSubtasks().size(); i++) {
+//				subString += proj.getSubtasks().get(i).toString() + "\n----------------------------\n";
+//			}
+//			JOptionPane.showMessageDialog(null, subString);
 		}
 		if(e.getSource() == week1Button){
-			
+
 		}
-		
-		
+
+
 	}
 
 	
