@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.AbstractListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 public class ProjectModel extends AbstractTableModel implements Serializable {
@@ -19,7 +20,7 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Project> myArray;
 	private Project project;
-	private String[] columnNames = {"Project Name", "Due Date", "Reminders", "Notes"};
+	private String[] columnNames = {"Project Name", "Sub-Groups", "Due Date", "Reminders", "Notes"};
 
 	/**
 	 * Initializing the Project object myArray
@@ -47,15 +48,26 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 		Object val = null;
 		switch(col){
 		case 0:
-			val = myArray.get(row).getName();
+			if(myArray.get(row).getSubName() != null){
+				val = "";
+			}else{
+				val = myArray.get(row).getName();
+			}
 			return val;
 		case 1:
-			val = Utilities.gToString(myArray.get(row).getDueDate());
+			if(myArray.get(row).getSubName() != null){
+				val = myArray.get(row).getSubName();
+			}else{
+				val = "";
+			}
 			return val;
 		case 2:
-			val = myArray.get(row).getReminder();
+			val = Utilities.gToString(myArray.get(row).getDueDate());
 			return val;
 		case 3:
+			val = myArray.get(row).getReminder();
+			return val;
+		case 4:
 			val = myArray.get(row).getNotes();	
 			return val;
 		default:
@@ -139,6 +151,15 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 		if (myArray.size() > 1){
 			Collections.sort(myArray, new ProjectDateComparator());
 			this.fireTableRowsUpdated(0, myArray.size());
+		}
+	}
+	/**
+	 * Sorts the listSites by Name and updates the GUI table.
+	 */
+	public void sortByName(){
+		if (myArray.size() > 1){
+			Collections.sort(myArray, new NameComparator());
+			this.fireTableRowsUpdated(0, myArray.size() - 1);
 		}
 	}
 
