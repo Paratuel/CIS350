@@ -48,11 +48,11 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 		Object val = null;
 		switch(col){
 		case 0:
-			if(myArray.get(row).getSubName() != null){
-				val = "";
-			}else{
+		//	if(myArray.get(row).getSubName() != null){
+		//		val = "";
+		//	}else{
 				val = myArray.get(row).getName();
-			}
+		//	}
 			return val;
 		case 1:
 			if(myArray.get(row).getSubName() != null){
