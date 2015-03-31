@@ -240,10 +240,14 @@ public class ProjectGUI extends JFrame implements ActionListener {
 					
 					if(newProject.isOkPressed()){
 						Project s = new Project(newProject.getName(), newProject.getSub(), newProject.getDueDate(), 
-							newProject.getNotes(), newProject.getReminder(), false);
+								newProject.getNotes(), newProject.getReminder(), false);
+						if(model.get(index).getName() != newProject.getName()){
+							model.upDate(model.get(index).getName(), newProject.getName());
+						}
+						
 						model.remove(model.get(index));
 						model.add(s);
-						model.sortByName();
+						model.sortByDate();
 					}
 				}else{
 					JOptionPane.showMessageDialog(this, "Please pick a project.");
