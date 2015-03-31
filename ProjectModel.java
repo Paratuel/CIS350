@@ -138,6 +138,16 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 		delete(indexOf(a));
 	}
 	
+	public void upDate(String a, String b){
+		for (int i = 0; i < myArray.size(); i++){
+			if(myArray.get(i).getName().equals(a)){
+				myArray.get(i).setName(b);
+				fireTableRowsUpdated(0, myArray.size());
+			}
+		}
+		
+		return;
+	}
 	/**
 	 * returns the columnNames that will fill the table in the GUI
 	 * @param col sets the position for the columnNames on the table
