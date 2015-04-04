@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -205,6 +206,8 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 			bis.close();
 			fis.close();
 			fireTableRowsInserted(myArray.size() - 1, myArray.size() - 1);
+		} catch (FileNotFoundException f){
+			save(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

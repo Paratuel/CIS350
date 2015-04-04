@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
@@ -56,6 +57,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	public ProjectGUI(){
 		setupFrame();
 		model = new ProjectModel();
+		model.load(new File("src/package1/file.ser"));
 		table.setModel(model);
 	}
 	
@@ -64,7 +66,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 */
 	public void setupFrame(){
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.setTitle("Project Management");
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -77,14 +79,14 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		exitItem.addActionListener(this);
 		aboutItem = new JMenuItem("About");
 		aboutItem.addActionListener(this);
-		saveItem = new JMenuItem("Save");
+/*		saveItem = new JMenuItem("Save");
 		saveItem.addActionListener(this);
 		loadItem = new JMenuItem("Load");
 		loadItem.addActionListener(this);
 		fileMenu.add(saveItem);
 		fileMenu.add(loadItem);
 		fileMenu.addSeparator();
-		fileMenu.addSeparator();
+		fileMenu.addSeparator();*/
 		fileMenu.add(exitItem);
 		fileMenu.addActionListener(this);
 		helpMenu.add(aboutItem);
@@ -198,6 +200,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == exitItem){
+			model.save(new File("src/package1/file.ser"));
 			System.exit(0);
 		}
 		if(e.getSource() == aboutItem){
@@ -274,7 +277,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Pick a Project.");
 				}
 			}
-		}
+		}/*
 		if (e.getSource() == saveItem){
 			JFileChooser choose = new JFileChooser();
 			FileNameExtensionFilter filter = new 
@@ -295,7 +298,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			if(value == JFileChooser.APPROVE_OPTION) {
 				model.load(choose.getSelectedFile());
 			}
-		}
+		}*/
 		if(e.getSource() == subItem) {
 			int index = table.getSelectedRow();
 			if (index != -1){
