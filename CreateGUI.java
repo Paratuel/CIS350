@@ -229,8 +229,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 				cancel = false;
 				setVisible(false);
 			}else{
-				JOptionPane.showMessageDialog(null, "Some fields are not entered correctly "
-						+ "or missing information.", "Input Validation", JOptionPane.ERROR_MESSAGE);
+			//	JOptionPane.showMessageDialog(null, "Some fields are not entered correctly "
+			//			+ "or missing information.", "Input Validation", JOptionPane.ERROR_MESSAGE);
 			}
 			return;
 //			try {
@@ -305,6 +305,14 @@ public class CreateGUI extends JDialog implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Split Name Wasn't Entered.", "Input Validation",
 						JOptionPane.ERROR_MESSAGE);
 			}
+		}
+		GregorianCalendar today = new GregorianCalendar();
+		if(getDueDate().compareTo(today) >= 0){
+			JOptionPane.showMessageDialog(null, 
+					"Date is not before today's date",
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+			
 		}
 		return true;
 	}

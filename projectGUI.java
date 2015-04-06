@@ -52,7 +52,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	
 	private ProjectModel model;
 	private CreateGUI newProject;
-	private SubCreateGUI subGroup;
+	//private SubCreateGUI subGroup;
 	
 	public ProjectGUI(){
 		setupFrame();
