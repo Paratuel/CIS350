@@ -4,21 +4,27 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+
+/**
+ * Creates the GUI for making a new Project.
+ * @author  Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
+ *
+ */
 public class CreateGUI extends JDialog implements ActionListener {
 
+	/**
+	 * serialVersionUID. 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	private String projectName = null;
@@ -27,42 +33,118 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private int reminder;
 	private String notes;
 	private String notThis = "USED FOR SPLITTING PROJECT";
-	
+
+	/**
+	 * Creates the layout for the text fields and buttons.
+	 */
 	private GridLayout layout;
 
+	/**
+	 * Confirms choice and creates project.
+	 */
 	private JButton okButton; 
+
+	/**
+	 * Cancels project creation and closes the window.
+	 */
 	private JButton cancelButton;
 
+	/**
+	 * JLabel for the where the name is entered.
+	 */
 	private JLabel nameLabel;
+
+	/**
+	 * JLabel for the where the due date is entered.
+	 */
 	private JLabel dateLabel;
-	//private JLabel catLabel; 
+
+	/**
+	 * JLabel for the where the note is entered.
+	 */
 	private JLabel noteLabel;
+
+	/**
+	 * JLabel for the where the reminder is entered.
+	 */
 	private JLabel remLabel;
+
+	/**
+	 * JLabel for the where the number of sub-projects is entered.
+	 */
 	private JLabel subLabel;
 
+	/**
+	 * JTextField for the where the name is entered.
+	 */
 	private JTextField nameField;
+
+	/**
+	 * JTextField for the where the due date is entered.
+	 */
 	private JTextField dateField;
-	//private JTextField catField;
+
+	/**
+	 * JTextField for the where the note is entered.
+	 */
 	private JTextField noteField;
+
+	/**
+	 * JTextField for the where the number of sub-projects is entered.
+	 */
 	private JTextField subField;
+
+	/**
+	 * JTextField for the where the reminder is entered.
+	 */
 	private JTextField reminderField;
 
+	/**
+	 * Formatting  for the due date.
+	 */
 	private DateFormat format;
 
+	/**
+	 * Width of the field.
+	 */
 	private int WIDTH;
+
+	/**
+	 * Height of the field.
+	 */
 	private int HEIGHT;
 
-	private boolean isOk, ok, cancel;
-	//private boolean cancel;
-	private boolean isSubOk, subUsed;
-	private ProjectGUI parent;
+	/**
+	 * Checks if operation is allowed.
+	 */
+	private boolean isOk;
 
+	private boolean ok;
+
+	private boolean cancel;
+
+	private boolean isSubOkay;
+
+	private boolean subUsed;
+
+	private ProjectGUI parent;
+	
+	private String month;
+	
+	private String day;
+	
+	private String year;
+	
+	private GregorianCalendar today = new GregorianCalendar();
+
+	/**
+	 * Project for creating new projects.
+	 */
 	private Project aProject;
 
 	/**
-	 * Sets up the panel for adding a Project
-	 * @param ProjectGUI is the parent GUI
-	 * @param Project Proj is passing in the array from ProjectGUI
+	 * Sets up the panel for adding a Project.
+	 * @param parent is the parent GUI
 	 */
 	public CreateGUI(ProjectGUI parent){
 		super(parent, true);
@@ -87,24 +169,28 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setTitle("Edit a Project");
 		editDialog(projectName, subName, dueDate, reminder, notes);
 	}
-	
-	public void setupDialog(String a){
+
+	public void setupDialog(String a) {
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		nameField = new JTextField(20);
 		dateField = new JTextField(10);
 		noteField = new JTextField(70);
 		reminderField = new JTextField(20);
+				
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
+		formatter.setCalendar(today);
+		String currentDate = formatter.format(today.getTime());
 		
-		dateField.setText("10/10/2012");
-		noteField.setText("Take action NOW!");
+		dateField.setText(currentDate);
+		noteField.setText("");
 		reminderField.setText("0");
 		//subField.setText(notThis);
-		
+
 		isOk = false;
-		isSubOk = true;
+		isSubOkay = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		aProject = new Project();
-		
+
 		WIDTH = 400;
 		HEIGHT = 400;
 		layout = new GridLayout(7,2);
@@ -116,31 +202,31 @@ public class CreateGUI extends JDialog implements ActionListener {
 		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
 		noteLabel = new JLabel("Notes:");
 		remLabel = new JLabel("Reminder (Days Needed):");
-		
-		if(a != null){
+
+		if(a != null) {
 			nameField.setText(projectName);
 			subField = new JTextField(3);
-			subField.setText(" ");
-			subLabel = new JLabel("Split Project");
+			subField.setText("");
+			subLabel = new JLabel("Sub-Project");
 			add(nameLabel);
 			add(nameField);
 			add(subLabel);
 			add(subField);
 			subUsed = true;
 		}else{
-			nameField.setText("Math Homework");
+			nameField.setText("");
 			//subField.setText(notThis);
 			add(nameLabel);
 			add(nameField);
 		}
-		
+
 		add(dateLabel);
 		add(dateField);
 		add(remLabel);
 		add(reminderField);
 		add(noteLabel);
 		add(noteField);
-		
+
 		add(cancelButton);
 		add(okButton);
 
@@ -149,24 +235,24 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		setVisible(true); 
 	}
-	
-	public void editDialog(String a, String b, GregorianCalendar c, int d, String e){
+
+	public void editDialog(String a, String b, GregorianCalendar c, int d, String e) {
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		nameField = new JTextField(20);
 		dateField = new JTextField(10);
 		noteField = new JTextField(70);
 		reminderField = new JTextField(20);
-		
+
 		dateField.setText(Utilities.gToString(c));
 		noteField.setText(e);
 		reminderField.setText(String.valueOf(d));
 
-		
+
 		isOk = false;
-		isSubOk = true;
+		isSubOkay = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		//aProject = new Project();
-		
+
 		WIDTH = 400;
 		HEIGHT = 400;
 		layout = new GridLayout(7,2);
@@ -178,12 +264,12 @@ public class CreateGUI extends JDialog implements ActionListener {
 		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
 		noteLabel = new JLabel("Notes:");
 		remLabel = new JLabel("Reminder (Days Needed):");
-		
+
 		if(b != null){
 			nameField.setText(a);
 			subField = new JTextField(3);
 			subField.setText(b);
-			subLabel = new JLabel("Split Project");
+			subLabel = new JLabel("Sub-Project");
 			add(nameLabel);
 			add(nameField);
 			add(subLabel);
@@ -195,14 +281,14 @@ public class CreateGUI extends JDialog implements ActionListener {
 			add(nameLabel);
 			add(nameField);
 		}
-		
+
 		add(dateLabel);
 		add(dateField);
 		add(remLabel);
 		add(reminderField);
 		add(noteLabel);
 		add(noteField);
-		
+
 		add(cancelButton);
 		add(okButton);
 
@@ -229,40 +315,40 @@ public class CreateGUI extends JDialog implements ActionListener {
 				cancel = false;
 				setVisible(false);
 			}else{
-			//	JOptionPane.showMessageDialog(null, "Some fields are not entered correctly "
-			//			+ "or missing information.", "Input Validation", JOptionPane.ERROR_MESSAGE);
+//				JOptionPane.showMessageDialog(null, "Some fields are not entered correctly "
+//						+ "or missing information.", "Input Validation", JOptionPane.ERROR_MESSAGE);
 			}
 			return;
-//			try {
-//				String newName = nameField.getText();
-//				String newDateString = dateField.getText();
-//				int newReminder = getReminder();
-//				String newNote = noteField.getText();
-//				Date newDate = format.parse(newDateString);
-//				GregorianCalendar newDate2 = new GregorianCalendar();
-//				int reminder = Integer.parseInt(reminderField.getText());
-//				newDate2.setTime(newDate);
-//				aProject.setName(newName);
-//				aProject.setDueDate(newDate2);
-//				aProject.setNotes(newNote);
-//				aProject.setReminder(reminder);
-//				aProject.setReminder(newReminder);
-//				isOk = true;
-//				dispose();
-//				int num = Integer.parseInt(subField.getText());
-//				while (num > 0) {
-//					SubCreateGUI subCreate = new SubCreateGUI(this);
-//					if (subCreate.isOkPressed()) {
-//						aProject.addItems(subCreate.whatProject());
-//					}
-//					num--;
-//				}
-//			} catch (Exception x) {
-//				x.printStackTrace();
-//			}
+			//			try {
+			//				String newName = nameField.getText();
+			//				String newDateString = dateField.getText();
+			//				int newReminder = getReminder();
+			//				String newNote = noteField.getText();
+			//				Date newDate = format.parse(newDateString);
+			//				GregorianCalendar newDate2 = new GregorianCalendar();
+			//				int reminder = Integer.parseInt(reminderField.getText());
+			//				newDate2.setTime(newDate);
+			//				aProject.setName(newName);
+			//				aProject.setDueDate(newDate2);
+			//				aProject.setNotes(newNote);
+			//				aProject.setReminder(reminder);
+			//				aProject.setReminder(newReminder);
+			//				isOk = true;
+			//				dispose();
+			//				int num = Integer.parseInt(subField.getText());
+			//				while (num > 0) {
+			//					SubCreateGUI subCreate = new SubCreateGUI(this);
+			//					if (subCreate.isOkPressed()) {
+			//						aProject.addItems(subCreate.whatProject());
+			//					}
+			//					num--;
+			//				}
+			//			} catch (Exception x) {
+			//				x.printStackTrace();
+			//			}
 		}
 	}
-	
+
 	public boolean isCancel(){
 		return cancel;
 	}
@@ -274,46 +360,49 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public boolean isOkPressed() {
 		return isOk;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return nameField.getText();
 	}
-	public GregorianCalendar getDueDate(){
+	public GregorianCalendar getDueDate() {
 		return Utilities.strToGregCalendar(dateField.getText());
 	}
-	public String getNotes(){
+	public String getNotes() {
 		return noteField.getText();
 	}
-	public int getReminder(){
+	public int getReminder() {
 		return Integer.parseInt(reminderField.getText());
 	}
-	public String getSub(){
+	public String getSub() {
 		if(subUsed == true){
 			return subField.getText();
 		}
 		return null;
 	}
 	
-	public boolean isValidField(){
-		if(nameField.getText().equals("")){
+
+	public boolean isValidField() {
+		if(nameField.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Name Wasn't Entered.", "Input Validation",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if(subUsed == true){
-			if(subField.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "Split Name Wasn't Entered.", "Input Validation",
+		if(subUsed == true) {
+			if(subField.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "Subproject Name Wasn't Entered.", "Input Validation",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		GregorianCalendar today = new GregorianCalendar();
-		if(getDueDate().compareTo(today) >= 0){
+
+		if (getDueDate().compareTo(today) <= 0) {
 			JOptionPane.showMessageDialog(null, 
-					"Date is not before today's date",
+					"Date is not after today's date",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
 			return false;
-			
+
 		}
+
+
 		return true;
 	}
 
@@ -324,13 +413,13 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public Project whatProject() {
 		return aProject;
 	}
-	
-	public void clear(){
+
+	public void clear() {
 		nameField.setText(null);
 		dateField.setText(null);
 		noteField.setText(null);
 		reminderField.setText(null);
-		if (subUsed == true){
+		if (subUsed == true) {
 			subField.setText(null);
 		}
 	}
