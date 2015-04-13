@@ -64,4 +64,15 @@ public class ProjectTest {
 	  Assert.assertEquals("Note", q.getNotes());
 	  Assert.assertEquals(new ArrayList<Project>(), q.getSubtasks());
   }
+  @Test
+  public void insertTest5() {
+	  
+    GregorianCalendar d = new GregorianCalendar();
+    d.set(Calendar.MONTH, 4);
+    d.set(Calendar.DAY_OF_MONTH, 4);
+    d.set(Calendar.YEAR, 2015);
+    Project p1 = new Project("Project4", d, "Note4", new ArrayList<Project>());
+    Assert.assertEquals("Project4 4/4/2015 Note4",
+    		p1.toString());
+  }
 }
