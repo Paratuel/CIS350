@@ -381,31 +381,32 @@ public class CreateGUI extends JDialog implements ActionListener {
 	}
 	
 
-	public boolean isValidField() {
-		if(nameField.getText().equals("")) {
+	public boolean isValidField(){
+		if(nameField.getText().equals("")){
 			JOptionPane.showMessageDialog(null, "Name Wasn't Entered.", "Input Validation",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if(subUsed == true) {
-			if(subField.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Subproject Name Wasn't Entered.", "Input Validation",
+		if(subUsed == true){
+			if(subField.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Split Name Wasn't Entered.", "Input Validation",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-
-		if (getDueDate().compareTo(today) <= 0) {
+		GregorianCalendar today = new GregorianCalendar();
+		if(getDueDate().compareTo(today) < 0){
 			JOptionPane.showMessageDialog(null, 
-					"Date is not after today's date",
+					"You set the Due Date before today's date.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
+		
 			return false;
-
+			
 		}
-
-
+		else if (getDueDate().compareTo(today) == 0){
+			JOptionPane.showMessageDialog(null,"Due date is today");
+		}
 		return true;
 	}
-
 	/**
 	 * Checks which Project
 	 * @return aProject is the Project
