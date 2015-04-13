@@ -75,4 +75,17 @@ public class ProjectTest {
     Assert.assertEquals("Project4 4/4/2015 Note4",
     		p1.toString());
   }
+   @Test
+  public void insertTest7() {
+	  
+	  GregorianCalendar d = new GregorianCalendar();
+	  d.set(Calendar.MONTH, 7);
+	  d.set(Calendar.DAY_OF_MONTH, 7);
+	  d.set(Calendar.YEAR, 2015);
+	  Project p = new Project("Assignment", d, "Math", new ArrayList<Project>());
+	  Project p1 = new Project("Test1", d, "", new ArrayList<Project>());
+	  
+	  String test7 = p.toString() + "\n" + p1.toString();
+	  Assert.assertEquals("Assignment 7/7/2015 Math\nTest1 7/7/2015 ", test7);
+  } 
 }
