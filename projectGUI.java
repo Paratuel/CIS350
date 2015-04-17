@@ -2,9 +2,14 @@ package package1;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -17,8 +22,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
+
 import java.io.FileNotFoundException;
 
 
@@ -160,7 +170,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	public ProjectGUI() {
 		setupFrame();
 		model = new ProjectModel();
-		model.load(new File("src/package1/file.ser"));
+		model.load(new File("src/CIS350/file.ser"));
 		table.setModel(model);
 	}
 
@@ -176,51 +186,29 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		frame.setJMenuBar(menuBar);
 
 		fileMenu = new JMenu("File");
-		//helpMenu = new JMenu("Help");
-		//helpMenu.addActionListener(this);
 		exitItem = new JMenuItem("Exit");
 		exitItem.addActionListener(this);
-		/*aboutItem = new JMenuItem("About");
-		aboutItem.addActionListener(this);
-		saveItem = new JMenuItem("Save");
-		saveItem.addActionListener(this);
-		loadItem = new JMenuItem("Load");
-		loadItem.addActionListener(this);
-		fileMenu.add(saveItem);
-		fileMenu.add(loadItem);
-		fileMenu.addSeparator();
-		fileMenu.addSeparator(); */
 		fileMenu.add(exitItem);
-		fileMenu.addActionListener(this);
-		//helpMenu.add(aboutItem);
 		menuBar.add(fileMenu);
-		//menuBar.add(helpMenu);
-
-		//ProjectPanel = new JPanel();
-
-		//ProjectArray = new MyArrayList<Project>();
-		//ProjectList = new JList<Project>(ProjectArray);
-		//ProjectList.addListSelectionListener(listener);
-
-		//ProjectPanel.add(ProjectList);
-		//		ProjectPanel.setSize(new Dimension(800, 400));
-		//		add(ProjectPanel);
-
 		JPanel panel;
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane(table);
 		table = new JTable();
 
 		scrollPane.setVerticalScrollBarPolicy(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		table.setToolTipText("");
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(final java.awt.event.MouseEvent evt) {
-				//tableMouseClicked();
-			}
-		});
+		ListSelectionModel listMod = table.getSelectionModel();
+		listMod.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.addMouseListener(new MouseAdapter(){
+		     public void mouseClicked(MouseEvent e){
+		      if (e.getClickCount() == 2){
+		    	  JTable target = (JTable)e.getSource();
+		    	  int row = target.getSelectedRow();
+		    	  edit(row);
+		         }
+		      }
+		     } );
 
 		scrollPane.setViewportView(table);
 
@@ -244,29 +232,19 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 * @return southPanel
 	 */
 	public final JPanel setupSouthPanel() {
-		southPanel = new JPanel(new FlowLayout());
+		southPanel = new JPanel(new GridLayout(1,1));
 
-		newItem = new JButton("New Project");
-		newItem.addActionListener(this);
-
-		deleteItem = new JButton("Delete Project");
-		deleteItem.addActionListener(this);
-
-		editItem = new JButton("Edit Project");
-		editItem.addActionListener(this);
-
-		subItem = new JButton("Sub-Projects");
-		subItem.addActionListener(this);
-
-		doneItem = new JButton("Completed");
-		doneItem.addActionListener(this);
-
-		southPanel.add(newItem);
-		southPanel.add(deleteItem);
-		southPanel.add(editItem);
-		southPanel.add(subItem);
-		southPanel.add(doneItem);
-
+	    String name = "Serif"; //"Serif", "SansSerif", "Monospaced", or a font name
+	    
+	    int style = Font.BOLD; //Font.ITALIC, Font.BOLD, or Font.BOLD | Font.ITALIC
+	    
+	    int size = 18; //any number size
+	    
+	    newItem = new JButton("+");
+	    newItem.setFont(new Font(name, style, size));
+	    newItem.setHorizontalAlignment(SwingConstants.CENTER);
+	    newItem.addActionListener(this);
+	    southPanel.add(newItem);
 		return southPanel;
 	}
 
@@ -276,7 +254,6 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 */
 	public final JPanel setupNorthPanel() {
 		buttonPanel = new JPanel(new FlowLayout());
-		//add(buttonPanel, BorderLayout.NORTH);
 
 		week1Button = new JButton("1 Week");
 		week1Button.addActionListener(this);
@@ -301,19 +278,15 @@ public class ProjectGUI extends JFrame implements ActionListener {
 
 		return buttonPanel;
 	}
-
 	/**
 	 * Assigns actions to buttons and JMenuItems.
 	 * @param e determines what is clicked and what to do
 	 */
 	public final void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == exitItem) {
-			model.save(new File("src/package1/file.ser"));
+			model.save(new File("src/CIS350/file.ser"));
 			System.exit(0);
 		}
-		//		if (e.getSource() == aboutItem) {
-		//			JOptionPane.showMessageDialog(null, "Hello!");
-		//		}
 		if (e.getSource() == newItem) {
 			newProject = new CreateGUI(this);
 
@@ -327,125 +300,32 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				model.sortByName();
 			}
 		}
-		if (e.getSource() == deleteItem) {
-			int index = table.getSelectedRow();
-			if (index != -1) {
-				if (JOptionPane.showConfirmDialog(null, 
-						"Are you sure you would like to delete this project?"
-						, null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-				} else {
-					model.remove(model.get(index));
-				}
-			}
-		}
-		if (e.getSource() == editItem) {
-			if (model.getSize() == 0) {
-				JOptionPane.showMessageDialog(null, "Error: Nothing to"
-						+ " edit.");
-			} else {
-				int index = table.getSelectedRow();
-				if (index != -1) {
-					newProject = new CreateGUI(this, 
-							model.get(index).getName(), 
-							model.get(index).getSubName(),
-							model.get(index).getDueDate(), 
-							model.get(index).getReminder(),
-							model.get(index).getNotes());
-					//model.remove(model.get(index));
-
-					if (newProject.isOkPressed()) {
-						Project s = new Project(newProject.getName(), 
-								newProject.getSub(), newProject.getDueDate(), 
-								newProject.getReminder(),
-								newProject.getNotes(), false);
-						if (model.get(index).getName() 
-								!= newProject.getName()) {
-							model.upDate(model.get(index).getName(), 
-									newProject.getName());
-						}
-
-						model.remove(model.get(index));
-						model.add(s);
-						model.sortByName();
-					}
-				} else {
-					JOptionPane.showMessageDialog(this, 
-							"Please pick a project.");
-				}
-			}
-		}
-
-		if (e.getSource() == doneItem) {
-			if (model.getSize() == 0) {
-				JOptionPane.showMessageDialog(null, "No project selected.");
-			} else {
-				int index = table.getSelectedRow();
-				if (index != -1) {
-					if (model.get(index).getDone() == false) {
-						if (JOptionPane.showConfirmDialog(null, 
-								"Have you completed the project?"
-								, null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-							setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-
-						} else {
-							model.get(index).setDone(true);
-						}
-					} else {
-						model.get(index).setDone(false);
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "No project selected.");
-				}
-				model.refresh();
-			}
-		}
-		/*
-		if (e.getSource() == saveItem) {
-			JFileChooser choose = new JFileChooser();
-			FileNameExtensionFilter filter = new 
-					FileNameExtensionFilter("Serialized Files", "ser");
-			choose.setFileFilter(filter);
-			choose.setSelectedFile(new File("file.ser"));
-			int value = choose.showSaveDialog(this);
-			if (value == JFileChooser.APPROVE_OPTION) {
-				model.save(choose.getSelectedFile());
-			}	
-		}
-
-		if (e.getSource() == loadItem) {
-			JFileChooser choose = new JFileChooser();
-			FileNameExtensionFilter filter = new 
-					FileNameExtensionFilter("Serialized Files", "ser");
-			choose.setFileFilter(filter);
-			int value = choose.showOpenDialog(this);
-			if (value == JFileChooser.APPROVE_OPTION) {
-				model.load(choose.getSelectedFile());
-			}
-		}
-		 */
-		if (e.getSource() == subItem) {
-			int index = table.getSelectedRow();
-			if (index != -1) {
-				String name = model.get(index).getName();
-				newProject = new CreateGUI(this, name);
-				//subGroup = new SubCreateGUI(this);
-
-				if (newProject.isOkPressed()) {
-					Project p = new Project(newProject.getName(), 
-							newProject.getSub(), newProject.getDueDate(), 
-							newProject.getReminder(), 
-							newProject.getNotes(), false);
-					//Project p = newProject.whatProject();
-					model.add(p);
-					model.sortByName();
-
-				}
-			} else {
-				JOptionPane.showMessageDialog(this, "Please pick a project.");
-			}
-		}
+//
+//		if (e.getSource() == doneItem) {
+//			if (model.getSize() == 0) {
+//				JOptionPane.showMessageDialog(null, "No project selected.");
+//			} else {
+//				int index = table.getSelectedRow();
+//				if (index != -1) {
+//					if (model.get(index).getDone() == false) {
+//						if (JOptionPane.showConfirmDialog(null, 
+//								"Have you completed the project?"
+//								, null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+//							setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//
+//
+//						} else {
+//							model.get(index).setDone(true);
+//						}
+//					} else {
+//						model.get(index).setDone(false);
+//					}
+//				} else {
+//					JOptionPane.showMessageDialog(null, "No project selected.");
+//				}
+//				model.refresh();
+//			}
+//		}
 		if (e.getSource() == week1Button) {
 			model.sortByWeek(1);
 		}
@@ -461,9 +341,63 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		if (e.getSource() == dateButton) {
 			model.sortByDate();
 		}
-
-
-
 	}
+	public void edit(int i) {
+		if (model.get(i).getSubName() == null) {
+			newProject = new CreateGUI(this, 
+					model.get(i).getName(),
+					model.get(i).getDueDate(),
+					model.get(i).getReminder(),
+					model.get(i).getNotes());
+		} else {
+			newProject = new CreateGUI(this, 
+					model.get(i).getName(),
+					model.get(i).getSubName(),
+					model.get(i).getDueDate(),
+					model.get(i).getReminder(),
+					model.get(i).getNotes());
+		}
 
+		if (newProject.isOkPressed()) {
+			Project s = new Project(newProject.getName(), 
+					newProject.getSub(), newProject.getDueDate(), 
+					newProject.getReminder(),
+					newProject.getNotes(), false);
+			if (model.get(i).getName() 
+					!= newProject.getName()) {
+				model.upDate(model.get(i).getName(), 
+						newProject.getName());
+			}
+			model.sortByName();
+		}
+		if(newProject.isDeletePressed()){
+			if(JOptionPane.showConfirmDialog(null, "YOU ARE ABOUT TO DELETE THIS PROJECT!",
+					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			}else{
+				model.remove(model.get(i));
+			}
+		}
+		if(newProject.isCompletePressed()){
+
+		}
+		if(newProject.isSubPressed()){
+			newProject = new CreateGUI(this, 
+					model.get(i).getName(),
+					model.get(i).getSubName(),
+					model.get(i).getDueDate(),
+					model.get(i).getReminder(),
+					model.get(i).getNotes());
+
+			if (newProject.isOkPressed()) {
+				Project p = new Project(newProject.getName(), 
+						newProject.getSub(), newProject.getDueDate(), 
+						newProject.getReminder(), 
+						newProject.getNotes(), false);
+				
+				model.add(p);
+
+			}
+		}
+	}
 }
