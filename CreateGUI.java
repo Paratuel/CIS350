@@ -403,9 +403,19 @@ public class CreateGUI extends JDialog implements ActionListener {
 			}
 		}
 
-		if (getDueDate().compareTo(today) < 0) {
+		GregorianCalendar today = new GregorianCalendar();
+		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		today.set(GregorianCalendar.MINUTE, 0);
+		today.set(GregorianCalendar.SECOND, 0);
+		today.set(GregorianCalendar.MILLISECOND, 0);
+		GregorianCalendar compare = getDueDate();
+		compare.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		compare.set(GregorianCalendar.MINUTE, 0);
+		compare.set(GregorianCalendar.SECOND, 0);
+		compare.set(GregorianCalendar.MILLISECOND, 0);
+		if(compare.compareTo(today) < 0) {
 			JOptionPane.showMessageDialog(null, 
-					"Date is before today's date",
+					"You set the Due Date before today's date.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
 			return false;
 
