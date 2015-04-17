@@ -146,20 +146,21 @@ public class CreateGUI extends JDialog implements ActionListener {
 	 * Sets up the panel for adding a Project.
 	 * @param parent is the parent GUI
 	 */
-	public CreateGUI(ProjectGUI parent){
+	public CreateGUI(ProjectGUI parent) {
 		super(parent, true);
 		String a = null;
 		setTitle("New Project");
 		setupDialog(a);
 	}
-	public CreateGUI(ProjectGUI parent, String projName){
+	public CreateGUI(ProjectGUI parent, String projName) {
 		super(parent, true);
 		this.projectName = projName;
 		setTitle("Splitting a Project");
 		setupDialog(projName);
 	}
-	public CreateGUI(ProjectGUI parent, String n, String s, GregorianCalendar d, int r, 
-			String notes){
+	
+	public CreateGUI(ProjectGUI parent, String n, String s, 
+			GregorianCalendar d, int r, String notes){
 		super(parent, true);
 		this.projectName = n;
 		this.subName = s;
@@ -193,7 +194,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 		WIDTH = 400;
 		HEIGHT = 400;
-		layout = new GridLayout(7,2);
+		layout = new GridLayout(7, 2);
 		okButton = new JButton("OK");
 		okButton.addActionListener(this); 
 		cancelButton = new JButton("Cancel");
@@ -203,7 +204,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		noteLabel = new JLabel("Notes:");
 		remLabel = new JLabel("Reminder (Days Needed):");
 
-		if(a != null) {
+		if (a != null) {
 			nameField.setText(projectName);
 			subField = new JTextField(3);
 			subField.setText("");
@@ -213,7 +214,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 			add(subLabel);
 			add(subField);
 			subUsed = true;
-		}else{
+		} else {
 			nameField.setText("");
 			//subField.setText(notThis);
 			add(nameLabel);
@@ -255,7 +256,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 		WIDTH = 400;
 		HEIGHT = 400;
-		layout = new GridLayout(7,2);
+		layout = new GridLayout(7, 2);
 		okButton = new JButton("OK");
 		okButton.addActionListener(this); 
 		cancelButton = new JButton("Cancel");
@@ -265,7 +266,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		noteLabel = new JLabel("Notes:");
 		remLabel = new JLabel("Reminder (Days Needed):");
 
-		if(b != null){
+		if (b != null) {
 			nameField.setText(a);
 			subField = new JTextField(3);
 			subField.setText(b);
@@ -275,7 +276,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 			add(subLabel);
 			add(subField);
 			subUsed = true;
-		}else{
+		} else {
 			nameField.setText(a);
 			//subField.setText(notThis);
 			add(nameLabel);
@@ -298,8 +299,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 		setVisible(true); 
 	}
 
-	/*
-	 * Assigns actions to buttons and JMenuItems
+	/**
+	 * Assigns actions to buttons and JMenuItems.
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
@@ -310,14 +311,16 @@ public class CreateGUI extends JDialog implements ActionListener {
 			return;
 		}
 		if (e.getSource() == okButton) {
-			if(isValidField()){
+			if (isValidField()) {
 				isOk = true;
 				cancel = false;
 				setVisible(false);
-			}else{
-//				JOptionPane.showMessageDialog(null, "Some fields are not entered correctly "
-//						+ "or missing information.", "Input Validation", JOptionPane.ERROR_MESSAGE);
-			}
+			} /*else {
+				JOptionPane.showMessageDialog(null, 
+				"Some fields are not entered correctly "
+						+ "or missing information.", 
+						"Input Validation", JOptionPane.ERROR_MESSAGE);
+			} */
 			return;
 			//			try {
 			//				String newName = nameField.getText();
@@ -349,7 +352,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		}
 	}
 
-	public boolean isCancel(){
+	public boolean isCancel() {
 		return cancel;
 	}
 
@@ -364,49 +367,54 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public String getName() {
 		return nameField.getText();
 	}
+	
 	public GregorianCalendar getDueDate() {
 		return Utilities.strToGregCalendar(dateField.getText());
 	}
+	
 	public String getNotes() {
 		return noteField.getText();
 	}
+	
 	public int getReminder() {
 		return Integer.parseInt(reminderField.getText());
 	}
+	
 	public String getSub() {
-		if(subUsed == true){
+		if (subUsed) {
 			return subField.getText();
 		}
 		return null;
 	}
 	
 
-	public boolean isValidField(){
-		if(nameField.getText().equals("")){
-			JOptionPane.showMessageDialog(null, "Name Wasn't Entered.", "Input Validation",
+	public boolean isValidField() {
+		if (nameField.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, 
+					"Name Wasn't Entered.", "Input Validation",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if(subUsed == true){
-			if(subField.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "Split Name Wasn't Entered.", "Input Validation",
+		if (subUsed) {
+			if (subField.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, 
+						"Subproject Name Wasn't Entered.", "Input Validation",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		GregorianCalendar today = new GregorianCalendar();
-		if(getDueDate().compareTo(today) < 0){
+
+		if (getDueDate().compareTo(today) < 0) {
 			JOptionPane.showMessageDialog(null, 
-					"You set the Due Date before today's date.",
+					"Date is before today's date",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
-		
 			return false;
-			
+
 		}
-		else if (getDueDate().compareTo(today) == 0){
-			JOptionPane.showMessageDialog(null,"Due date is today");
-		}
+
+
 		return true;
 	}
+
 	/**
 	 * Checks which Project
 	 * @return aProject is the Project
