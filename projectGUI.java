@@ -318,8 +318,10 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			newProject = new CreateGUI(this);
 
 			if (newProject.isOkPressed()) {
-				Project p = new Project(newProject.getName(), null, newProject.getDueDate(), 
-						newProject.getReminder(), newProject.getNotes(),  false);
+				Project p = new Project(newProject.getName(), null, 
+						newProject.getDueDate(), 
+						newProject.getReminder(), 
+						newProject.getNotes(), false);
 				//				Project p = newProject.whatProject();
 				model.add(p);	
 				model.sortByName();
@@ -355,9 +357,10 @@ public class ProjectGUI extends JFrame implements ActionListener {
 					if (newProject.isOkPressed()) {
 						Project s = new Project(newProject.getName(), 
 								newProject.getSub(), newProject.getDueDate(), 
-								newProject.getReminder(), newProject.getNotes(), 
-								false);
-						if (model.get(index).getName() != newProject.getName()) {
+								newProject.getReminder(),
+								newProject.getNotes(), false);
+						if (model.get(index).getName() 
+								!= newProject.getName()) {
 							model.upDate(model.get(index).getName(), 
 									newProject.getName());
 						}
@@ -367,7 +370,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 						model.sortByName();
 					}
 				} else {
-					JOptionPane.showMessageDialog(this, "Please pick a project.");
+					JOptionPane.showMessageDialog(this, 
+							"Please pick a project.");
 				}
 			}
 		}
@@ -429,8 +433,10 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				//subGroup = new SubCreateGUI(this);
 
 				if (newProject.isOkPressed()) {
-					Project p = new Project(newProject.getName(), newProject.getSub(), newProject.getDueDate(), 
-							newProject.getReminder(), newProject.getNotes(), false);
+					Project p = new Project(newProject.getName(), 
+							newProject.getSub(), newProject.getDueDate(), 
+							newProject.getReminder(), 
+							newProject.getNotes(), false);
 					//Project p = newProject.whatProject();
 					model.add(p);
 					model.sortByName();
