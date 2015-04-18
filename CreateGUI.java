@@ -533,11 +533,10 @@ public class CreateGUI extends JDialog implements ActionListener {
 			//return;
 		}
 		if(e.getSource() == delete){
-			if(isValid()){
-				isDeleteOk = true;
-				cancel = false;
-				setVisible(false);
-			}
+			isDeleteOk = true;
+			cancel = false;
+			setVisible(false);
+
 			return;
 		}
 		if(e.getSource() == complete){
