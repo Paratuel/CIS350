@@ -44,12 +44,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	private GregorianCalendar dueDate;
 	private int reminder;
 	private String notes;
-	private String notThis = "USED FOR SPLITTING PROJECT";
-
-	/**
-	 * Creates the layout for the text fields and buttons.
-	 */
-	private GridLayout layout;
 
 	/**
 	 * Confirms choice and creates project.
@@ -60,31 +54,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	 * Cancels project creation and closes the window.
 	 */
 	private JButton cancelButton;
-
-	/**
-	 * JLabel for the where the name is entered.
-	 */
-	private JLabel nameLabel;
-
-	/**
-	 * JLabel for the where the due date is entered.
-	 */
-	private JLabel dateLabel;
-
-	/**
-	 * JLabel for the where the note is entered.
-	 */
-	private JLabel noteLabel;
-
-	/**
-	 * JLabel for the where the reminder is entered.
-	 */
-	private JLabel remLabel;
-
-	/**
-	 * JLabel for the where the number of sub-projects is entered.
-	 */
-	private JLabel subLabel;
 
 	/**
 	 * JTextField for the where the name is entered.
@@ -129,13 +98,13 @@ public class CreateGUI extends JDialog implements ActionListener {
 	/**
 	 * Checks if operation is allowed.
 	 */
-	private boolean isOk, isSubOk, subUsed, isCompleteOk, isDeleteOk;
+	private boolean isOk, subUsed, isCompleteOk, isDeleteOk;
 
 	private boolean ok;
 
 	private boolean cancel;
 
-	private boolean isSubOkay;
+	private boolean isSubOk;
 
 	private ProjectGUI parent;
 	
@@ -239,8 +208,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	                                BorderFactory.createEmptyBorder(5,5,5,5)),
 	                reminderField.getBorder()));
 		
-		
-
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
 		formatter.setCalendar(today);
 		String currentDate = formatter.format(today.getTime());
@@ -263,10 +230,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 		complete.addActionListener(this);
 		sub = new JButton("Split Project");
 		sub.addActionListener(this);
-		nameLabel = new JLabel("Name of Project:");
-		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
-		noteLabel = new JLabel("Notes:");
-		remLabel = new JLabel("Reminder (Days Needed):");
 
 		nameField.setText("");
 		panelOne.add(nameField);
@@ -339,8 +302,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 		noteField.setText(notes);
 		reminderField.setText(String.valueOf(rem));
 		
-		//isOk = false;
-		//isSubOk = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		aProject = new Project();
 	
@@ -414,7 +375,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	                                BorderFactory.createEmptyBorder(5,5,5,5)),
 	                dateField.getBorder()));
 		noteField = new JTextArea("");
-		//final Document document = noteField.getDocument();
 		noteField.setLineWrap(true);
 		noteField.setWrapStyleWord(true);
 		noteField.setBounds(5,35,385,330);
@@ -442,15 +402,10 @@ public class CreateGUI extends JDialog implements ActionListener {
 		noteField.setText(e);
 		reminderField.setText(String.valueOf(d));
 
-
-		//isOk = false;
-		//isSubOkay = true;
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
-		//aProject = new Project();
 
 		WIDTH = 400;
 		HEIGHT = 475;
-		//layout = new GridLayout(7, 2);
 		okButton = new JButton("OK");
 		okButton.addActionListener(this); 
 		cancelButton = new JButton("Cancel");
@@ -472,7 +427,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 	                subField.getBorder()));
 		if (b != null) {		
 			subField.setText(b);
-			subLabel = new JLabel("Sub-Project");
 			panelOne.add(nameField);
 			panelOne.add(subField);
 			panelOne.add(dateField);
@@ -482,12 +436,10 @@ public class CreateGUI extends JDialog implements ActionListener {
 			panelThree.add(okButton);
 			panelThree.add(delete);
 			panelThree.add(complete);
-			//southPanel.add(sub);
 
 			add(panelOne, BorderLayout.NORTH);
 			add(panelTwo, BorderLayout.CENTER);
 			add(panelThree, BorderLayout.SOUTH);
-			//add(southPanel, BorderLayout.SOUTH);
 			subUsed = true;
 		} else {
 			subField.setText("");
@@ -504,7 +456,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 			add(panelOne, BorderLayout.NORTH);
 			add(panelTwo, BorderLayout.CENTER);
 			add(panelThree, BorderLayout.SOUTH);
-			//add(southPanel, BorderLayout.SOUTH);
 			subUsed = true;
 		}
 
@@ -644,8 +595,6 @@ public class CreateGUI extends JDialog implements ActionListener {
 				return true;
 			}
 		}
-
-
 		return true;
 	}
 
