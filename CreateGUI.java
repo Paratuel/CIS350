@@ -608,18 +608,18 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public boolean isValidField() {
 		if (nameField.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, 
-					"Name Wasn't Entered.", "Input Validation",
+					"NAME WASN'T ENTERED.", "Input Validation",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		if (subUsed) {
 			if (subField.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, 
-						"Subproject Name Wasn't Entered.", "Input Validation",
+						"SUB NAME WASN'T ENTERED.", "Input Validation",
 						JOptionPane.ERROR_MESSAGE);
+				return false;
 			}
-		}
-
+		}	
 		GregorianCalendar today = new GregorianCalendar();
 		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		today.set(GregorianCalendar.MINUTE, 0);
