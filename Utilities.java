@@ -12,27 +12,6 @@ import java.util.GregorianCalendar;
 public class Utilities {
 
 	/**
-	 * Calculates the number of days between the give date, i, and today's date.
-	 * @param i a given GregorianCalendar date
-	 * @return the difference of days as an int
-	 */
-
-	public static int CurrentDateComp(final GregorianCalendar i) {
-		String m = "";
-		String d = "";
-		String y = "";
-		GregorianCalendar calendar = new java.util.GregorianCalendar();
-		m = String.valueOf(calendar.get(GregorianCalendar.MONTH));
-		d = String.valueOf(calendar.get(GregorianCalendar.DAY_OF_MONTH));
-		y = String.valueOf(calendar.get(GregorianCalendar.YEAR));
-		String total = m + "/" + d + "/" + y;
-		GregorianCalendar currentDate = strToGregCalendar(total);
-		int days = daysLapsed(i, currentDate);
-
-		return days;
-	}
-
-	/**
 	 * Makes a GregorianCalendar date into a string.
 	 * @param i is the date being changed.
 	 * @return returns null if it is empty or the date in string form.
