@@ -630,12 +630,19 @@ public class CreateGUI extends JDialog implements ActionListener {
 		compare.set(GregorianCalendar.MINUTE, 0);
 		compare.set(GregorianCalendar.SECOND, 0);
 		compare.set(GregorianCalendar.MILLISECOND, 0);
-		if(compare.compareTo(today) < 0) {
+		if(Utilities.daysLapsed(today, getDueDate()) < getReminder()){
 			JOptionPane.showMessageDialog(null, 
-					"You set the Due Date before today's date.",
+					"IMPOSSIBLE TO REMIND YOU IN THE PAST.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
 			return false;
-
+		}
+		if(Utilities.daysLapsed(today, getDueDate()) == getReminder()){
+			if(JOptionPane.showConfirmDialog(null, "YOUR REMINDER WOULD BE FOR TODAY!",
+					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			}else{
+				return true;
+			}
 		}
 
 
