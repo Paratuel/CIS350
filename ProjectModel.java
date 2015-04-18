@@ -104,6 +104,10 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	public Project get(int index){
 		return myArray.get(index);
 	}
+	
+	/**
+	 * Checks which projects have a current reminder and prints it out.
+	 */
 	public void checkingReminders(){
 		for (int i = 0; i < myArray.size(); i++) {
 			GregorianCalendar today = new GregorianCalendar();
