@@ -12,18 +12,15 @@ import org.junit.Test;
 
 public class ProjectTests {
 
-	//insert tests
-//	  @Test
-//	  public void insertTest() {
-//		  
-//	    GregorianCalendar d = new GregorianCalendar();
-//	    d.set(Calendar.MONTH, 1);
-//	    d.set(Calendar.DAY_OF_MONTH, 1);
-//	    d.set(Calendar.YEAR, 2015);
-//	    Project p1 = new Project("Test1", d, "Note", new ArrayList<Project>());
-//	    Assert.assertEquals("Test1 1/1/2015 Note",
-//	    		p1.toString());
-//	  }
+	Insets tests;
+	@Test
+	public void insertTest() {
+		String a = "02/01/2015";
+		GregorianCalendar b = Utilities.strToGregCalendar(a);
+		Project p1 = new Project("Test1", b, 1, "Note", new ArrayList<Project>());
+		Assert.assertEquals("Test1 null 02/01/2015 1 Note",
+				p1.toString());
+	}
 	  
 //	  @Test
 //	  public void insertTest2() {
