@@ -215,6 +215,9 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	 * Loading the file of the program
 	 * @param file being passed into it.
 	 */
+	/**
+	 * @param file being passed into it.
+	 */
 	public void load(File file) {
 		try {
 			FileInputStream fis = new FileInputStream(file);
@@ -225,20 +228,10 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 			bis.close();
 			fis.close();
 			fireTableRowsInserted(myArray.size() - 1, myArray.size() - 1);
-		} catch (FileNotFoundException f){
+		} catch (FileNotFoundException f) {
 			save(file);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		for(int i = 0; i < myArray.size(); i++){
-			if(myArray.get(i).getReminder() != 0){
-				int x = Utilities.CurrentDateComp(myArray.get(i).getDueDate());
-				if (x <= myArray.get(i).getReminder()){
-					JOptionPane.showMessageDialog(null, "Reminder for Project: " + 
-							myArray.get(i).getName());
-					
-				}
-			}
 		}
 	}
 
