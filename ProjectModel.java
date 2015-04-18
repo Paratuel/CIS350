@@ -104,6 +104,28 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 	public Project get(int index){
 		return myArray.get(index);
 	}
+	public void checkingReminders(){
+		for (int i = 0; i < myArray.size(); i++) {
+			GregorianCalendar today = new GregorianCalendar();
+			today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+			today.set(GregorianCalendar.MINUTE, 0);
+			today.set(GregorianCalendar.SECOND, 0);
+			today.set(GregorianCalendar.MILLISECOND, 0);
+			if (myArray.get(i).getReminder() != 0) {	
+				int x = Utilities.daysLapsed(today, myArray.get(i).getDueDate());
+				if (x <= myArray.get(i).getReminder()) {
+					if(myArray.get(i).getSubName() == null){
+						JOptionPane.showMessageDialog(null, "THIS IS YOUR REMINDER FOR PROJECT:\n"
+								+ myArray.get(i).getName() + "  --> Due in " + x + " day(s).");
+					}else{
+						JOptionPane.showMessageDialog(null, "THIS IS YOUR REMINDER FOR PROJECT:\n"
+								+ myArray.get(i).getName() + " : " + myArray.get(i).getSubName() + 
+								"  --> Due in " + x + " day(s).");
+					}
+				}
+			}
+		}
+	}	
 	
 	/**
 	 * Finds the index of a particular Project
