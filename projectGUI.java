@@ -24,10 +24,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
+import javax.swing.text.Document;
 
 import java.io.FileNotFoundException;
 
@@ -148,6 +151,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 * Allows user to save current data as a file.
 	 */
 	private JMenuItem saveItem;
+	private final String newLine = "";
 
 	/**
 	 * Allows user to load previously saved data.
@@ -291,6 +295,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			newProject = new CreateGUI(this);
 
 			if (newProject.isOkPressed()) {
+				
 				Project p = new Project(newProject.getName(), null, 
 						newProject.getDueDate(), 
 						newProject.getReminder(), 
@@ -368,6 +373,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				model.upDate(model.get(i).getName(), 
 						newProject.getName());
 			}
+			model.remove(model.get(i));
+			model.add(s);
 			model.sortByName();
 		}
 		if(newProject.isDeletePressed()){
