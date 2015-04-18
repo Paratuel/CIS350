@@ -21,20 +21,17 @@ public class ProjectTests {
 		Assert.assertEquals("Test1 null 02/01/2015 1 Note",
 				p1.toString());
 	}
-	  
-//	  @Test
-//	  public void insertTest2() {
-//		  
-//		  GregorianCalendar d = new GregorianCalendar();
-//		  d.set(Calendar.MONTH, 1);
-//		  d.set(Calendar.DAY_OF_MONTH, 1);
-//		  d.set(Calendar.YEAR, 2015);
-//		  Project p1 = new Project("Test1", d, "Fire", new ArrayList<Project>());
-//		  Project p2 = new Project("Test2", d, "", new ArrayList<Project>());
-//		  
-//		  String test = p1.toString() + "\n" + p2.toString();
-//		  Assert.assertEquals("Test1 1/1/2015 Fire\nTest2 1/1/2015 ", test);
-//	  } 
+	@Test
+	public void insertTest2() {
+		String a = "01/01/2015";
+		GregorianCalendar d = Utilities.strToGregCalendar(a);
+		Project p1 = new Project("Test1", d, 2, "Fire", new ArrayList<Project>());
+		Project p2 = new Project("Test2", d, 3, null, new ArrayList<Project>());
+
+		String test = p1.toString() + "\n" + p2.toString();
+		Assert.assertEquals("Test1 null 01/01/2015 2 Fire\n" + 	
+				"Test2 null 01/01/2015 3 null", test);
+	} 
 	  @Test
 	  public void insertTest3(){
 		  GregorianCalendar Test1 = new GregorianCalendar();
