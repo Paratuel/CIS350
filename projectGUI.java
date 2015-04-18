@@ -378,13 +378,35 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			model.sortByName();
 		}
 		if(newProject.isDeletePressed()){
-			if(JOptionPane.showConfirmDialog(null, "YOU ARE ABOUT TO DELETE THIS PROJECT!",
-					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			if(model.get(i).getSubName() != null){
+				if(JOptionPane.showConfirmDialog(null, "YOU ARE ABOUT TO DELETE THIS SUB PROJECT!",
+						null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+					setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+				}else{
+					model.remove(model.get(i));
+				}
 			}else{
-				model.remove(model.get(i));
+				int count = 0;
+				for(int j = 0; j < model.getSize(); j++){
+					if(model.get(i).getName().equals(model.get(j).getName())){
+						count++;
+					}
+				}
+				if(count == 1){
+					if(JOptionPane.showConfirmDialog(null, "YOU ARE ABOUT TO DELETE THIS PROJECT!",
+							null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+						setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+					}else{
+						model.remove(model.get(i));
+					}
+				}else{
+					if(JOptionPane.showConfirmDialog(null, "YOU CAN'T DELETE THIS PROJECT.\n" + 
+							"IT HAS SUB PROJECTS ATTACHED TO IT!",
+							null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+						setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+					}
+				}
 			}
-		}
 		if(newProject.isCompletePressed()){
 
 		}
