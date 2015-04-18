@@ -121,10 +121,10 @@ public class Project implements Serializable {
 	 * @return toString
 	 */  
 	public final String toString() {
-		return "Subtask: " + name + "\nDue Date: " 
-				+ dueDate.get(Calendar.MONTH) + "/" 
-				+ dueDate.get(Calendar.DAY_OF_MONTH) + "/" 
-				+ dueDate.get(Calendar.YEAR) + "\nNotes: " + notes;
+		// I simplified this so that it made testing easier...
+		return name + " " + subName + " " + Utilities.gToString(dueDate) + " " + 
+				reminder + " " + notes;
+
 	}
 
 	/**
