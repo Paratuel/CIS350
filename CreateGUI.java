@@ -1,6 +1,9 @@
 package package1;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,13 +11,20 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 
 /**
@@ -89,7 +99,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 	/**
 	 * JTextField for the where the note is entered.
 	 */
-	private JTextField noteField;
+	private JTextArea noteField;
 
 	/**
 	 * JTextField for the where the number of sub-projects is entered.
@@ -135,7 +145,8 @@ public class CreateGUI extends JDialog implements ActionListener {
 	
 	private String year;
 	private JButton complete, delete, sub;
-	private JPanel northPanel, centralPanel, southPanel, verySouthPanel;
+	private JPanel panelOne, panelTwo, panelThree, panelFour;
+	
 	
 	private GregorianCalendar today = new GregorianCalendar();
 
@@ -180,25 +191,65 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 	public void setupDialog(String a) {
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-		northPanel = new JPanel(new GridLayout(7,2));
-		southPanel = new JPanel(new GridLayout(1,1));
+		
+		//Setting up panel 1:  Holds name, date, reminder
+		panelOne = new JPanel(new GridLayout(3,1));
+		//Setting up panel 2:  Holds notes
+		panelTwo = new JPanel(new BorderLayout());
+		//panelTwo.setPreferredSize(new Dimension(400, 400));
+		//Setting up panel 3:  Holds cancel, ok, delete and complete
+		panelThree = new JPanel(new GridLayout(1,2));
+		//Setting up panel 4:  Holds split project
+		panelFour = new JPanel(new GridLayout(1,1));
+		
 		nameField = new JTextField(20);
+		nameField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Name of Project"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                nameField.getBorder()));
 		dateField = new JTextField(10);
-		noteField = new JTextField(70);
+		dateField.setBorder(
+				BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Due date (MM/DD/YYYY)"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                dateField.getBorder()));
+		noteField = new JTextArea("");
+		noteField.setLineWrap(true);
+		noteField.setWrapStyleWord(true);
+		noteField.setBounds(5,35,385,330);
+		JScrollPane scroll = new JScrollPane(noteField, 
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setBounds(20, 30, 100, 40);
+		panelTwo.add(scroll);
+		noteField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Notes"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                noteField.getBorder()));
 		reminderField = new JTextField(20);
+		reminderField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Reminder:  How many days do you need?"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                reminderField.getBorder()));
+		
+		
 
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
 		formatter.setCalendar(today);
 		String currentDate = formatter.format(today.getTime());
 
 		dateField.setText(currentDate);
+		
 		noteField.setText("");
 		reminderField.setText("0");
-		//subField.setText(notThis);
-
-		//isOk = false;
-		//isSubOk = true;
+	
 		format = DateFormat.getDateInstance(DateFormat.SHORT);
 		aProject = new Project();
 
@@ -218,18 +269,16 @@ public class CreateGUI extends JDialog implements ActionListener {
 		remLabel = new JLabel("Reminder (Days Needed):");
 
 		nameField.setText("");
-		northPanel.add(nameLabel);
-		northPanel.add(nameField);
-		northPanel.add(dateLabel);
-		northPanel.add(dateField);
-		northPanel.add(remLabel);
-		northPanel.add(reminderField);
-		northPanel.add(noteLabel);
-		northPanel.add(noteField);
-		northPanel.add(cancelButton);
-		northPanel.add(okButton);
-		add(northPanel, BorderLayout.NORTH);
-		setSize(400, 175);
+		panelOne.add(nameField);
+		panelOne.add(dateField);
+		panelOne.add(reminderField);
+		panelThree.add(cancelButton);
+		panelThree.add(okButton);
+		add(panelOne, BorderLayout.NORTH);
+		
+		add(panelTwo, BorderLayout.CENTER);
+		add(panelThree, BorderLayout.SOUTH);
+		setSize(400, 400);
 
 		setLocationRelativeTo(null);
 		setVisible(true); 
@@ -238,12 +287,53 @@ public class CreateGUI extends JDialog implements ActionListener {
 	public void editDialog(String name, GregorianCalendar date, int rem, String notes){
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
-		northPanel = new JPanel(new GridLayout(7,2));
-		southPanel = new JPanel(new GridLayout(1,1));
+		//Setting up panel 1:  Holds name, date, reminder
+		panelOne = new JPanel(new GridLayout(3,1));
+		//Setting up panel 2:  Holds notes
+		panelTwo = new JPanel(new GridLayout(1,2));
+		panelTwo.setPreferredSize(new Dimension(400,100));
+		//Setting up panel 3:  Holds cancel, ok, delete and complete
+		panelThree = new JPanel(new GridLayout(2,2));
+		//Setting up panel 4:  Holds split project
+		panelFour = new JPanel(new GridLayout(1,1));
+
 		nameField = new JTextField(20);
+		nameField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Name of Project"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                nameField.getBorder()));
 		dateField = new JTextField(10);
-		noteField = new JTextField(70);
+		dateField.setBorder(
+				BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Due date (MM/DD/YYYY)"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                dateField.getBorder()));
+		noteField = new JTextArea("");
+		noteField.setLineWrap(true);
+		noteField.setWrapStyleWord(true);
+		noteField.setBounds(5,35,385,330);
+		JScrollPane scroll = new JScrollPane(noteField, 
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setBounds(20, 30, 100, 40);
+		panelTwo.add(scroll);
+
+		noteField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Notes"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                noteField.getBorder()));
 		reminderField = new JTextField(20);
+		reminderField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Reminder:  How many days do you need?"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                reminderField.getBorder()));
 		
 		dateField.setText(Utilities.gToString(date));
 		noteField.setText(notes);
@@ -264,33 +354,32 @@ public class CreateGUI extends JDialog implements ActionListener {
 		complete.addActionListener(this);
 		sub = new JButton("Split Project");
 		sub.addActionListener(this);
-		nameLabel = new JLabel("Name of Project:");
-		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
-		noteLabel = new JLabel("Notes:");
-		remLabel = new JLabel("Reminder (Days Needed):");
 
 		nameField.setText(projectName);
 		subField = new JTextField(3);
+		subField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Sub Project Name"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                subField.getBorder()));
 		subField.setText(" ");
-		subLabel = new JLabel("Split Project");
-		northPanel.add(nameLabel);
-		northPanel.add(nameField);
-		northPanel.add(dateLabel);
-		northPanel.add(dateField);
-		northPanel.add(remLabel);
-		northPanel.add(reminderField);
-		northPanel.add(noteLabel);
-		northPanel.add(noteField);
-		//northPanel.add(subLabel);
-		//northPanel.add(subField);
-		northPanel.add(cancelButton);
-		northPanel.add(okButton);
-		northPanel.add(delete);
-		northPanel.add(complete);
-		southPanel.add(sub);
-		add(northPanel, BorderLayout.NORTH);
-		add(southPanel, BorderLayout.SOUTH);
-		setSize(400, 225);
+		panelOne.add(nameField);
+		panelOne.add(dateField);
+		panelOne.add(reminderField);
+		panelThree.add(cancelButton);
+		panelThree.add(okButton);
+		panelThree.add(delete);
+		panelThree.add(complete);
+		panelFour.add(sub);
+		add(panelOne, BorderLayout.NORTH);
+		add(panelTwo, BorderLayout.CENTER);
+		JPanel threeFour = new JPanel(new BorderLayout());
+		threeFour.add(panelThree, BorderLayout.NORTH);
+		threeFour.add(panelFour, BorderLayout.SOUTH);
+		add(threeFour, BorderLayout.SOUTH);
+		
+		setSize(400, 450);
 		//subUsed = true;
 
 		setLocationRelativeTo(null);
@@ -299,11 +388,55 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 	public void subDialog(String a, String b, GregorianCalendar c, int d, String e) {
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		northPanel = new JPanel(new GridLayout(7,2));
+		
+		//Setting up panel 1:  Holds name, date, reminder
+		panelOne = new JPanel(new GridLayout(4,2));
+		//Setting up panel 2:  Holds notes
+		panelTwo = new JPanel(new GridLayout(1,2));
+		panelTwo.setPreferredSize(new Dimension(400,100));
+		//Setting up panel 3:  Holds cancel, ok, delete and complete
+		panelThree = new JPanel(new GridLayout(2,2));
+		//Setting up panel 4:  Holds split project
+		panelFour = new JPanel(new GridLayout(1,1));
+
 		nameField = new JTextField(20);
+		nameField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Name of Project"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                nameField.getBorder()));
 		dateField = new JTextField(10);
-		noteField = new JTextField(70);
+		dateField.setBorder(
+				BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Due date (MM/DD/YYYY)"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                dateField.getBorder()));
+		noteField = new JTextArea("");
+		//final Document document = noteField.getDocument();
+		noteField.setLineWrap(true);
+		noteField.setWrapStyleWord(true);
+		noteField.setBounds(5,35,385,330);
+		JScrollPane scroll = new JScrollPane(noteField, 
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setBounds(20, 30, 100, 40);
+		panelTwo.add(scroll);
+
+		noteField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Notes"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                noteField.getBorder()));
 		reminderField = new JTextField(20);
+		reminderField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Reminder:  How many days do you need?"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                reminderField.getBorder()));
 
 		dateField.setText(Utilities.gToString(c));
 		noteField.setText(e);
@@ -316,7 +449,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 		//aProject = new Project();
 
 		WIDTH = 400;
-		HEIGHT = 225;
+		HEIGHT = 475;
 		//layout = new GridLayout(7, 2);
 		okButton = new JButton("OK");
 		okButton.addActionListener(this); 
@@ -328,59 +461,49 @@ public class CreateGUI extends JDialog implements ActionListener {
 		sub = new JButton("Split Project");
 		sub.addActionListener(this);
 		cancelButton.addActionListener(this);
-		nameLabel = new JLabel("Name of Project:");
-		dateLabel = new JLabel("Due date (MM/DD/YYYY):");
-		noteLabel = new JLabel("Notes:");
-		remLabel = new JLabel("Reminder (Days Needed):");
 		
 		nameField.setText(projectName);
 		subField = new JTextField(3);
+		subField.setBorder(
+	            BorderFactory.createCompoundBorder(
+	                BorderFactory.createCompoundBorder(
+	                                BorderFactory.createTitledBorder("Sub Project Name"),
+	                                BorderFactory.createEmptyBorder(5,5,5,5)),
+	                subField.getBorder()));
 		if (b != null) {		
 			subField.setText(b);
 			subLabel = new JLabel("Sub-Project");
-			northPanel.add(nameLabel);
-			northPanel.add(nameField);
-			northPanel.add(subLabel);
-			northPanel.add(subField);
-			northPanel.add(dateLabel);
-			northPanel.add(dateField);
-			northPanel.add(remLabel);
-			northPanel.add(reminderField);
-			northPanel.add(noteLabel);
-			northPanel.add(noteField);
-		
-			southPanel = new JPanel(new GridLayout(1,1));
-			northPanel.add(cancelButton);
-			northPanel.add(okButton);
-			northPanel.add(delete);
-			northPanel.add(complete);
+			panelOne.add(nameField);
+			panelOne.add(subField);
+			panelOne.add(dateField);
+			panelOne.add(reminderField);
+			
+			panelThree.add(cancelButton);
+			panelThree.add(okButton);
+			panelThree.add(delete);
+			panelThree.add(complete);
 			//southPanel.add(sub);
 
-			add(northPanel, BorderLayout.NORTH);
+			add(panelOne, BorderLayout.NORTH);
+			add(panelTwo, BorderLayout.CENTER);
+			add(panelThree, BorderLayout.SOUTH);
 			//add(southPanel, BorderLayout.SOUTH);
 			subUsed = true;
 		} else {
 			subField.setText("");
-			subLabel = new JLabel("Split Project");
-			northPanel.add(nameLabel);
-			northPanel.add(nameField);
-			northPanel.add(subLabel);
-			northPanel.add(subField);
-			northPanel.add(dateLabel);
-			northPanel.add(dateField);
-			northPanel.add(remLabel);
-			northPanel.add(reminderField);
-			northPanel.add(noteLabel);
-			northPanel.add(noteField);
-		
-			southPanel = new JPanel(new GridLayout(1,1));
-			northPanel.add(cancelButton);
-			northPanel.add(okButton);
-			northPanel.add(delete);
-			northPanel.add(complete);
+			panelOne.add(nameField);
+			panelOne.add(subField);
+			panelOne.add(dateField);
+			panelOne.add(reminderField);
+			panelThree.add(cancelButton);
+			panelThree.add(okButton);
+			panelThree.add(delete);
+			panelThree.add(complete);
 			//southPanel.add(sub);
 
-			add(northPanel, BorderLayout.NORTH);
+			add(panelOne, BorderLayout.NORTH);
+			add(panelTwo, BorderLayout.CENTER);
+			add(panelThree, BorderLayout.SOUTH);
 			//add(southPanel, BorderLayout.SOUTH);
 			subUsed = true;
 		}
@@ -407,7 +530,7 @@ public class CreateGUI extends JDialog implements ActionListener {
 				cancel = false;
 				setVisible(false);
 			}
-			return;
+			//return;
 		}
 		if(e.getSource() == delete){
 			if(isValid()){
