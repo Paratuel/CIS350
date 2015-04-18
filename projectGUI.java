@@ -176,6 +176,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		model = new ProjectModel();
 		model.load(new File("src/CIS350/file.ser"));
 		table.setModel(model);
+		model.checkingReminders();
 	}
 
 	/**
