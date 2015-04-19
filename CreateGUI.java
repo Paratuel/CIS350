@@ -557,12 +557,14 @@ public class CreateGUI extends JDialog implements ActionListener {
 
 
 	public boolean isValidField() {
+		
 		if (nameField.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, 
 					"NAME WASN'T ENTERED.", "Input Validation",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+		
 		if (subUsed) {
 			if (subField.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, 
@@ -570,30 +572,58 @@ public class CreateGUI extends JDialog implements ActionListener {
 						JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
+		}
+		int rNum = 0;
+		try{
+			rNum = Integer.parseInt(reminderField.getText());
+		}catch (Exception ex){
+			JOptionPane.showMessageDialog(null, "Reminder has an error.  " +
+					"Please Enter a Number.", "Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (Utilities.strToGregCalendar(dateField.getText()) == null){
+			JOptionPane.showMessageDialog(null, "The Date Entered Has an Error.  " +
+					"\nPlease Enter a Date in mm/dd/yyyy Form.", "Input Validation", 
+					JOptionPane.ERROR_MESSAGE);
+			return false;
 		}	
 		GregorianCalendar today = new GregorianCalendar();
 		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		today.set(GregorianCalendar.MINUTE, 0);
 		today.set(GregorianCalendar.SECOND, 0);
 		today.set(GregorianCalendar.MILLISECOND, 0);
-		GregorianCalendar compare = getDueDate();
-		compare.set(GregorianCalendar.HOUR_OF_DAY, 0);
-		compare.set(GregorianCalendar.MINUTE, 0);
-		compare.set(GregorianCalendar.SECOND, 0);
-		compare.set(GregorianCalendar.MILLISECOND, 0);
+		if(Utilities.daysLapsed(today, getDueDate()) < 0){
+			JOptionPane.showMessageDialog(null, 
+					"WE ARE NOT LIVING IN THE PAST.\n" +
+							"Please make your Due Date current.",
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		if(Utilities.daysLapsed(today, getDueDate()) < getReminder()){
 			JOptionPane.showMessageDialog(null, 
 					"IMPOSSIBLE TO REMIND YOU IN THE PAST.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if(Utilities.daysLapsed(today, getDueDate()) == getReminder()){
-			if(JOptionPane.showConfirmDialog(null, "YOUR REMINDER WOULD BE FOR TODAY!",
+		
+		if(Utilities.daysLapsed(today, getDueDate()) == getReminder() && getReminder() > 0){
+			if(JOptionPane.showConfirmDialog(null, "YOUR REMINDER WOULD BE FOR TODAY!\n" +
+					"Canceling this message means you don't care!",
 					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
 				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 			}else{
-				return true;
+				return false;
 			}
+		}
+		
+		try{
+			if (getReminder() < 0){
+				throw new Exception();
+			}
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "The Reminder days were entered incorrectly.", 
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		return true;
 	}
