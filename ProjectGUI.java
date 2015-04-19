@@ -282,7 +282,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
             newProject.getNotes(), 
             newProject.getReminder(), false);
         model.add(proj);
-        model.sortByName();
+        model.sortByDate();
       }
     }
     if (event.getSource() == allButton) {
@@ -326,7 +326,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
       }
       model.remove(model.get(index));
       model.add(sub);
-      model.sortByName();
+      model.sortByDate();
     }
 
     if (newProject.isDeletePressed()) {
@@ -381,7 +381,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
             newProject.getReminder(), false);
 
         model.add(proj);
-
+        model.sortByDate();
       }
     }
     model.refresh(index);
