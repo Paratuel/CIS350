@@ -287,6 +287,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
             newProject.getReminder(), false);
         model.add(proj);
         model.sortByName();
+        model.sortByComplete();
       }
     }
     
@@ -337,6 +338,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
       model.remove(model.get(index));
       model.add(sub);
       model.sortByName();
+      model.sortByComplete();
     }
 
     if (newProject.isDeletePressed()) {
