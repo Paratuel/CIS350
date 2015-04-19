@@ -207,33 +207,31 @@ public class Project implements Serializable {
   }
   
   
-  protected Color getColor() {
-    GregorianCalendar today =  new GregorianCalendar();
-    today.set(GregorianCalendar.HOUR_OF_DAY, 0);
-    today.set(GregorianCalendar.MINUTE, 0);
-    today.set(GregorianCalendar.SECOND, 0);
-    today.set(GregorianCalendar.MILLISECOND, 0);
-    System.out.println(Utilities.daysLapsed(getDueDate(), today) + "");
-    if (getDueDate().before(today)) {
-      color = Color.GRAY;
-      return color;
-    }
-    if (getDone()) {
-      color = Color.CYAN;
-      return color;
-    }
-    if (Utilities.daysLapsed(getDueDate(), today) > 5) {
-      color = Color.GREEN;
-      return color;
-    } 
-    if (Utilities.daysLapsed(getDueDate(), today) <= 5 
-        && (Utilities.daysLapsed(getDueDate(),today)) > 2) {
-      color = Color.YELLOW;
-      return color;
-    } else {
-      color = Color.RED;
-      return color;
-    }
-  }
-}
+	protected Color getColor() {
+		GregorianCalendar today =  new GregorianCalendar();
+		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		today.set(GregorianCalendar.MINUTE, 0);
+		today.set(GregorianCalendar.SECOND, 0);
+		today.set(GregorianCalendar.MILLISECOND, 0);
+		if (getDueDate().before(today)) {
+			color = Color.RED;
+			return color;
+		}
+		if (getDone()) {
+			color = Color.GRAY;
+			return color;
+		}
+		if (Utilities.daysLapsed(today, getDueDate()) > 5) {
+			color = Color.CYAN;
+			return color;
+		} 
+		if (Utilities.daysLapsed(today, getDueDate()) <= 5 
+				&& (Utilities.daysLapsed(today, getDueDate())) > 2) {
+			color = Color.YELLOW;
+			return color;
+		} else {
+			color = Color.RED;
+			return color;
+		}
+	}
 
