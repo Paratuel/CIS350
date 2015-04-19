@@ -206,6 +206,7 @@ public class Project implements Serializable {
     return subTasks;
   }
   
+  
   protected Color getColor() {
     GregorianCalendar today =  new GregorianCalendar();
     today.set(GregorianCalendar.HOUR_OF_DAY, 0);
@@ -235,3 +236,4 @@ public class Project implements Serializable {
     }
   }
 }
+
