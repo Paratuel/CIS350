@@ -352,14 +352,12 @@ public class ProjectGUI extends JFrame implements ActionListener {
             model.remove(model.get(index));
           }
         } else {
-          if (JOptionPane.showConfirmDialog(null, "Error: You cannot delete this project."  
-              + "\nThere is a sub-project attached to it.",
-              null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-          }
+          JOptionPane.showMessageDialog(null, "Error: You cannot delete this project."  
+              + "\nThere is a sub-project attached to it.");
         }
       }
     }
+    
     if (newProject.isCompletePressed()) {
       if (model.get(index).getDone() == false) {
         model.get(index).setDone(true);
