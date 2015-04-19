@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 
 import javax.swing.AbstractListModel;
 import javax.swing.Icon;
@@ -266,16 +267,14 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 		return myArray.size();
 	}
 	
-	public void refresh(){
-		fireTableDataChanged();
+	public void refresh(int hi){
+		fireTableRowsUpdated(0,hi);
 	}
 	
-	public void colorRows(){
-		for (int i = 0; i < myArray.size(); i++){
-			 
-		}
-		}
-	
+	public void refreshCell(int row, int column){
+		fireTableCellUpdated(row, column);
+	}
+
 	public Class getColumnClass(int index){
 		switch(index){
 		case 0:
@@ -301,6 +300,9 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
 			return false;
 		}
 		
+	}
+	public void refresh(){
+		fireTableDataChanged();
 	}
 	
 }

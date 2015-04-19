@@ -156,8 +156,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	/**
 	 * Allows user to load previously saved data.
 	 */
-	private JMenuItem loadItem;
-
+	private MyCellRenderer pleaseWork;
+	
 	/**
 	 * Creates the ProjectModel for the program.
 	 */
@@ -173,10 +173,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 */
 	public ProjectGUI() {
 		setupFrame();
-		model = new ProjectModel();
-		model.load(new File("src/CIS350/file.ser"));
-		table.setModel(model);
 		model.checkingReminders();
+		setDefaultLookAndFeelDecorated(true);
 	}
 
 	/**
@@ -196,9 +194,19 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		fileMenu.add(exitItem);
 		menuBar.add(fileMenu);
 		JPanel panel;
+		
+		
+		model = new ProjectModel();
+		model.load(new File("src/package1/file.ser"));
+		pleaseWork = new MyCellRenderer(model);
+		table = new JTable(model);
+		for(int i = 0; i < 6; i++){
+		table.getColumnModel().getColumn(i).setCellRenderer(pleaseWork);
+		//hello.getTableCellRendererComponent(table, model.get(j), false, false, j, i);
+		}
+		
 		scrollPane = new JScrollPane(table);
-		table = new JTable();
-
+		
 		scrollPane.setVerticalScrollBarPolicy(
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -289,7 +297,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 	 */
 	public final void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == exitItem) {
-			model.save(new File("src/CIS350/file.ser"));
+			model.save(new File("src/package1/file.ser"));
 			System.exit(0);
 		}
 		if (e.getSource() == newItem) {
@@ -299,12 +307,14 @@ public class ProjectGUI extends JFrame implements ActionListener {
 				
 				Project p = new Project(newProject.getName(), null, 
 						newProject.getDueDate(), 
-						newProject.getReminder(), 
-						newProject.getNotes(), false);
+						newProject.getNotes(), 
+						newProject.getReminder(), false);
 				//				Project p = newProject.whatProject();
 				model.add(p);	
 				model.sortByName();
+				
 			}
+			refresh();
 		}
 //
 //		if (e.getSource() == doneItem) {
@@ -333,13 +343,13 @@ public class ProjectGUI extends JFrame implements ActionListener {
 //			}
 //		}
 		if (e.getSource() == week1Button) {
-			model.sortByWeek(1);
+			//model.sortByWeek(1);
 		}
 		if (e.getSource() == week2Button) {
-			model.sortByWeek(2);
+			//model.sortByWeek(2);
 		}
 		if (e.getSource() == week4Button) {
-			model.sortByWeek(4);
+			//model.sortByWeek(4);
 		}
 		if (e.getSource() == allButton) {
 			model.sortByName();
@@ -367,8 +377,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
 		if (newProject.isOkPressed()) {
 			Project s = new Project(newProject.getName(), 
 					newProject.getSub(), newProject.getDueDate(), 
-					newProject.getReminder(),
-					newProject.getNotes(), false);
+					newProject.getNotes(),
+					newProject.getReminder(), false);
 			if (model.get(i).getName() 
 					!= newProject.getName()) {
 				model.upDate(model.get(i).getName(), 
@@ -408,7 +418,15 @@ public class ProjectGUI extends JFrame implements ActionListener {
 					}
 				}
 			}
+		}
 		if(newProject.isCompletePressed()){
+			if(model.get(i).getDone() == false){
+			model.get(i).setDone(true);
+			}
+			else{
+			model.get(i).setDone(false);
+			}
+			model.refreshCell(i, 6);
 
 		}
 		if(newProject.isSubPressed()){
@@ -422,12 +440,18 @@ public class ProjectGUI extends JFrame implements ActionListener {
 			if (newProject.isOkPressed()) {
 				Project p = new Project(newProject.getName(), 
 						newProject.getSub(), newProject.getDueDate(), 
-						newProject.getReminder(), 
-						newProject.getNotes(), false);
+						newProject.getNotes(), 
+						newProject.getReminder(), false);
 				
 				model.add(p);
 
 			}
+		}
+		model.refresh(i);
+}
+	public void refresh(){
+		for(int i = 0; i < model.getSize(); i++){
+		//	table.
 		}
 	}
 }
