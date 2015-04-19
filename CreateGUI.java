@@ -578,17 +578,20 @@ public class CreateGUI extends JDialog implements ActionListener {
         return false;
       }
     }
-    
+       
     GregorianCalendar today = new GregorianCalendar();
     today.set(GregorianCalendar.HOUR_OF_DAY, 0);
     today.set(GregorianCalendar.MINUTE, 0);
     today.set(GregorianCalendar.SECOND, 0);
     today.set(GregorianCalendar.MILLISECOND, 0);
-    GregorianCalendar compare = getDueDate();
-    compare.set(GregorianCalendar.HOUR_OF_DAY, 0);
-    compare.set(GregorianCalendar.MINUTE, 0);
-    compare.set(GregorianCalendar.SECOND, 0);
-    compare.set(GregorianCalendar.MILLISECOND, 0);
+
+    if(getDueDate().before(today)) {
+      JOptionPane.showMessageDialog(null, 
+          "Invalid due date: Due Date is before today.",
+          "Input Validation", JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+    
     if (Utilities.daysLapsed(today, getDueDate()) < getReminder() & getReminder() != 0) {
       JOptionPane.showMessageDialog(null, 
           "Invalid reminder: Reminder is in the past.",
