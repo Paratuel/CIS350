@@ -592,7 +592,7 @@ public class CreateGUI extends JDialog implements ActionListener {
       return false;
     }
     
-    if (Utilities.daysLapsed(today, getDueDate()) < getReminder() & getReminder() != 0) {
+    if (Utilities.daysLapsed(today, getDueDate()) > getReminder() & getReminder() != 0) {
       JOptionPane.showMessageDialog(null, 
           "Invalid reminder: Reminder is in the past.",
           "Input Validation", JOptionPane.ERROR_MESSAGE);
