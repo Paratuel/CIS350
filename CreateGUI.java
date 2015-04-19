@@ -26,9 +26,7 @@ import javax.swing.WindowConstants;
  */
 public class CreateGUI extends JDialog implements ActionListener {
 
-  /**
-   * serialVersionUID. 
-   */
+  /** serialVersionUID. */
   private static final long serialVersionUID = 1L;
 
   private String projectName = null;
@@ -37,93 +35,61 @@ public class CreateGUI extends JDialog implements ActionListener {
   private int reminder;
   private String notes;
 
-  /**
-   * Confirms choice and creates project.
-   */
+  /** Confirms choice and creates project. */
   private JButton okButton; 
 
-  /**
-   * Cancels project creation and closes the window.
-   */
+  /** Cancels project creation and closes the window. */
   private JButton cancelButton;
 
-  /**
-   * JTextField for the where the name is entered.
-   */
+  /** JTextField for the where the name is entered. */
   private JTextField nameField;
 
-  /**
-   * JTextField for the where the due date is entered.
-   */
+  /** JTextField for the where the due date is entered. */
   private JTextField dateField;
 
-  /**
-   * JTextField for the where the note is entered.
-   */
+  /** JTextField for the where the note is entered. */
   private JTextArea noteField;
 
-  /**
-   * JTextField for the where the number of sub-projects is entered.
-   */
+  /** JTextField for the where the number of sub-projects is entered. */
   private JTextField subField;
 
-  /**
-   * JTextField for the where the reminder is entered.
-   */
+  /** JTextField for the where the reminder is entered. */
   private JTextField reminderField;
 
-  /**
-   * Formatting  for the due date.
-   */
+  /** Formatting  for the due date. */
   private DateFormat format;
 
-  /**
-   * Width of the field.
-   */
+  /** Width of the field. */
   private int WIDTH;
 
-  /**
-   * Height of the field.
-   */
+  /** Height of the field. */
   private int HEIGHT;
 
-  /**
-   * Checks if operation is allowed.
-   */
+  /** Checks if operation is allowed. */
   private boolean isOk;
-  
-  private boolean subUsed;
-  
-  private boolean isCompleteOk;
-  
-  private boolean isDeleteOk;
 
-//  private boolean ok;
+  private boolean subUsed;
+
+  private boolean isCompleteOk;
+
+  private boolean isDeleteOk;
 
   private boolean cancel;
 
   private boolean isSubOk;
 
-//  private ProjectGUI parent;
-
-//  private String month;
-
-//  private String day;
-
-//  private String year;
-  
   private JButton complete;
-  
+
   private JButton delete;
-  
+
   private JButton sub;
-  
+
   private JPanel panelOne;
-  
+
   private JPanel panelTwo;
-  
+
   private JPanel panelThree;
-  
+
   private JPanel panelFour;
 
 
@@ -144,26 +110,26 @@ public class CreateGUI extends JDialog implements ActionListener {
     setTitle("New Project");
     setupDialog(temp);
   }
-  
+
   public CreateGUI(ProjectGUI parent, String projName, GregorianCalendar date, 
-      int rem, String n) {
+      int rem, String note) {
     super(parent, true);
     subUsed = false;
     this.projectName = projName;
     this.dueDate = date;
     this.reminder = rem;
-    this.notes = n;
+    this.notes = note;
     setTitle("Editing");
     editDialog(projectName, dueDate, reminder, notes);
   }
 
-  public CreateGUI(ProjectGUI parent, String n, String s, 
-      GregorianCalendar d, int r, String notes) {
+  public CreateGUI(ProjectGUI parent, String name, String sname, 
+      GregorianCalendar dd, int rr, String notes) {
     super(parent, true);
-    this.projectName = n;
-    this.subName = s;
-    this.dueDate = d;
-    this.reminder = r;
+    this.projectName = name;
+    this.subName = sname;
+    this.dueDate = dd;
+    this.reminder = rr;
     this.notes = notes;
     setTitle("Edit a Project");
     subDialog(projectName, subName, dueDate, reminder, notes);
@@ -561,78 +527,79 @@ public class CreateGUI extends JDialog implements ActionListener {
     }
     return null;
   }
-public boolean isValidField() {
-		
-		if (nameField.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, 
-					"Invalid Name: Name was not entered.", "Input Validation",
-					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		
-		if (subUsed) {
-			if (subField.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, 
-						"Invalid Sub-Name: Sub-Name was not entered.", "Input Validation",
-						JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-		}
-		int rNum = 0;
-		try{
-			rNum = Integer.parseInt(reminderField.getText());
-		}catch (Exception ex){
-			JOptionPane.showMessageDialog(null, "Invalid Reminder:  Please try again."
-					, "Input Validation", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		if (Utilities.strToGregCalendar(dateField.getText()) == null){
-			JOptionPane.showMessageDialog(null, "Invalid due date.  " +
-					"\nPlease Enter a Date in mm/dd/yyyy Form.", "Input Validation", 
-					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}	
-		GregorianCalendar today = new GregorianCalendar();
-		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
-		today.set(GregorianCalendar.MINUTE, 0);
-		today.set(GregorianCalendar.SECOND, 0);
-		today.set(GregorianCalendar.MILLISECOND, 0);
-		if(Utilities.daysLapsed(today, getDueDate()) < 0){
-		if(getDueDate().before(today)){
-			JOptionPane.showMessageDialog(null, 
-					"WE ARE NOT LIVING IN THE PAST.\n" +
-							"Please make your Due Date current.",
-					"Input Validation", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		if(Utilities.daysLapsed(getDueDate(), today) < getReminder()){
-			JOptionPane.showMessageDialog(null, 
-					"Invalid reminder:  Reminder is in the past.",
-					"Input Validation", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		
-		if(Utilities.daysLapsed(today, getDueDate()) == getReminder() && getReminder() > 0){
-			if(JOptionPane.showConfirmDialog(null, "Your set reminder would be today.  Is this correct?\n" +
-					"Canceling this message means you don't care!",
-					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-			}else{
-				return false;
-			}
-		}
-		
-		try{
-			if (getReminder() < 0){
-				throw new Exception();
-			}
-		}catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "The Reminder days were entered incorrectly.", 
-					"Input Validation", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
-	}
+  public boolean isValidField() {
+
+    if (nameField.getText().equals("")) {
+      JOptionPane.showMessageDialog(null, 
+          "Invalid Name: Name was not entered.", "Input Validation",
+          JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+
+    if (subUsed) {
+      if (subField.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, 
+            "Invalid Sub-Name: Sub-Name was not entered.", "Input Validation",
+            JOptionPane.ERROR_MESSAGE);
+        return false;
+      }
+    }
+    int rNum = 0;
+    try {
+      rNum = Integer.parseInt(reminderField.getText());
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(null, "Invalid Reminder:  Please try again.",
+          "Input Validation", JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+    if (Utilities.strToGregCalendar(dateField.getText()) == null) {
+      JOptionPane.showMessageDialog(null, "Invalid due date:  " 
+          + "Please Enter a Date in mm/dd/yyyy Form.", "Input Validation", 
+          JOptionPane.ERROR_MESSAGE);
+      return false;
+    } 
+    GregorianCalendar today = new GregorianCalendar();
+    today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+    today.set(GregorianCalendar.MINUTE, 0);
+    today.set(GregorianCalendar.SECOND, 0);
+    today.set(GregorianCalendar.MILLISECOND, 0);
+    if (getDueDate().before(today)) {
+      JOptionPane.showMessageDialog(null, 
+          "Invalid due date:  Due date is before today.",
+          "Input Validation", JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+    if (Utilities.daysLapsed(today, getDueDate()) < getReminder() & getReminder() != 0) {
+      JOptionPane.showMessageDialog(null, 
+          "Invalid reminder:  Reminder is in the past.",
+          "Input Validation", JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+
+    if (Utilities.daysLapsed(today, getDueDate()) == getReminder() && getReminder() > 0) {
+      if (JOptionPane.showConfirmDialog(null, "Your set reminder is currently set to today.  "
+          + "Is this correct?\n",
+          null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        return false;
+      } else {
+        JOptionPane.showMessageDialog(null, 
+            "You will be reminded next time you open Project Manager today");
+        return true;
+      }
+    }
+
+    try {
+      if (getReminder() < 0) {
+        throw new Exception();
+      }
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(null, "The Reminder days were entered incorrectly.", 
+          "Input Validation", JOptionPane.ERROR_MESSAGE);
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Checks which Project.
