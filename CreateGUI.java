@@ -598,13 +598,14 @@ public boolean isValidField() {
 		today.set(GregorianCalendar.SECOND, 0);
 		today.set(GregorianCalendar.MILLISECOND, 0);
 		if(Utilities.daysLapsed(today, getDueDate()) < 0){
+		if(getDueDate().before(today)){
 			JOptionPane.showMessageDialog(null, 
 					"WE ARE NOT LIVING IN THE PAST.\n" +
 							"Please make your Due Date current.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		if(Utilities.daysLapsed(today, getDueDate()) < getReminder()){
+		if(Utilities.daysLapsed(getDueDate(), today) < getReminder()){
 			JOptionPane.showMessageDialog(null, 
 					"Invalid reminder:  Reminder is in the past.",
 					"Input Validation", JOptionPane.ERROR_MESSAGE);
