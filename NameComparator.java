@@ -10,9 +10,14 @@ public class NameComparator implements Comparator<Project> {
 	 * @return returns results
 	 */
 	
-	@Override
-	public int compare(Project o1, Project o2) {
-		return o1.getName().compareTo(o2.getName());
+	public int compare(Project p1, Project p2) {
+		if(p1.getName().equals(p2.getName()) && p1.getSubName() == null){
+			return -1;
+		}
+		if(p1.getName().equals(p2.getName()) && p2.getSubName() == null){
+			return 1;
+		}
+		return p1.getName().compareTo(p2.getName());
 	}
 
 }
