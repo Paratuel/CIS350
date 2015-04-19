@@ -61,6 +61,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
    * Button for sorting projects by date.
    */
   private JButton dateButton;
+  
+  private JButton completeButton;
 
   /**
    * Button to add a new project.
@@ -216,10 +218,13 @@ public class ProjectGUI extends JFrame implements ActionListener {
 
     dateButton = new JButton("Sort by Date");
     dateButton.addActionListener(this);
+    
+    completeButton = new JButton("Sort Completed");
+    completeButton.addActionListener(this);
 
     buttonPanel.add(allButton);
     buttonPanel.add(dateButton);
-
+    buttonPanel.add(completeButton);
 
     return buttonPanel;
   }
@@ -234,11 +239,10 @@ public class ProjectGUI extends JFrame implements ActionListener {
     }
 
     if (event.getSource() == legendItem) {
-      JOptionPane.showMessageDialog(null, "Cyan: Completed Project."
-          + "\nGreen: Project is due in more than 5 days."
+      JOptionPane.showMessageDialog(null, "Gray: Completed Project."
+          + "\nCyan: Project is due in more than 5 days."
           + "\nYellow: Project is due within 3-5 days."
-          + "\nRed: Project is due within 2 days."
-          + "\nGray: Project is overdue.", "Color Legend", 1);
+          + "\nRed: Project is due within 2 days or overdue.", "Color Legend", 1);
     }
 
     if (event.getSource() == clearcompleteItem) {
@@ -282,14 +286,20 @@ public class ProjectGUI extends JFrame implements ActionListener {
             newProject.getNotes(), 
             newProject.getReminder(), false);
         model.add(proj);
-        model.sortByDate();
+        model.sortByName();
       }
     }
+    
     if (event.getSource() == allButton) {
       model.sortByName();
     }
+    
     if (event.getSource() == dateButton) {
       model.sortByDate();
+    }
+    
+    if (event.getSource() == completeButton) {
+      model.sortByComplete();
     }
   }
 
@@ -326,7 +336,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
       }
       model.remove(model.get(index));
       model.add(sub);
-      model.sortByDate();
+      model.sortByName();
     }
 
     if (newProject.isDeletePressed()) {
@@ -352,8 +362,10 @@ public class ProjectGUI extends JFrame implements ActionListener {
             model.remove(model.get(index));
           }
         } else {
-          JOptionPane.showMessageDialog(null, "Error: You cannot delete this project."  
-              + "\nThere is a sub-project attached to it.");
+          JOptionPane.showMessageDialog(null, 
+              "Error: You cannot delete this project."  
+                  + "\nThere is a sub-project attached to it.",
+              "Input Validation", JOptionPane.ERROR_MESSAGE);
         }
       }
     }
@@ -365,6 +377,8 @@ public class ProjectGUI extends JFrame implements ActionListener {
         model.get(index).setDone(false);
       }
       model.refreshCell(index, 6);
+      model.sortByName();
+      model.sortByComplete();
     }
     if (newProject.isSubPressed()) {
       newProject = new CreateGUI(this,
@@ -381,7 +395,6 @@ public class ProjectGUI extends JFrame implements ActionListener {
             newProject.getReminder(), false);
 
         model.add(proj);
-        model.sortByDate();
       }
     }
     model.refresh(index);
