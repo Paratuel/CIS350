@@ -561,53 +561,77 @@ public class CreateGUI extends JDialog implements ActionListener {
     }
     return null;
   }
-
-
-  public boolean isValidField() {
-    if (nameField.getText().equals("")) {
-      JOptionPane.showMessageDialog(null, 
-          "Invalid Name: Name was not entered.", "Input Validation",
-          JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-    if (subUsed) {
-      if (subField.getText().equals("")) {
-        JOptionPane.showMessageDialog(null, 
-            "Invalid Sub-Name: Sub-Name was not entered.", "Input Validation",
-            JOptionPane.ERROR_MESSAGE);
-        return false;
-      }
-    }
-       
-    GregorianCalendar today = new GregorianCalendar();
-    today.set(GregorianCalendar.HOUR_OF_DAY, 0);
-    today.set(GregorianCalendar.MINUTE, 0);
-    today.set(GregorianCalendar.SECOND, 0);
-    today.set(GregorianCalendar.MILLISECOND, 0);
-
-    if(getDueDate().before(today)) {
-      JOptionPane.showMessageDialog(null, 
-          "Invalid due date: Due Date is before today.",
-          "Input Validation", JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-    
-    if (Utilities.daysLapsed(today, getDueDate()) > getReminder() & getReminder() != 0) {
-      JOptionPane.showMessageDialog(null, 
-          "Invalid reminder: Reminder is in the past.",
-          "Input Validation", JOptionPane.ERROR_MESSAGE);
-      return false;
-    }
-    if (Utilities.daysLapsed(today, getDueDate()) == getReminder() & getReminder() != 0) {
-      if (JOptionPane.showConfirmDialog(null, "Your set reminder would be today. Is this correct?",
-          null, JOptionPane.OK_CANCEL_OPTION) != 0) {
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-      } else {
-        return true;
-      }
-    }
-    return true;
-  }
+public boolean isValidField() {
+		
+		if (nameField.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, 
+					"Invalid Name: Name was not entered.", "Input Validation",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if (subUsed) {
+			if (subField.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, 
+						"Invalid Sub-Name: Sub-Name was not entered.", "Input Validation",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		int rNum = 0;
+		try{
+			rNum = Integer.parseInt(reminderField.getText());
+		}catch (Exception ex){
+			JOptionPane.showMessageDialog(null, "Invalid Reminder:  Please try again."
+					, "Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (Utilities.strToGregCalendar(dateField.getText()) == null){
+			JOptionPane.showMessageDialog(null, "Invalid due date.  " +
+					"\nPlease Enter a Date in mm/dd/yyyy Form.", "Input Validation", 
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		GregorianCalendar today = new GregorianCalendar();
+		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+		today.set(GregorianCalendar.MINUTE, 0);
+		today.set(GregorianCalendar.SECOND, 0);
+		today.set(GregorianCalendar.MILLISECOND, 0);
+		if(Utilities.daysLapsed(today, getDueDate()) < 0){
+			JOptionPane.showMessageDialog(null, 
+					"WE ARE NOT LIVING IN THE PAST.\n" +
+							"Please make your Due Date current.",
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if(Utilities.daysLapsed(today, getDueDate()) < getReminder()){
+			JOptionPane.showMessageDialog(null, 
+					"Invalid reminder:  Reminder is in the past.",
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(Utilities.daysLapsed(today, getDueDate()) == getReminder() && getReminder() > 0){
+			if(JOptionPane.showConfirmDialog(null, "Your set reminder would be today.  Is this correct?\n" +
+					"Canceling this message means you don't care!",
+					null, JOptionPane.OK_CANCEL_OPTION) != 0) {
+				setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			}else{
+				return false;
+			}
+		}
+		
+		try{
+			if (getReminder() < 0){
+				throw new Exception();
+			}
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "The Reminder days were entered incorrectly.", 
+					"Input Validation", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 
   /**
    * Checks which Project.
