@@ -89,7 +89,7 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
    * @param index is the position in myArray that is needed
    * @return the myArray at the index
    */
-  public Project get(int index){
+  public Project get(int index) {
     return myArray.get(index);
   }
 
@@ -206,6 +206,16 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
       fireTableRowsUpdated(0, myArray.size() - 1);
     }
   }
+  
+  public void sortByComplete() {
+    if (myArray.size() > 1) {
+      Collections.sort(myArray, new CompleteComparator());
+      Collections.sort(myArray, new CompleteComparator());
+      fireTableRowsUpdated(0, myArray.size() - 1);
+    }
+  }
+  
+  
 
   /**
    * Saving the file of the program
