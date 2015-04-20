@@ -84,7 +84,7 @@ public class ProjectTests {
 	@Test
 	public void insertTest7() {
 		String d = "04/20/2015";
-		Project p1 = new Project("Test1", "Test2", Utilities.strToGregCalendar(d), 1, "Test", false);
+		Project p1 = new Project("Test1", "Test2", Utilities.strToGregCalendar(d), "Test", 1, false);
 		Assert.assertEquals("Test1 Test2 04/20/2015 1 Test",
 				p1.toString());
 	}
@@ -93,8 +93,8 @@ public class ProjectTests {
 	public void insertTest8() {
 		String a = "04/30/2015";
 		String b = "04/25/2015";
-		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), 2, "Fire", false);
-		Project p2 = new Project("CIS 350 Ethics Paper", "one", Utilities.strToGregCalendar(b), 1, "Read",false);
+		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), "Fire", 2, false);
+		Project p2 = new Project("CIS 350 Ethics Paper", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
 
 		String test = p1.toString() + "\n" + p2.toString();
 		Assert.assertEquals("CIS 350 Ethics Paper null 04/30/2015 2 Fire\n"
@@ -125,14 +125,14 @@ public class ProjectTests {
 	public void insertTest11(){
 		String a = "05/21/2015";
 		GregorianCalendar b = Utilities.strToGregCalendar(a);
-		String c = Utilities.gToString(b);
+		String c = Utilities.gtoString(b);
 		assertTrue(c.equals(a));		
 	}
 	@Test
 	public void insertTest12(){
 		String a = "06/21/2016";
 		GregorianCalendar b = Utilities.strToGregCalendar(a);
-		String c = Utilities.gToString(b);
+		String c = Utilities.gtoString(b);
 		assertTrue(c.equals(a));		
 	}
 	@Test
@@ -155,24 +155,24 @@ public class ProjectTests {
 	public void insertTest15(){
 		String a = "04/30/2015";
 		String b = "04/25/2015";
-		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), 2, "Fire", false);
-		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), 1, "Read",false);
+		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), "Fire", 2, false);
+		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
 		assertTrue(p2.getName() == "CHM 116");	
 	}
 	@Test
 	public void insertTest16(){
 		String a = "04/30/2015";
 		String b = "04/25/2015";
-		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), 2, "Fire", false);
-		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), 1, "Read",false);
+		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), "Fire", 2, false);
+		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
 		assertTrue(p2.getSubName() == "one");	
 	}
 	@Test
 	public void insertTest17(){
 		String a = "04/30/2015";
 		String b = "04/25/2015";
-		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), 2, "Fire", false);
-		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), 1, "Read",false);
+		Project p1 = new Project("CIS 350 Ethics Paper", null, Utilities.strToGregCalendar(a), "Fire", 2, false);
+		Project p2 = new Project("CHM 116", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
 		assertTrue(p2.getReminder() == 1);	
 	}
 	
