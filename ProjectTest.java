@@ -22,6 +22,15 @@ public class ProjectTests {
 				p1.toString());
 	}
 	@Test
+	public void insertTest1(){
+		String a = "05/31/2015";
+		String b = "04/25/2015";
+		Project p1 = new Project("WRT 350", null, Utilities.strToGregCalendar(a), "Fire", 2, false);
+		Project p2 = new Project("CIS 263", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
+		assertTrue(p2.getReminder() == 1);	
+	}
+	
+	@Test
 	public void insertTest2() {
 		String a = "01/01/2015";
 		GregorianCalendar d = Utilities.strToGregCalendar(a);
@@ -45,41 +54,24 @@ public class ProjectTests {
 		  Assert.assertEquals(1, Test2.compareTo(Test1));
 	  }
 //	  @Test
-//	  public void insertTest4(){
-//		  Project p = new Project("Hello", new GregorianCalendar(2015,1,1), "Notes");
-//		  Assert.assertEquals("Hello", p.getName());
-//		  Assert.assertEquals("02/01/2015", Utilities.gToString(p.getDueDate()));
-//		  Assert.assertEquals("Notes", p.getNotes());
-//		  Project q = new Project("Hello2", new GregorianCalendar(2015,0,1), "Note", new ArrayList<Project>());
-//		  Assert.assertEquals("Hello2", q.getName());
-//		  Assert.assertEquals("01/01/2015", Utilities.gToString(q.getDueDate()));
-//		  Assert.assertEquals("Note", q.getNotes());
-//		  Assert.assertEquals(new ArrayList<Project>(), q.getSubtasks());
-//	  }
-//	  @Test
-//	  public void insertTest5() {
-//		  
-//	    GregorianCalendar d = new GregorianCalendar();
-//	    d.set(Calendar.MONTH, 4);
-//	    d.set(Calendar.DAY_OF_MONTH, 4);
-//	    d.set(Calendar.YEAR, 2015);
-//	    Project p1 = new Project("Project4", d, "Note4", new ArrayList<Project>());
-//	    Assert.assertEquals("Project4 4/4/2015 Note4",
-//	    		p1.toString());
-//	  }
-//	   @Test
-//	  public void insertTest6() {
-//		  
-//		  GregorianCalendar d = new GregorianCalendar();
-//		  d.set(Calendar.MONTH, 7);
-//		  d.set(Calendar.DAY_OF_MONTH, 7);
-//		  d.set(Calendar.YEAR, 2015);
-//		  Project p = new Project("Assignment", d, "Math", new ArrayList<Project>());
-//		  Project p1 = new Project("Test1", d, "", new ArrayList<Project>());
-//		  
-//		  String test7 = p.toString() + "\n" + p1.toString();
-//		  Assert.assertEquals("Assignment 7/7/2015 Math\nTest1 7/7/2015 ", test7);
-//	  } 
+	public void insertTest4(){
+		String a = "04/20/2015";
+		GregorianCalendar b = Utilities.strToGregCalendar(a);
+		String c = Utilities.gtoString(b);
+		assertTrue(c.equals(a));	
+		
+	}
+	
+	 @Test
+	public void insertTest5(){
+		String a = "05/21/2016";
+		GregorianCalendar b = Utilities.strToGregCalendar(a);
+		String c = "02/12/2015";
+		GregorianCalendar d = Utilities.strToGregCalendar(c);
+		assertTrue(Utilities.beforeAfter(d,b) == true);		
+	}
+	
+	
 	
 	@Test
 	public void insertTest7() {
