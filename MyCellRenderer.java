@@ -1,50 +1,40 @@
-package package1;
+package packageproj;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.io.File;
-import java.util.ArrayList;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
 public class MyCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	//private boolean Opaqueness = true;
-	
-	private ProjectModel model;
-	
-	//private Color color;
-	
-	public MyCellRenderer(ProjectModel m){
-		super();
-		setOpaque(true);
-		model = m;
-		//model.load(new File("src/package1/file.ser"));
-	}
-	//@Override
-	public Component getTableCellRendererComponent(JTable table, Object project, boolean t, boolean u, int i, int j) {
-		Component aComponent = super.getTableCellRendererComponent(table, project, t, u, i, j);
-	    //aComponent.setBackground(null);
-	    aComponent.setBackground(model.get(i).getColor());
-		return aComponent;
-		//for(int q = 0; q < theList.size(); q++ ){
-		//	for(int r = 0; r < 5; r++){
-		//		table.setEditingRow(q);
-		//		table.setEditingColumn(r);
-				//table.setSelectionBackground(project.getColor());;
-		//aComponent.setBackground(project.getColor());
-		//return aComponent;
-			//}
-		//}
-		
-	}
+  /** serialVersionUID. */
+  private static final long serialVersionUID = 1L;
+  
+  private ProjectModel model;
+    
+  /**
+   * This class allows for color to be added to table cells.
+   * @param mod given ProjectModel
+   */
+  public MyCellRenderer(ProjectModel mod) {
+    super();
+    setOpaque(true);
+    model = mod;
+  }
+  
+  /**
+   * returns the component for the color.
+   * @param table given JTable
+   * @param project given project
+   * @param tr given boolean
+   * @param ui given boolean
+   * @param index given index
+   * @param ju given boolean
+   */
+  public Component getTableCellRendererComponent(JTable table, Object project, boolean tr, 
+      boolean ui, int index, int ju) {
+    Component theComponent = super.getTableCellRendererComponent(table, project, tr, ui, index, ju);
+    theComponent.setBackground(model.get(index).getColor());
+    return theComponent;   
+  }
 }
