@@ -10,15 +10,15 @@ import java.util.GregorianCalendar;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ProjectTests {
+public class ProjectTest {
 
 	Insets tests;
 	@Test
 	public void insertTest() {
 		String a = "02/01/2015";
 		GregorianCalendar b = Utilities.strToGregCalendar(a);
-		Project p1 = new Project("Test1", b, 1, "Note", new ArrayList<Project>());
-		Assert.assertEquals("Test1 null 02/01/2015 1 Note",
+		Project p1 = new Project("Test1", null, b, "Note", 1, false);
+		Assert.assertEquals("Test1 null 1/1/2015 1 Note",
 				p1.toString());
 	}
 	@Test
@@ -34,12 +34,12 @@ public class ProjectTests {
 	public void insertTest2() {
 		String a = "01/01/2015";
 		GregorianCalendar d = Utilities.strToGregCalendar(a);
-		Project p1 = new Project("Test1", d, 2, "Fire", new ArrayList<Project>());
-		Project p2 = new Project("Test2", d, 3, null, new ArrayList<Project>());
+		Project p1 = new Project("Test1", null, d, "Fire", 2, false);
+		Project p2 = new Project("Test2", null, d, null, 3, false);
 
 		String test = p1.toString() + "\n" + p2.toString();
-		Assert.assertEquals("Test1 null 01/01/2015 2 Fire\n" + 	
-				"Test2 null 01/01/2015 3 null", test);
+		Assert.assertEquals("Test1 null 0/1/2015 2 Fire\n" + 	
+				"Test2 null 0/1/2015 3 null", test);
 	} 
 	  @Test
 	  public void insertTest3(){
@@ -77,7 +77,7 @@ public class ProjectTests {
 	public void insertTest7() {
 		String d = "04/20/2015";
 		Project p1 = new Project("Test1", "Test2", Utilities.strToGregCalendar(d), "Test", 1, false);
-		Assert.assertEquals("Test1 Test2 04/20/2015 1 Test",
+		Assert.assertEquals("Test1 Test2 3/20/2015 1 Test",
 				p1.toString());
 	}
 
@@ -89,14 +89,14 @@ public class ProjectTests {
 		Project p2 = new Project("CIS 350 Ethics Paper", "one", Utilities.strToGregCalendar(b), "Read", 1,false);
 
 		String test = p1.toString() + "\n" + p2.toString();
-		Assert.assertEquals("CIS 350 Ethics Paper null 04/30/2015 2 Fire\n"
-				+ "CIS 350 Ethics Paper one 04/25/2015 1 Read", test);
+		Assert.assertEquals("CIS 350 Ethics Paper null 3/30/2015 2 Fire\n"
+				+ "CIS 350 Ethics Paper one 3/25/2015 1 Read", test);
 	}
 
 	@Test
 	public void insertTest9(){
 		String a = "05/01/2015";
-		GregorianCalendar today = new GregorianCalendar();
+		GregorianCalendar today = new GregorianCalendar(2015, 03, 18);
 		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		today.set(GregorianCalendar.MINUTE, 0);
 		today.set(GregorianCalendar.SECOND, 0);
@@ -106,7 +106,7 @@ public class ProjectTests {
 	@Test
 	public void insertTest10(){
 		String a = "05/21/2015";
-		GregorianCalendar today = new GregorianCalendar();
+		GregorianCalendar today = new GregorianCalendar(2015, 03, 18);
 		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		today.set(GregorianCalendar.MINUTE, 0);
 		today.set(GregorianCalendar.SECOND, 0);

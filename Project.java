@@ -81,9 +81,9 @@ public class Project implements Serializable {
    * @return all project information as a String
    */  
   public String toString() {
-    return "Subtask: " + name + "\nDue Date: " + dueDate.get(Calendar.MONTH) + "/" 
+    return name + " " + getSubName() + " " + dueDate.get(Calendar.MONTH) + "/" 
         + dueDate.get(Calendar.DAY_OF_MONTH) + "/" 
-        + dueDate.get(Calendar.YEAR) + "\nNotes: " + notes;
+        + dueDate.get(Calendar.YEAR) + " " + getReminder() +  " " + notes;
   }
 
   /**
@@ -234,4 +234,5 @@ public class Project implements Serializable {
 			return color;
 		}
 	}
+}
 
