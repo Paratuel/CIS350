@@ -1,4 +1,4 @@
-package package1;
+package packageproj;
 
 
 import java.awt.BorderLayout;
@@ -29,7 +29,7 @@ import javax.swing.WindowConstants;
  * @author Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  *
  */
-public class ProjectGUI extends JFrame implements ActionListener {
+public class ProjectGui extends JFrame implements ActionListener {
 
   /**
    * serialVersionUID. 
@@ -99,14 +99,14 @@ public class ProjectGUI extends JFrame implements ActionListener {
   /**
    * Creates a newProject for the program.
    */
-  private CreateGUI newProject;
+  private CreateGui newProject;
 
   private int arraySize;
 
   /**
    * Instantiates the GUI.
    */
-  public ProjectGUI() {
+  public ProjectGui() {
     setupFrame();
     model.checkingReminders();
     setDefaultLookAndFeelDecorated(true);
@@ -277,7 +277,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
 
 
     if (event.getSource() == newItem) {
-      newProject = new CreateGUI(this);
+      newProject = new CreateGui(this);
 
       if (newProject.isOkPressed()) {
 
@@ -305,18 +305,18 @@ public class ProjectGUI extends JFrame implements ActionListener {
   }
 
   /**
-   * 
-   * @param index
+   * Method for sending info for editing a project.
+   * @param index index of project
    */
   public void edit(int index) {
     if (model.get(index).getSubName() == null) {
-      newProject = new CreateGUI(this, 
+      newProject = new CreateGui(this, 
           model.get(index).getName(),
           model.get(index).getDueDate(),
           model.get(index).getReminder(),
           model.get(index).getNotes());
     } else {
-      newProject = new CreateGUI(this,
+      newProject = new CreateGui(this,
           model.get(index).getName(),
           model.get(index).getSubName(),
           model.get(index).getDueDate(),
@@ -383,7 +383,7 @@ public class ProjectGUI extends JFrame implements ActionListener {
       model.sortByComplete();
     }
     if (newProject.isSubPressed()) {
-      newProject = new CreateGUI(this,
+      newProject = new CreateGui(this,
           model.get(index).getName(),
           model.get(index).getSubName(),
           model.get(index).getDueDate(),
