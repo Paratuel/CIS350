@@ -1,4 +1,4 @@
-package package1;
+package packageproj;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,34 +31,36 @@ public class Utilities {
    * @param c2 is the second GregorialCalendar date
    * @return returns the number of days
    */
-	public static int daysLapsed(final GregorianCalendar c1, 
-			final GregorianCalendar c2) {
-		int elapsed = 0, factor = 1;
-		GregorianCalendar gc1, gc2;
-		if (c2.after(c1)) {
-			gc1 = (GregorianCalendar) c1.clone();
-			gc2 = (GregorianCalendar) c2.clone();
-		} else {
-			gc1 = (GregorianCalendar) c2.clone();
-			gc2 = (GregorianCalendar) c1.clone();
-			factor = -1;
-		}
-		gc1.clear(Calendar.MILLISECOND);
-		gc1.clear(Calendar.SECOND);
-		gc1.clear(Calendar.MINUTE);
-		gc1.clear(Calendar.HOUR_OF_DAY);
+  public static int daysLapsed(final GregorianCalendar c1, 
+      final GregorianCalendar c2) {
+    int elapsed = 0;
+    int factor = 1;
+    GregorianCalendar gc1;
+    GregorianCalendar gc2;
+    if (c2.after(c1)) {
+      gc1 = (GregorianCalendar) c1.clone();
+      gc2 = (GregorianCalendar) c2.clone();
+    } else {
+      gc1 = (GregorianCalendar) c2.clone();
+      gc2 = (GregorianCalendar) c1.clone();
+      factor = -1;
+    }
+    gc1.clear(Calendar.MILLISECOND);
+    gc1.clear(Calendar.SECOND);
+    gc1.clear(Calendar.MINUTE);
+    gc1.clear(Calendar.HOUR_OF_DAY);
 
-		gc2.clear(Calendar.MILLISECOND);
-		gc2.clear(Calendar.SECOND);
-		gc2.clear(Calendar.MINUTE);
-		gc2.clear(Calendar.HOUR_OF_DAY);
+    gc2.clear(Calendar.MILLISECOND);
+    gc2.clear(Calendar.SECOND);
+    gc2.clear(Calendar.MINUTE);
+    gc2.clear(Calendar.HOUR_OF_DAY);
 
-		while (gc1.before(gc2)) {
-			gc1.add(Calendar.DATE, 1);
-			elapsed++;
-		}
-		return elapsed * factor;
-	}
+    while (gc1.before(gc2)) {
+      gc1.add(Calendar.DATE, 1);
+      elapsed++;
+    }
+    return elapsed * factor;
+  }
   /**
    * Makes a String date into a GregorianCalendar date.
    * @param index is the string being changed.
