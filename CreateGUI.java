@@ -1,4 +1,4 @@
-package package1;
+package packageproj;
 
 
 import java.awt.BorderLayout;
@@ -24,7 +24,7 @@ import javax.swing.WindowConstants;
  * @author  Patrick Dishaw, Laura Young, Viet Duong, Nicholas Bushen
  *
  */
-public class CreateGUI extends JDialog implements ActionListener {
+public class CreateGui extends JDialog implements ActionListener {
 
   /** serialVersionUID. */
   private static final long serialVersionUID = 1L;
@@ -60,10 +60,10 @@ public class CreateGUI extends JDialog implements ActionListener {
   private DateFormat format;
 
   /** Width of the field. */
-  private int WIDTH;
+  private int width;
 
   /** Height of the field. */
-  private int HEIGHT;
+  private int height;
 
   /** Checks if operation is allowed. */
   private boolean isOk;
@@ -98,20 +98,28 @@ public class CreateGUI extends JDialog implements ActionListener {
   /**
    * Project for creating new projects.
    */
-  private Project aProject;
+  private Project theProject;
 
   /**
    * Sets up the panel for adding a Project.
    * @param parent is the parent GUI
    */
-  public CreateGUI(ProjectGUI parent) {
+  public CreateGui(ProjectGui parent) {
     super(parent, true);
     String temp = null;
     setTitle("New Project");
     setupDialog(temp);
   }
 
-  public CreateGUI(ProjectGUI parent, String projName, GregorianCalendar date, 
+  /**
+   * Sets up the panel for adding a Project.
+   * @param parent is the parent GUI
+   * @param projName is the project name
+   * @param date is the due date
+   * @param rem is the reminder
+   * @param note is the note
+   */
+  public CreateGui(ProjectGui parent, String projName, GregorianCalendar date, 
       int rem, String note) {
     super(parent, true);
     subUsed = false;
@@ -123,7 +131,16 @@ public class CreateGUI extends JDialog implements ActionListener {
     editDialog(projectName, dueDate, reminder, notes);
   }
 
-  public CreateGUI(ProjectGUI parent, String name, String sname, 
+  /**
+   * Sets up the panel for adding a Project.
+   * @param parent is the parent GUI
+   * @param name is the project name
+   * @param sname is the sub project name
+   * @param dd is the due date
+   * @param rr is the reminder
+   * @param notes is the notes
+   */
+  public CreateGui(ProjectGui parent, String name, String sname, 
       GregorianCalendar dd, int rr, String notes) {
     super(parent, true);
     this.projectName = name;
@@ -135,7 +152,11 @@ public class CreateGUI extends JDialog implements ActionListener {
     subDialog(projectName, subName, dueDate, reminder, notes);
   }
 
-  public void setupDialog(String a) {
+  /**
+   * Sets up the display window.
+   * @param name project name
+   */
+  public void setupDialog(String name) {
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
     //Setting up panel 1:  Holds name, date, reminder
@@ -195,7 +216,7 @@ public class CreateGUI extends JDialog implements ActionListener {
     reminderField.setText("0");
 
     format = DateFormat.getDateInstance(DateFormat.SHORT);
-    aProject = new Project();
+    theProject = new Project();
 
     okButton = new JButton("OK");
     okButton.addActionListener(this); 
@@ -224,6 +245,13 @@ public class CreateGUI extends JDialog implements ActionListener {
     setVisible(true); 
   }
 
+  /**
+   * Method for the edit window.
+   * @param name the project's current name
+   * @param date the project's current due date
+   * @param rem the project's current reminder
+   * @param notes the project's current notes
+   */
   public void editDialog(String name, GregorianCalendar date, int rem, String notes) {
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -280,7 +308,7 @@ public class CreateGUI extends JDialog implements ActionListener {
     reminderField.setText(String.valueOf(rem));
 
     format = DateFormat.getDateInstance(DateFormat.SHORT);
-    aProject = new Project();
+    theProject = new Project();
 
     okButton = new JButton("OK");
     okButton.addActionListener(this); 
@@ -318,13 +346,20 @@ public class CreateGUI extends JDialog implements ActionListener {
     add(threeFour, BorderLayout.SOUTH);
 
     setSize(400, 450);
-    //subUsed = true;
 
     setLocationRelativeTo(null);
     setVisible(true); 
   }
 
-  public void subDialog(String a, String b, GregorianCalendar c, int d, String e) {
+  /**
+   * method for dialog box with sub option.
+   * @param nam project name
+   * @param snam project sub name
+   * @param dd project due date
+   * @param rem projcet reminder
+   * @param note project notes
+   */
+  public void subDialog(String nam, String snam, GregorianCalendar dd, int rem, String note) {
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
     //Setting up panel 1:  Holds name, date, reminder
@@ -375,14 +410,14 @@ public class CreateGUI extends JDialog implements ActionListener {
                 BorderFactory.createEmptyBorder(5,5,5,5)),
                 reminderField.getBorder()));
 
-    dateField.setText(Utilities.gtoString(c));
-    noteField.setText(e);
-    reminderField.setText(String.valueOf(d));
+    dateField.setText(Utilities.gtoString(dd));
+    noteField.setText(note);
+    reminderField.setText(String.valueOf(rem));
 
     format = DateFormat.getDateInstance(DateFormat.SHORT);
 
-    WIDTH = 400;
-    HEIGHT = 475;
+    width = 400;
+    height = 475;
     okButton = new JButton("OK");
     okButton.addActionListener(this); 
     cancelButton = new JButton("Cancel");
@@ -402,8 +437,8 @@ public class CreateGUI extends JDialog implements ActionListener {
                 BorderFactory.createTitledBorder("Sub Project Name"),
                 BorderFactory.createEmptyBorder(5,5,5,5)),
                 subField.getBorder()));
-    if (b != null) {
-      subField.setText(b);
+    if (snam != null) {
+      subField.setText(snam);
       panelOne.add(nameField);
       panelOne.add(subField);
       panelOne.add(dateField);
@@ -435,7 +470,7 @@ public class CreateGUI extends JDialog implements ActionListener {
       subUsed = true;
     }
 
-    setSize(WIDTH, HEIGHT);
+    setSize(width, height);
     setLocationRelativeTo(null);
     setVisible(true); 
   }
@@ -521,12 +556,21 @@ public class CreateGUI extends JDialog implements ActionListener {
     return Integer.parseInt(reminderField.getText());
   }
 
+  /**
+   * returns name of sub project.
+   * @return sub project name or null if there is none
+   */
   public String getSub() {
     if (subUsed) {
       return subField.getText();
     }
     return null;
   }
+  
+  /**
+   * Checks if fields have proper data.
+   * @return true if there are no problems, false is there is
+   */
   public boolean isValidField() {
 
     if (nameField.getText().equals("")) {
@@ -606,9 +650,12 @@ public class CreateGUI extends JDialog implements ActionListener {
    * @return aProject is the Project
    */
   public Project whatProject() {
-    return aProject;
+    return theProject;
   }
-
+  
+  /**
+   * Clears the text of all fields.
+   */
   public void clear() {
     nameField.setText(null);
     dateField.setText(null);
