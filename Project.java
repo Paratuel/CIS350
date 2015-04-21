@@ -1,4 +1,4 @@
-package package1;
+package packageproj;
 
 import java.awt.Color;
 import java.io.Serializable;
@@ -38,14 +38,18 @@ public class Project implements Serializable {
 
   /**
    * Initializing needed variables that are passed into the construct.
-   * @param n is the name of the Project
+   * @param nam is the name of the Project
+   * @param snam is the sub project name
    * @param dd is the due date of the Project
    * @param nt notes for the Project
+   * @param rr is the reminder
+   * @param done is whether the project is complete or not
+   * @param sub is the arraylist of subprojects
    */
-  public Project(String n, String s, GregorianCalendar dd, String nt, 
-      int rr, boolean b, ArrayList<Project> sub) {
-    this.name = n;
-    this.subName = s;
+  public Project(String nam, String snam, GregorianCalendar dd, String nt, 
+      int rr, boolean done, ArrayList<Project> sub) {
+    this.name = nam;
+    this.subName = snam;
     this.dueDate = dd;
     this.reminder = rr;
     this.notes = nt;
@@ -54,21 +58,21 @@ public class Project implements Serializable {
 
   /**
    * Initializing the variables that are passed into the construct.
-   * @param n is the project name
-   * @param s is the sub name
+   * @param nam is the project name
+   * @param snam is the sub name
    * @param dd is the due date
    * @param nt is the note
    * @param rr is the reminder
-   * @param b is the project state
+   * @param done is the project state
    */
-  public Project(String n, String s, GregorianCalendar dd, String nt, 
-      int rr, boolean b) {
-    this.name = n;
-    this.subName = s;
+  public Project(String nam, String snam, GregorianCalendar dd, String nt, 
+      int rr, boolean done) {
+    this.name = nam;
+    this.subName = snam;
     this.dueDate = dd;
     this.reminder = rr;
     this.notes = nt;
-    this.done = b;
+    this.done = done;
     if (subName == null) {
       sub = false;
     } else {
@@ -207,32 +211,31 @@ public class Project implements Serializable {
   }
   
   
-	protected Color getColor() {
-		GregorianCalendar today =  new GregorianCalendar();
-		today.set(GregorianCalendar.HOUR_OF_DAY, 0);
-		today.set(GregorianCalendar.MINUTE, 0);
-		today.set(GregorianCalendar.SECOND, 0);
-		today.set(GregorianCalendar.MILLISECOND, 0);
-		if (getDueDate().before(today)) {
-			color = Color.RED;
-			return color;
-		}
-		if (getDone()) {
-			color = Color.GRAY;
-			return color;
-		}
-		if (Utilities.daysLapsed(today, getDueDate()) > 5) {
-			color = Color.CYAN;
-			return color;
-		} 
-		if (Utilities.daysLapsed(today, getDueDate()) <= 5 
-				&& (Utilities.daysLapsed(today, getDueDate())) > 2) {
-			color = Color.YELLOW;
-			return color;
-		} else {
-			color = Color.RED;
-			return color;
-		}
-	}
+  protected Color getColor() {
+    GregorianCalendar today =  new GregorianCalendar();
+    today.set(GregorianCalendar.HOUR_OF_DAY, 0);
+    today.set(GregorianCalendar.MINUTE, 0);
+    today.set(GregorianCalendar.SECOND, 0);
+    today.set(GregorianCalendar.MILLISECOND, 0);
+    if (getDueDate().before(today)) {
+      color = Color.RED;
+      return color;
+    }
+    if (getDone()) {
+      color = Color.GRAY;
+      return color;
+    }
+    if (Utilities.daysLapsed(today, getDueDate()) > 5) {
+      color = Color.CYAN;
+      return color;
+    } 
+    if (Utilities.daysLapsed(today, getDueDate()) <= 5 
+        && (Utilities.daysLapsed(today, getDueDate())) > 2) {
+      color = Color.YELLOW;
+      return color;
+    } else {
+      color = Color.RED;
+      return color;
+    }
+  }
 }
-
