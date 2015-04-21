@@ -1,4 +1,4 @@
-package package1;
+package packageproj;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -172,6 +173,11 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
     delete(indexOf(rem));
   }
 
+  /**
+   * updates a name.
+   * @param n1 original name
+   * @param n2 new name
+   */
   public void upDate(String n1, String n2) {
     for (int i = 0; i < myArray.size(); i++) {
       if (myArray.get(i).getName().equals(n1)) {
@@ -207,6 +213,9 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
     }
   }
   
+  /**
+   * Sorts the listSites by if they are completed or not and updates the GUI table.
+   */
   public void sortByComplete() {
     if (myArray.size() > 1) {
       Collections.sort(myArray, new CompleteComparator());
@@ -289,6 +298,10 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
     fireTableCellUpdated(row, column);
   }
 
+  /**
+   * returns class for color.
+   * @return class
+   */
   public Class getColumnClass(int index) {
     switch (index) {
       case 0:
@@ -307,6 +320,12 @@ public class ProjectModel extends AbstractTableModel implements Serializable {
     }
   }
 
+  /**
+   * returns if a cell is editable.
+   * @param row table row
+   * @param column table column
+   * @return true if editable, false if not
+   */
   public boolean isCellEditable(int row, int column) {
     if (column == 5) {
       return true;
